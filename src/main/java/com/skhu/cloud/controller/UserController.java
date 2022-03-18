@@ -28,4 +28,4 @@ public class UserController {
     public @ResponseBody String login(@RequestBody Map<String, String> user) {
         return userService.login(user);
     }
-} 
+}
