@@ -1,13 +1,13 @@
 package com.skhu.cloud.controller;
 
+import com.skhu.cloud.entity.User;
 import com.skhu.cloud.service.UserService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.util.Map;
+//import java.util.Map;
 
 @Controller
 @RequiredArgsConstructor
@@ -30,9 +30,15 @@ public class UserController {
      * PostMapping user/signup 을 요청해서 , 해당 action method 를 호출한다.
      * 그 다음에 login page 로 이동 시킨다.
      */
+//    @PostMapping("signup")
+//    public ModelAndView signup(@RequestBody Map<String, String> user , User userDto) {
+//        userService.signup(user);
+//        return new ModelAndView("login");
+//    }
+
     @PostMapping("signup")
-    public ModelAndView signup(@RequestBody Map<String, String> user) {
-        userService.signup(user);
+    public ModelAndView signup(User user , String password2){
+        userService.signup(user , password2);
         return new ModelAndView("login");
     }
 
@@ -50,20 +56,40 @@ public class UserController {
      * 즉 null 값이 넘어오게 된다면 , 다시 login page 로 (혹은 exception 이 넘어오면)
      * 그게 아니라면 main page 로 넘어가게끔 하는데 , local storage 에다가 저장하던가 해야한다(토큰을)
      */
-    @PostMapping(
-            path = "login" ,
-            consumes = {MediaType.APPLICATION_FORM_URLENCODED_VALUE}
-    )
-    public ModelAndView login(@RequestBody Map<String, String> user) {
-        ModelAndView mvc = new ModelAndView("main");
-        String token = userService.login(user);
+//    @PostMapping(
+//            path = "login" ,
+//            consumes = {MediaType.APPLICATION_FORM_URLENCODED_VALUE}
+//    )
+//    public ModelAndView login(@RequestBody Map<String, String> user) {
+//        ModelAndView mvc = new ModelAndView("main");
+//        String token = userService.login(user);
+//
+//        if(token == null || token.isBlank()) {
+//            mvc.setViewName("login");
+//            return mvc;
+//        }
+//
+//        mvc.addObject("jwt" , token);
+//        return mvc;
+//    }
 
-        if(token == null || token.isBlank()) {
+    /**
+     * username , password 비교 후에 받은 값을 통해서,
+     * 로그인 성공했는지 안했는지를 확인한다.
+     */
+    @PostMapping("login")
+    public ModelAndView login(User user){
+        ModelAndView mvc = new ModelAndView("main");
+
+        User result = userService.login(user);
+        System.out.println(result);
+
+        if(result == null){
             mvc.setViewName("login");
             return mvc;
         }
 
-        mvc.addObject("jwt" , token);
+        mvc.addObject(result);
         return mvc;
     }
 }
