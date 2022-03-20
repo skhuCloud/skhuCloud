@@ -63,6 +63,7 @@ public class JwtTokenProvider {
 
     // Token의 유효성과 만료일자를 확인함
     public boolean validateToken(String jwtToken) {
+        System.out.println("validation error");
         try {
             Jws<Claims> claims = Jwts.parser().setSigningKey(secretKey).parseClaimsJws(jwtToken);
             return !claims.getBody().getExpiration().before(new Date());
