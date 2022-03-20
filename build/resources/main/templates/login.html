@@ -44,17 +44,17 @@
         <h1 class="login-header">소프 게시판 로그인</h1>
         <div class="login-body">
             <img th:src="@{/images/skhu_logo.png}" style="width: 200px;" />
-            <form th:method="post" th:action="@{main.html}">
+            <form th:method="post" th:action="@{/user/login}">
                 <div class="input">
                     <i class="fa fa-user fa-lg"></i>
-                    <input type="text" th:name="loginName" placeholder="아이디" />
+                    <input type="text" th:name="username" placeholder="아이디" />
                 </div> <br />
                 <div class="input">
                     <i class="fa fa-key fa-lg"></i>
                     <input type="password" th:name="password" placeholder="비밀번호" />
                 </div> <br />
                 <button type="submit" class="btn2 blue"><i class="fa fa-sign-in"></i> 로그인</button>
-                <a th:href="@{signup.html}" class="btn2"><i class="fa fa-user-plus"></i> 회원가입</a>
+                <a th:href="@{singup.html}" class="btn2"><i class="fa fa-user-plus"></i> 회원가입</a>
             </form>
         </div>
     </div>
