@@ -2,11 +2,10 @@ package com.skhu.cloud.controller;
 
 import com.skhu.cloud.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
 import java.util.Map;
 
@@ -17,15 +16,54 @@ public class UserController {
 
     private final UserService userService;
 
-    // 회원 가입
-    @PostMapping("join")
-    public @ResponseBody Long signup(@RequestBody Map<String, String> user) {
-        return userService.signup(user);
+    /**
+     * user/signup 으로 signup page 호출
+     */
+    @GetMapping("signup")
+    public ModelAndView signup(){
+        return new ModelAndView("signup");
     }
 
-    // 로그인
-    @PostMapping("login")
-    public @ResponseBody String login(@RequestBody Map<String, String> user) {
-        return userService.login(user);
+    /**
+     * 회원가입
+     * signup 에서 입력을 다 하고 회원 가입 버튼을 누르면
+     * PostMapping user/signup 을 요청해서 , 해당 action method 를 호출한다.
+     * 그 다음에 login page 로 이동 시킨다.
+     */
+    @PostMapping("signup")
+    public ModelAndView signup(@RequestBody Map<String, String> user) {
+        userService.signup(user);
+        return new ModelAndView("login");
+    }
+
+    /**
+     * user/login 으로 login page 호출
+     */
+    @GetMapping("login")
+    public ModelAndView login(){
+        return new ModelAndView("login");
+    }
+
+    /**
+     * 이제 login page 에서 user/login url을 요청하면
+     * token 을 요청하게 되는데 , 받은 token 의 값이 올바르지 않다면
+     * 즉 null 값이 넘어오게 된다면 , 다시 login page 로 (혹은 exception 이 넘어오면)
+     * 그게 아니라면 main page 로 넘어가게끔 하는데 , local storage 에다가 저장하던가 해야한다(토큰을)
+     */
+    @PostMapping(
+            path = "login" ,
+            consumes = {MediaType.APPLICATION_FORM_URLENCODED_VALUE}
+    )
+    public ModelAndView login(@RequestBody Map<String, String> user) {
+        ModelAndView mvc = new ModelAndView("main");
+        String token = userService.login(user);
+
+        if(token == null || token.isBlank()) {
+            mvc.setViewName("login");
+            return mvc;
+        }
+
+        mvc.addObject("jwt" , token);
+        return mvc;
     }
 }

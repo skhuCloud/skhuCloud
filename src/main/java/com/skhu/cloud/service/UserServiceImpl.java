@@ -25,10 +25,15 @@ public class UserServiceImpl implements UserService{
         return userRepository.save(User.builder()
                 .username(user.get("username"))
                 .password(passwordEncoder.encode(user.get("password")))
+                .email(user.get("email"))
+                .name(user.get("name"))
                 .roles(Collections.singletonList("ROLE_USER")) //최초로 회원 가입기 USER로 설정
                 .build()).getId();
     }
 
+    /**
+     * 유저의 정보가 DB에 저장되어 있는 값과 동일하다면 , createToken 을 통해서 토큰 발급
+     */
     @Override
     @Transactional
     public String login(@RequestBody Map<String, String> user) {

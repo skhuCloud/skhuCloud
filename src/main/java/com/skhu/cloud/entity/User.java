@@ -22,24 +22,35 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+
 @AllArgsConstructor
 @Builder
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
 @Table(name = "USER")
-// UserDetails를 implements 하면서 loadByUsername 에서 UserDetails 를 반환 가능
 public class User implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(length = 50, nullable = false, unique = true)
+    @Column(length = 50, nullable = false, unique = true , name = "username")
     private String username; //유저아이디
 
-    @Column(length = 100, nullable = false)
+    @Column(length = 100, nullable = false , name ="password")
     private String password; //유저비밀번호
+
+    /**
+     * user의 이름과 , user의 email 을 저장해야한다.
+     * user의 이름은 그냥 name , email 은 그냥 email 로 진행해보자.
+     */
+
+    @Column(name = "name")
+    private String name;
+
+    @Column(name = "email")
+    private String email;
 
     // RDB는 콜렉션을 저장할 수 없다 , 그렇기 때문에 @ElementCollection 이라는 어노테이션을 이용해서 해당 컬럼이 collection 이라는 것을 나타낸다.
     @ElementCollection(fetch = FetchType.EAGER)
