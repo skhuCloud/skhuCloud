@@ -1,9 +1,9 @@
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/skhucloud?serverTimezone=Asia/Seoul&characterEncoding=UTF-8
-    username: user1
-    password: skhuA+4.5
+    url: jdbc:mysql://localhost:3306/sample1?serverTimezone=Asia/Seoul&characterEncoding=UTF-8
+    username: testUser
+    password: test1234
   mvc:
     hiddentmethod:
       filter:
