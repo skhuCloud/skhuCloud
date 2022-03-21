@@ -44,6 +44,7 @@ public class UserServiceImpl implements UserService{
                 .name(user.getName())
                 .build()).getId();
     }
+
     /**
      * 유저의 정보가 DB에 저장되어 있는 값과 동일하다면 , createToken 을 통해서 토큰 발급
      */
@@ -65,7 +66,6 @@ public class UserServiceImpl implements UserService{
     @Override
     @Transactional
     public User login(User user){
-        System.out.println(userRepository.findByUsername(user.getUsername()).get());
         User result = userRepository.findByUsername(user.getUsername()).orElseThrow(
                 () -> {throw new EntityNotFoundException();});
         if(!user.getPassword().equals(result.getPassword())){

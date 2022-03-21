@@ -3,15 +3,20 @@ package com.skhu.cloud.controller;
 import com.skhu.cloud.entity.User;
 import com.skhu.cloud.service.UserService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+
+import javax.swing.event.TableColumnModelListener;
 
 //import java.util.Map;
 
 @Controller
 @RequiredArgsConstructor
 @RequestMapping("/user")
+@Slf4j
 public class UserController {
 
     private final UserService userService;
@@ -38,7 +43,14 @@ public class UserController {
 
     @PostMapping("signup")
     public ModelAndView signup(User user , String password2){
-        userService.signup(user , password2);
+        ModelAndView mvc = new ModelAndView("login");
+        try {
+            userService.signup(user , password2);
+        } catch (Exception e){
+            log.error("exception : {}" , e.getMessage());
+            mvc.setViewName("signup");
+            return mvc;
+        }
         return new ModelAndView("login");
     }
 
@@ -56,6 +68,7 @@ public class UserController {
      * 즉 null 값이 넘어오게 된다면 , 다시 login page 로 (혹은 exception 이 넘어오면)
      * 그게 아니라면 main page 로 넘어가게끔 하는데 , local storage 에다가 저장하던가 해야한다(토큰을)
      */
+
 //    @PostMapping(
 //            path = "login" ,
 //            consumes = {MediaType.APPLICATION_FORM_URLENCODED_VALUE}
@@ -80,11 +93,12 @@ public class UserController {
     @PostMapping("login")
     public ModelAndView login(User user){
         ModelAndView mvc = new ModelAndView("main");
+        User result;
 
-        User result = userService.login(user);
-        System.out.println(result);
-
-        if(result == null){
+        try {
+            result = userService.login(user);
+        } catch(Exception e){ // Exception 처리
+            log.error("exception : {}" , e.getMessage());
             mvc.setViewName("login");
             return mvc;
         }
