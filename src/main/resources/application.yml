@@ -8,6 +8,8 @@ spring:
     hiddentmethod:
       filter:
         enable: true
+    static-path-pattern: "/static/**"
+
 
   jpa:
 #    hibernate:
@@ -15,6 +17,7 @@ spring:
     properties:
       hibernate:
         show-sql: true
+
 
 server:
   port: 8088
