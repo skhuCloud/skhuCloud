@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/head.html :: header">
+</head>
+<body>
+    <table>
+        <tr data-url = "main/${file.path}" th:each = "file : ${fileList}">
+            <td th:text="${file.name}"></td>
+            <td th:text="${file.modifiedTime}"></td>
+            <td th:text="${file.size}"></td>
+            <td th:text="${file.kind}"></td>
+        </tr>
+    </table>
+</body>
