@@ -26,7 +26,9 @@ public interface MainService {
     // 해당 폴더 혹은 파일이 무엇인지 알 수 있어야 함
     boolean isDirectory(String path);
 
+    // 파일을 읽는 method
     String readFile(String path) throws IOException;
 
+    // mvc 에 directoryList , fileDtoList를 등록해주는 method
     void mvcAddObject(ModelAndView mvc , List<String> directoryList , List<FileDto> fileDtoList);
 }
