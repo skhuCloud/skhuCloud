@@ -41,7 +41,7 @@ public class DownloadController {
 //        httpServletResponse.setHeader("Content-Disposition","attachment; filename="+"zipTest123.zip");
 
         String zipName = downloadService.zipFile(httpServletResponse,path);
-        System.out.println("~~~~~   " + zipName);
+        System.out.println("~~~~~" + zipName);
         httpServletResponse.setHeader("Content-Disposition","attachment; filename="+zipName);
     }
 
