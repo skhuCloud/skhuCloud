@@ -13,7 +13,7 @@ public interface MainService {
     List<DirectoryDto> getDirectoryList(String path);
 
     // Local 에서 file list들을 가져와 줄 FileDto로 만들어줄 메소드가 필요함
-    List<FileDto> createFileDtoList(String path);
+    List<FileDto> createFileDtoList(String path) throws IOException;
 
     // 해당 폴더 혹은 파일이 무엇인지 알 수 있어야 함
     boolean isDirectory(String path);
