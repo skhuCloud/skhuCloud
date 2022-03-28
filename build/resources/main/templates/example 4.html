@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/head.html :: header"></head>
+
+<body id="page-top">
+<div id="wrapper">
+    <ul th:replace="fragments/sidebar.html :: sidebar"></ul>
+    <div id="content-wrapper" class="d-flex flex-column">
+        <div id="content">
+            <nav th:replace="fragments/topbar.html :: topbar"></nav>
+
+            <div class="container-fluid">
+                <p>화면 예시</p>
+<!--                이 부분에 해당 페이지 구현 코드 작성하세요-->
+            </div>
+
+        </div>
+        <footer th:replace="fragments/footer.html :: footer"></footer>
+    </div>
+</div>
+
+</body>
+</html>
