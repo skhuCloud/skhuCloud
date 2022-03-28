@@ -62,9 +62,9 @@ public class MainServiceImpl implements MainService {
         StringBuilder sb = new StringBuilder();
 
         while (true) {
-            int c = reader.read();
-            if (c == -1) break;
-            sb.append((char) c);
+            String string = reader.readLine();
+            if (string == null) break;
+            sb.append(string + "\r\n"); // 잘 출력된다 , content 로서 넘어갈 때 , 문제가 있는 듯
         }
 
         return sb.toString();

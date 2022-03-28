@@ -43,7 +43,11 @@ public class MainController {
     @GetMapping("files")
     public ModelAndView clickFile(String path) throws IOException {
         ModelAndView mvc = new ModelAndView("filecontent");
+
         mvc.addObject("content" , mainService.readFile(path));
+
+        System.out.println(mainService.readFile(path));
+
         return mvc;
     }
 }
