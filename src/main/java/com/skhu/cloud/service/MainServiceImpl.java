@@ -6,9 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,7 +16,6 @@ public class MainServiceImpl implements MainService {
 
     @Override
     public List<DirectoryDto> getDirectoryList(String path) {
-
         List<DirectoryDto> result = new ArrayList<>();
         int index = 0;
 
@@ -59,12 +56,13 @@ public class MainServiceImpl implements MainService {
 
     @Override
     public String readFile(String path) throws IOException {
-        FileInputStream fileInputStream = new FileInputStream(path);
+        // 계층적인 방법을 이용하여서 속도 향상 및 인코딩 변경이 가능함
+        BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(path) , "UTF-8"));
 
         StringBuilder sb = new StringBuilder();
 
         while (true) {
-            int c = fileInputStream.read();
+            int c = reader.read();
             if (c == -1) break;
             sb.append((char) c);
         }
