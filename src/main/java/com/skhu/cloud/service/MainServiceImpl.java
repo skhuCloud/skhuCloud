@@ -33,7 +33,7 @@ public class MainServiceImpl implements MainService {
     } // list 를 return
 
     @Override
-    public List<FileDto> createFileDtoList(String path) {
+    public List<FileDto> createFileDtoList(String path) throws IOException{
         // 해당 path 를 받으면 해당 path 아래에 모든 것들을 createFileDto 에다가 넘겨서 fileDtoList 로 만든다음 반환
         File file = new File(path);
 
@@ -62,9 +62,9 @@ public class MainServiceImpl implements MainService {
         StringBuilder sb = new StringBuilder();
 
         while (true) {
-            int c = reader.read();
-            if (c == -1) break;
-            sb.append((char) c);
+            String string = reader.readLine();
+            if (string == null) break;
+            sb.append(string + "\r\n"); // 잘 출력된다 , content 로서 넘어갈 때 , 문제가 있는 듯
         }
 
         return sb.toString();
