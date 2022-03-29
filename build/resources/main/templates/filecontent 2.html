@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/head.html :: header">
+</head>
+<body>
+<pre th:text = "${content}"> <!-- 일단 이렇게 -->
+</pre>
+<!--<div th:text = ${time}></div>-->
+<!--<div th:text = ${code}></div>-->
+<div th:data = "${time}"  id = "chart_parent">차트 보기</div>
+<!--<div th:data-url = "${arr}" id = "chart_div"></div>-->
+</body>
