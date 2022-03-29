@@ -19,7 +19,7 @@ public class MainController {
     @GetMapping("main")
     public ModelAndView getMainPage() throws IOException{
         ModelAndView mvc = new ModelAndView("main");
-        String path = "/users/jaeyeonkim/testDirectory";
+        String path = "/Users";
 
         mainService.mvcAddObject(mvc , mainService.getDirectoryList(path) , mainService.createFileDtoList(path));
 
@@ -32,6 +32,8 @@ public class MainController {
 
         mainService.mvcAddObject(mvc , mainService.getDirectoryList(path) , mainService.createFileDtoList(path));
 
+        System.out.println("~~~~~~~~~~~~ 파일 클릭");
+
         return mvc;
     }
 
@@ -41,6 +43,9 @@ public class MainController {
         ModelAndView mvc = new ModelAndView("filecontent");
 
         mvc.addObject("content" , mainService.readFile(path));
+
+        System.out.println("~~~~~~~~~~~~ 폴더 클릭");
+
 
         return mvc;
     }
