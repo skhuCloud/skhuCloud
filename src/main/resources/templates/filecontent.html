@@ -5,4 +5,10 @@
 <body>
 <pre th:text = "${content}"> <!-- 일단 이렇게 -->
 </pre>
+<div id = "time" th:text = "${time}"></div>
+<div id = "code" th:text = "${code}"></div>
+
+<!--그냥 일단 아무 값이나 넘김-->
+<div th:data = "${time}"  id = "chart_parent">차트 보기</div>
+<!--<div th:data-url = "${arr}" id = "chart_div"></div>-->
 </body>

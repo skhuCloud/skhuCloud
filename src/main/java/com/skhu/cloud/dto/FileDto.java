@@ -6,7 +6,6 @@ import org.springframework.format.annotation.DateTimeFormat;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
-import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.Instant;
 import java.time.LocalDateTime;
@@ -57,15 +56,11 @@ public class FileDto {
         map.put(5 , "PB");
         map.put(6 , "EB");
 
-        System.out.println(size);
-
         int index = 0;
         while(size >= 1024){ // size 가 1024 보다 작을 때까지 진행해야함 , 그래야지 더 나눌 수가 없으니까
             index++;
             size /= 1024d;
         }
-
-        System.out.println(String.format("%.1f" , size) + map.get(index));
 
         return String.format("%.1f" , size) + map.get(index); // 한자리 까지만
     }
