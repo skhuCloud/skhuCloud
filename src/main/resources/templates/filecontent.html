@@ -3,7 +3,7 @@
 <head th:replace="fragments/head.html :: header">
 </head>
 <body>
-<pre th:text = "${content}"> <!-- 일단 이렇게 -->
+<pre><code th:class = "${extension}" th:text = "${content}"></code> <!-- 일단 이렇게 -->
 </pre>
 <div id = "time" th:text = "${time}"></div>
 <div id = "code" th:text = "${code}"></div>

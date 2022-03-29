@@ -20,8 +20,8 @@ public class FileDto {
     private String name;
 
     // 마지막 수정시간
-    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    private LocalDateTime modifiedTime;
+//    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    private String modifiedTime;
 
     // 파일의 크기 KB 기준임
     private String size;
@@ -31,7 +31,7 @@ public class FileDto {
 
     private String path;
 
-    public FileDto(String name , LocalDateTime modifiedTime , String size , String kind , String path){
+    public FileDto(String name , String modifiedTime , String size , String kind , String path){
         this.name = name;
         this.modifiedTime = modifiedTime;
         this.size = size;
@@ -65,13 +65,20 @@ public class FileDto {
         return String.format("%.1f" , size) + map.get(index); // 한자리 까지만
     }
 
+    public static String modifiedTime(Long lastModified){
+        // 년 , 월 , 일 , 시 , 분 , 초 로 나타내면 된다.
+        LocalDateTime time = Instant.ofEpochMilli(lastModified)
+                .atZone(ZoneId.systemDefault())
+                .toLocalDateTime();
+        return time.getYear() + "년 " + time.getMonthValue() + "월 " + time.getDayOfMonth() + "일 "
+                + time.getHour() + "시 " + time.getMinute() + "분 " + time.getSecond() +"초";
+    }
+
     // 해당 method 가 static method 이기 떄문에 , getExtension도 static method 로 선언을 해야함
     public static FileDto createFileDto(File file) throws IOException {
         return FileDto.builder()
                 .name(file.getName())
-                .modifiedTime(Instant.ofEpochMilli(file.lastModified())
-                        .atZone(ZoneId.systemDefault())
-                        .toLocalDateTime())
+                .modifiedTime(modifiedTime(file.lastModified()))
                 .kind(file.isDirectory() ? "폴더" : getExtension(file.getPath()) + " 파일")
                 .size(sizeConvert(Files.size(Paths.get(file.getPath())))) // 사이즈를 byte로 받기 위한 연산
                 .path(file.getPath())
