@@ -36,8 +36,6 @@ public class MainController {
 
         mainService.mvcAddObject(mvc , mainService.getDirectoryList(path) , mainService.createFileDtoList(path));
 
-        System.out.println("~~~~~~~~~~~~ 파일 클릭");
-
         return mvc;
     }
 
@@ -57,8 +55,6 @@ public class MainController {
         mvc.addObject("time" , time);
         mvc.addObject("code" , code);
         mvc.addObject("content" , mainService.readFile(path));
-
-        System.out.println("~~~~~~~~~~~~ 폴더 클릭");
 
 
         return mvc;

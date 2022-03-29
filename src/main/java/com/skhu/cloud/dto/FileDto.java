@@ -19,8 +19,7 @@ public class FileDto {
     // fileName
     private String name;
 
-    // 마지막 수정시간
-//    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    // 마지막 수정시간 (문자열로 나타냄)
     private String modifiedTime;
 
     // 파일의 크기 KB 기준임

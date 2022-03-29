@@ -15,37 +15,31 @@ import java.util.zip.ZipOutputStream;
 @Controller
 @Slf4j
 @RequiredArgsConstructor
-//@RequestMapping("/download")
+@RequestMapping("/download")
 public class DownloadController {
 
     private final DownloadService downloadService;
 
-    //file download
-    @GetMapping("/download")
+    // file download
+    // 해당 path 만 동적으로 다룰 수 있으면 될 듯
+    // 근데 이제 한번에 여러개의 path를 어떻게 넘기냐는 것이다.
+    @GetMapping("")
     public void download(HttpServletResponse httpServletResponse) {
-        String path = "/Users/jeunning/myDownloadTest/mydownloadTest.txt"; //download 할 로컬파일의 경로
+        String path = "/Users/jaeyeonkim/testDirectory/test1.txt"; //download 할 로컬파일의 경로
         downloadService.downloadOne(httpServletResponse,path);
-
     }
 
 
 
     //.zip 형태로 다운로드
-    @GetMapping("download/zip")
+    @GetMapping("zip")
     public void downloadZip(HttpServletResponse httpServletResponse) throws IOException {
         httpServletResponse.setStatus(HttpServletResponse.SC_OK);
         httpServletResponse.setContentType("application/zip");
 
-        String path = "/Users/jeunning/myDownloadTest"; //압축할 파일 위치
+        String path = "/Users/jaeyeonkim/testDirectory"; //압축할 파일 위치
 
-//        httpServletResponse.setHeader("Content-Disposition","attachment; filename="+"zipTest123.zip");
-
-        String zipName = downloadService.zipFile(httpServletResponse,path);
-        System.out.println("~~~~~" + zipName);
-//        httpServletResponse.setHeader("Content-Disposition","attachment; filename="+"test123.zip");
-        httpServletResponse.setHeader("Content-Disposition","attachment; filename="+zipName);
-
+        // 확실하게 이 zipName 에 문제가 있는 듯하다 , 즉 zipName의 문제는 정확히 말하면 아니고 , donwloadService.zipFile 의 문제이다.
+        downloadService.zipFile(httpServletResponse,path);
     }
-
-
 }
