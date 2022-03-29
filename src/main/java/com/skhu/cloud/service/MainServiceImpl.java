@@ -2,16 +2,21 @@ package com.skhu.cloud.service;
 
 import com.skhu.cloud.dto.DirectoryDto;
 import com.skhu.cloud.dto.FileDto;
+import com.skhu.cloud.dto.VersionDto;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.io.*;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class MainServiceImpl implements MainService {
 
     @Override
@@ -74,5 +79,42 @@ public class MainServiceImpl implements MainService {
     public void mvcAddObject(ModelAndView mvc, List<DirectoryDto> directoryList, List<FileDto> fileDtoList) {
         mvc.addObject("directoryList" , directoryList);
         mvc.addObject("fileList" , fileDtoList);
+    }
+
+    @Override
+    public List<VersionDto> getVersionList(String path){
+        List<VersionDto> result = new ArrayList<>();
+        try {
+            for (int i = 0; i < 10; i++) {
+                result.add(new VersionDto(LocalDateTime.now(), readFile(path)));
+            }
+        } catch(IOException e){ // throws IOException 처리
+            log.error("error code : " + e.getMessage());
+        }
+        return result;
+    }
+
+    // 해당 versionDto List 에서 Time 만 빼내서 표현
+    @Override
+    public List<String> getTimeList(List<VersionDto> versionDtoList) {
+        List<String> result = new ArrayList<>();
+        for(VersionDto versionDto : versionDtoList){
+            result.add(versionDto.getTimeToString());
+        }
+        return result;
+    }
+
+    // 해당 versionDto List 에서 Code양 만 빼내서 표현
+    @Override
+    public List<Long> getCodeList(List<VersionDto> versionDtoList) {
+        List<Long> result = new ArrayList<>();
+
+        // 지금은 코드가 그럴싸 해 보이도록 조금 바꾸었음
+        Random random = new Random();
+
+        for(VersionDto versionDto : versionDtoList){
+            result.add(new Long(versionDto.getContent().length()) + random.nextInt(500));
+        }
+        return result;
     }
 }
