@@ -27,8 +27,13 @@
                         <div class="card-body">
                             <div class="table-responsive">
                                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                    <form th:action="@{/download/checked}" method="get">
+                                    <tr> <input type="submit" value="다운로드"/></tr>
                                     <thead>
                                     <tr>
+                                        <th class="ex">
+<!--                                            <input type="submit" value="다운로드"/> -->
+                                        </th>
                                         <th>이름</th>
                                         <th>수정일</th>
                                         <th>크기</th>
@@ -37,6 +42,7 @@
                                     </thead>
                                     <tfoot>
                                     <tr>
+                                        <th>다운로드 하기 </th>
                                         <th>Name</th>
                                         <th>Position</th>
                                         <th>Office</th>
@@ -45,13 +51,16 @@
                                     </tfoot>
                                     <tbody>
                                     <tr th:each="file : ${fileList}">
-                                        <td th:if = "${file.kind == '폴더'}" th:directory-url = "${'/directories?path=' + file.path}" th:text="${file.name}"></td>
-                                        <td th:if = "${file.kind != '폴더'}" th:file-url = "${'/files?path=' + file.path}" th:text="${file.name}"></td>
-                                        <td th:text="${file.modifiedTime}"></td>
-                                        <td th:text="${file.size}"></td>
+                                            <td><input th:name="checkedFiles" th:type="checkbox" th:value="${file.path}"/></td>
+                                            <td th:if = "${file.kind == '폴더'}" th:directory-url = "${'/directories?path=' + file.path}" th:text="${file.name}"></td>
+                                            <td th:if = "${file.kind != '폴더'}" th:file-url = "${'/files?path=' + file.path}" th:text="${file.name}"></td>
+                                            <td th:text="${file.modifiedTime}"></td>
+                                            <td th:text="${file.size}"></td>
                                         <td th:text="${file.kind}"></td>
+
                                     </tr>
                                     </tbody>
+                                    </form>
                                 </table>
                             </div>
                         </div>
