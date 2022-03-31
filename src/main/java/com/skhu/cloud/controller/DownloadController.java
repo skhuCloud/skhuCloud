@@ -1,6 +1,6 @@
 package com.skhu.cloud.controller;
 
-import com.skhu.cloud.service.DownloadService;
+import com.skhu.cloud.service.DownloadServiceImpl;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletResponse;
-import java.io.*;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
@@ -19,7 +18,7 @@ import java.util.Queue;
 //@RequestMapping("/download")
 public class DownloadController {
 
-    private final DownloadService downloadService;
+    private final DownloadServiceImpl downloadService;
 
     @GetMapping("/download/checked")
     public void downloadChecked(@RequestParam(value = "checkedFiles",required = false)List<String> checkedFiles, HttpServletResponse httpServletResponse)  {
