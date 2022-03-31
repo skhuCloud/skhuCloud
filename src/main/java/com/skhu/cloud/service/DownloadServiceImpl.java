@@ -78,7 +78,7 @@ public class DownloadServiceImpl implements DownloadService{
 
         // 이전에 zipOut 객체가 완전히 close 되고 다운로드 되는 zip의 이름을 바꾸려고 하니 에러가 났었떤 것이였음 , 그래서 close 호출 전에 setHeader를 해주었더니 해결
         httpServletResponse.setHeader("Content-Disposition","attachment; filename="+file.getName() + ".zip");
-        
+
         zipOut.close();
     }
 
