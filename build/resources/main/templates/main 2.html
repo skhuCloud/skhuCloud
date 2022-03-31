@@ -19,7 +19,10 @@
                     <!-- DataTales Example -->
                     <div class="card shadow mb-4">
                         <div class="card-header py-3">
-                            <h6 class="m-0 font-weight-bold text-primary">DataTables Example</h6>
+                            <div style = "display : inline-block;" class = "directory-list" th:each = "directory : ${directoryList}">
+                                <span th:if = "${directoryStat.last}" th:directory-url = "${'/directories?path=' + directory.path}" th:text="${directory.nowDirectory}"></span>
+                                <span th:if = "${!directoryStat.last}" th:directory-url = "${'/directories?path=' + directory.path}" th:text="${directory.nowDirectory + ' >> '}"></span>
+                            </div>
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
@@ -42,7 +45,8 @@
                                     </tfoot>
                                     <tbody>
                                     <tr th:each="file : ${fileList}">
-                                        <td th:data-url = "${'/main' + file.path}" th:text="${file.name}"></td>
+                                        <td th:if = "${file.kind == '폴더'}" th:directory-url = "${'/directories?path=' + file.path}" th:text="${file.name}"></td>
+                                        <td th:if = "${file.kind != '폴더'}" th:file-url = "${'/files?path=' + file.path}" th:text="${file.name}"></td>
                                         <td th:text="${file.modifiedTime}"></td>
                                         <td th:text="${file.size}"></td>
                                         <td th:text="${file.kind}"></td>

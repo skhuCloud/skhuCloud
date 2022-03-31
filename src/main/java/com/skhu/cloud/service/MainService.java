@@ -2,6 +2,7 @@ package com.skhu.cloud.service;
 
 import com.skhu.cloud.dto.DirectoryDto;
 import com.skhu.cloud.dto.FileDto;
+import com.skhu.cloud.dto.VersionDto;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.io.IOException;
@@ -23,4 +24,13 @@ public interface MainService {
 
     // mvc 에 directoryList , fileDtoList를 등록해주는 method
     void mvcAddObject(ModelAndView mvc, List<DirectoryDto> directoryList, List<FileDto> fileDtoList);
+
+    // versionDto 를 반환해주는 getVersionList
+    List<VersionDto> getVersionList(String path);
+
+    // 각 versionDto 들의 Time 을 반환해주는 getTimeList
+    List<String> getTimeList(List<VersionDto> versionDtoList);
+
+    // 각 versionDto 들의 Code양을 반환해주는 getCodeList
+    List<Long> getCodeList(List<VersionDto> versionDtoList);
 }
