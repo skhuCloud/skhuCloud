@@ -1,17 +1,27 @@
 package com.skhu.cloud.service;
 
+import org.springframework.stereotype.Service;
+
 import javax.servlet.http.HttpServletResponse;
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
+import java.util.LinkedList;
+import java.util.Queue;
+import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
+@Service
 public interface DownloadService {
 
-    void downloadOne(HttpServletResponse httpServletResponse, String path);
 
-    void zipFile(HttpServletResponse httpServletResponse, String path) throws IOException;
+    boolean before(HttpServletResponse httpServletResponse, Queue<String> que_path);
 
-    void addFolder(ZipOutputStream zipOut, String relativePath) throws IOException;
+    void downloadOne(HttpServletResponse httpServletResponse, File file);
 
-    void addFile(File subFile, ZipOutputStream zipOut, String relativePath) throws IOException;
+    void zipFile(HttpServletResponse httpServletResponse, Queue<String> que_path);
+
+    void addFolder(ZipOutputStream zipOut, String relativePath) ;
+
+    void addFile(File subFile, ZipOutputStream zipOut, String relativePath);
+
+
 }

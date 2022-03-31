@@ -5,6 +5,8 @@ import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.LinkedList;
 import java.util.Queue;
 import java.util.zip.ZipEntry;
@@ -12,16 +14,40 @@ import java.util.zip.ZipOutputStream;
 
 @Service
 @RequiredArgsConstructor
-public class DownloadServiceImpl implements DownloadService{
+public class DownloadServiceImpl implements DownloadService {
 
-    //***********   단일 파일 다운로드  *********
+    //다운로드 시작 전 zip이 필요한 경우 return true
     @Override
-    public void downloadOne(HttpServletResponse httpServletResponse, String path){
-        File file = new File(path);
+    public boolean before(HttpServletResponse httpServletResponse,Queue<String> que_path) {
+        if(que_path.size() == 1){
+            String path = que_path.peek();
+            File file = new File(path);
+            // que 사이즈 1 &&  파일인 경우
+            if(file.isFile()) {
+                que_path.clear();
+                downloadOne(httpServletResponse,file);
+                return false;
+            }else {
+                // que 사이즈 1 &&  폴더인 경우
+                file.delete();
+                zipFile(httpServletResponse,que_path);
+                return true;
+            }
+        }
+        //파일 2개 이상 -> zipFile()
+        zipFile(httpServletResponse,que_path);
+
+        return true;
+    }
+
+
+    //단일 파일 다운로드
+    @Override
+    public void downloadOne(HttpServletResponse httpServletResponse, File file){
         FileInputStream fis = null;
+        OutputStream out = null;
         try {
             fis = new FileInputStream(file);
-            OutputStream out = null;
             out = httpServletResponse.getOutputStream();
 
             //파일 작성하기
@@ -32,73 +58,102 @@ public class DownloadServiceImpl implements DownloadService{
                 out.write(buffer,0,read);
             }
 
-            //다운로드 되거나 로컬에 저장되는 용도로 쓰이는지를 알려주는 헤더 및 폴더 저장명 지정
-            httpServletResponse.setHeader("Content-Disposition", "attachment;filename=" + file.getName()); // 다운로드 되거나 로컬에 저장되는 용도로 쓰이는지를 알려주는 헤더
+            //attachment 로 설정함으로써 해당 데이터를 수신받은 브라우저가 팡링르 저장 또는 다른이름으로 저장 여부를 설정하게 할 수 있다.
+            httpServletResponse.setHeader("Content-Disposition", "attachment;filename=" + file.getName());
 
+            fis.close();
+            out.close();
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
         catch (IOException e) {
             e.printStackTrace();
         }
+        finally {
+            try { if(fis != null) fis.close();} catch (IOException e) {e.printStackTrace();}
+            try { if(out != null) out.close();} catch (IOException e) {e.printStackTrace();}
+        }
     }
 
 
-    //폴더 압축 진행
+    //다중 팡리 및 폴더 압축 진행
     @Override
-    public void zipFile(HttpServletResponse httpServletResponse, String path) throws IOException {
+    public void zipFile(HttpServletResponse httpServletResponse, Queue<String> que_path){
         System.out.println("파일 압축 중 ,,,,,,,,,,,,,,");
-        ZipOutputStream zipOut = new ZipOutputStream(httpServletResponse.getOutputStream());
-        File file = new File(path);
-        String rootAbsolutePath = file.getAbsolutePath();
 
-        Queue<File> queue = new LinkedList<>();
-        queue.add(file);
+        httpServletResponse.setHeader("Content-Disposition","attachment; filename="+
+                LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm:ss")) +".zip");
 
-        while (!queue.isEmpty()){
-            File folder = queue.poll();
-            for(File subFile : folder.listFiles()){
-                String subfileAbsolutePath = subFile.getAbsolutePath();  ///Users/jeunning/myDownloadTest/subFolder
-//                System.out.println("file 이름 : " + file.getName());
-                String relativePath = subfileAbsolutePath.replace(rootAbsolutePath,file.getName());  //myDownloadTest/subFolder
+        ZipOutputStream zipOut = null;
+        try {
+            zipOut = new ZipOutputStream(httpServletResponse.getOutputStream());
 
-                if(subFile.isDirectory()) {
-                    queue.add(subFile);
-                    System.out.println("   " + file.getName());
-                    System.out.println("rootAbsolutePath : " + rootAbsolutePath);
-                    System.out.println("subfileAbsolutePath : " + subfileAbsolutePath);
-                    System.out.println("relative path : " + relativePath );
+            while (!que_path.isEmpty()) {
+                String path = que_path.poll();
+                File file = new File(path);
+                String rootAbsolutePath = file.getAbsolutePath();
 
-                    addFolder(zipOut,relativePath);
+                if (file.isFile()) {
+                    addFile(file, zipOut, file.getName());
+                    continue;
                 }
-                else addFile(subFile, zipOut, relativePath);
+                Queue<File> queue = new LinkedList<>();
+                queue.add(file);
+
+                while (!queue.isEmpty()) {
+                    File folder = queue.poll();
+                    for (File subFile : folder.listFiles()) {
+                        String subfileAbsolutePath = subFile.getAbsolutePath();  ///Users/jeunning/myDownloadTest/subFolder
+                        String relativePath = subfileAbsolutePath.replace(rootAbsolutePath, file.getName());  //myDownloadTest/subFolder
+
+                        if (subFile.isDirectory()) {
+                            queue.add(subFile);
+                            addFolder(zipOut, relativePath);
+                        } else addFile(subFile, zipOut, relativePath);
+                    }
+                }
             }
+            zipOut.closeEntry();
+            zipOut.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+            try { if(zipOut != null) zipOut.closeEntry();} catch (IOException e1) {e1.printStackTrace();}
+            try { if(zipOut != null) zipOut.close();} catch (IOException e2) {e2.printStackTrace();}
         }
-        zipOut.closeEntry();
-
-        // 이전에 zipOut 객체가 완전히 close 되고 다운로드 되는 zip의 이름을 바꾸려고 하니 에러가 났었떤 것이였음 , 그래서 close 호출 전에 setHeader를 해주었더니 해결
-        httpServletResponse.setHeader("Content-Disposition","attachment; filename="+file.getName() + ".zip");
-
-        zipOut.close();
     }
 
     @Override
-    public void addFolder(ZipOutputStream zipOut, String relativePath) throws IOException {
+    public void addFolder(ZipOutputStream zipOut, String relativePath) {
         relativePath = relativePath.endsWith("/")?relativePath : relativePath + "/";
-        zipOut.putNextEntry(new ZipEntry(relativePath));
+        try {
+            zipOut.putNextEntry(new ZipEntry(relativePath));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
-    public void addFile(File subFile, ZipOutputStream zipOut, String relativePath) throws IOException {
-        FileInputStream fis = new FileInputStream(subFile);
-        zipOut.putNextEntry(new ZipEntry(relativePath));
+    public void addFile(File subFile, ZipOutputStream zipOut, String relativePath){
+        FileInputStream fis = null;
+        try {
+            fis = new FileInputStream(subFile);
 
-        byte[]buffer = new byte[1024];
-        int length;
-        while((length = fis.read(buffer)) >= 0){
-            zipOut.write(buffer,0,length);
+            zipOut.putNextEntry(new ZipEntry(relativePath));
+
+            byte[] buffer = new byte[1024];
+            int length;
+            while ((length = fis.read(buffer)) >= 0) {
+                zipOut.write(buffer, 0, length);
+            }
+            fis.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-        fis.close();
+        finally {
+            try { if(fis != null) fis.close();} catch (IOException e) {e.printStackTrace();}
+        }
     }
 
 
