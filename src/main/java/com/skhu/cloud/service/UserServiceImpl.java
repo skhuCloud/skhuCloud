@@ -2,7 +2,6 @@ package com.skhu.cloud.service;
 
 //import com.skhu.cloud.config.security.JwtTokenProvider;
 //import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.bind.annotation.RequestBody;
 import com.skhu.cloud.entity.User;
 import com.skhu.cloud.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -44,6 +43,7 @@ public class UserServiceImpl implements UserService{
                 .name(user.getName())
                 .build()).getId();
     }
+
     /**
      * 유저의 정보가 DB에 저장되어 있는 값과 동일하다면 , createToken 을 통해서 토큰 발급
      */
@@ -65,7 +65,6 @@ public class UserServiceImpl implements UserService{
     @Override
     @Transactional
     public User login(User user){
-        System.out.println(userRepository.findByUsername(user.getUsername()).get());
         User result = userRepository.findByUsername(user.getUsername()).orElseThrow(
                 () -> {throw new EntityNotFoundException();});
         if(!user.getPassword().equals(result.getPassword())){
