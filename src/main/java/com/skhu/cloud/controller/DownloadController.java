@@ -24,7 +24,7 @@ public class DownloadController {
     @GetMapping("/download/checked")
     public void downloadChecked(@RequestParam(value = "checkedFiles",required = false)List<String> checkedFiles, HttpServletResponse httpServletResponse)  {
         System.out.println("실행 됨~~~~000~");
-
+        System.out.println(checkedFiles);
         try {
             Queue<String> que_checked = new LinkedList<>();
             for(String s : checkedFiles) {
