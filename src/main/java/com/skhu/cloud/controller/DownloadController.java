@@ -22,23 +22,25 @@ public class DownloadController {
     private final DownloadService downloadService;
 
     @GetMapping("/download/checked")
-    public void downloadChecked(@RequestParam(value = "checkedFiles",required = false)List<String> checkedFiles, HttpServletResponse httpServletResponse) throws IOException {
+    public void downloadChecked(@RequestParam(value = "checkedFiles",required = false)List<String> checkedFiles, HttpServletResponse httpServletResponse)  {
         System.out.println("실행 됨~~~~000~");
 
-        Queue<String> que_checked = new LinkedList<>();
-        for(String s : checkedFiles) {
-            que_checked.add(s);
-            System.out.println("~~~   " + s);
+        try {
+            Queue<String> que_checked = new LinkedList<>();
+            for(String s : checkedFiles) {
+                que_checked.add(s);
+                System.out.println("~~~   " + s);
+            }
+
+            //before() zip 의 필요 유뮤를 리턴.
+            boolean toZip = downloadService.before(httpServletResponse,que_checked);
+            if(toZip){
+                httpServletResponse.setStatus(HttpServletResponse.SC_OK);
+                httpServletResponse.setContentType("application/zip");
+            }
+        } catch (NullPointerException e){
+            System.out.println("선택된 파일이 없습니다.");
         }
-
-        boolean toZip = downloadService.before(httpServletResponse,que_checked);
-
-        if(toZip){
-            httpServletResponse.setStatus(HttpServletResponse.SC_OK);
-            httpServletResponse.setContentType("application/zip");
-        }
-
     }
-
 
 }
