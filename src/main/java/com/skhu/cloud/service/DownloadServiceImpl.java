@@ -40,15 +40,12 @@ public class DownloadServiceImpl implements DownloadService {
         return true;
     }
 
-
     //단일 파일 다운로드
     @Override
     public void downloadOne(HttpServletResponse httpServletResponse, File file){
-        FileInputStream fis = null;
-        OutputStream out = null;
-        try {
-            fis = new FileInputStream(file);
-            out = httpServletResponse.getOutputStream();
+
+        try(FileInputStream fis = new FileInputStream(file);
+            OutputStream out = httpServletResponse.getOutputStream()) {
 
             //파일 작성하기
             int read;
@@ -57,21 +54,14 @@ public class DownloadServiceImpl implements DownloadService {
             while ((read = fis.read(buffer)) >= 0){
                 out.write(buffer,0,read);
             }
-
             //attachment 로 설정함으로써 해당 데이터를 수신받은 브라우저가 팡링르 저장 또는 다른이름으로 저장 여부를 설정하게 할 수 있다.
             httpServletResponse.setHeader("Content-Disposition", "attachment;filename=" + file.getName());
 
-            fis.close();
-            out.close();
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
         catch (IOException e) {
             e.printStackTrace();
-        }
-        finally {
-            try { if(fis != null) fis.close();} catch (IOException e) {e.printStackTrace();}
-            try { if(out != null) out.close();} catch (IOException e) {e.printStackTrace();}
         }
     }
 
@@ -84,9 +74,7 @@ public class DownloadServiceImpl implements DownloadService {
         httpServletResponse.setHeader("Content-Disposition","attachment; filename="+
                 LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm:ss")) +".zip");
 
-        ZipOutputStream zipOut = null;
-        try {
-            zipOut = new ZipOutputStream(httpServletResponse.getOutputStream());
+        try(ZipOutputStream zipOut = new ZipOutputStream(httpServletResponse.getOutputStream())) {
 
             while (!que_path.isEmpty()) {
                 String path = que_path.poll();
@@ -114,11 +102,8 @@ public class DownloadServiceImpl implements DownloadService {
                 }
             }
             zipOut.closeEntry();
-            zipOut.close();
         } catch (IOException e) {
             e.printStackTrace();
-            try { if(zipOut != null) zipOut.closeEntry();} catch (IOException e1) {e1.printStackTrace();}
-            try { if(zipOut != null) zipOut.close();} catch (IOException e2) {e2.printStackTrace();}
         }
     }
 
@@ -134,10 +119,7 @@ public class DownloadServiceImpl implements DownloadService {
 
     @Override
     public void addFile(File subFile, ZipOutputStream zipOut, String relativePath){
-        FileInputStream fis = null;
-        try {
-            fis = new FileInputStream(subFile);
-
+        try(FileInputStream fis = new FileInputStream(subFile)) {
             zipOut.putNextEntry(new ZipEntry(relativePath));
 
             byte[] buffer = new byte[1024];
@@ -145,14 +127,10 @@ public class DownloadServiceImpl implements DownloadService {
             while ((length = fis.read(buffer)) >= 0) {
                 zipOut.write(buffer, 0, length);
             }
-            fis.close();
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
-        }
-        finally {
-            try { if(fis != null) fis.close();} catch (IOException e) {e.printStackTrace();}
         }
     }
 
