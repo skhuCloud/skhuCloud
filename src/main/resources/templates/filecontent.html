@@ -4,19 +4,18 @@
 </head>
 <body>
 <table>
-    <td>
-        <pre><code th:class = "${extension}" th:text = "${content}"></code></pre>
-    </td>
-<!-- 그저 time , code 리스트를 가져오기 위한 태그 -->
-    <td>
-        <tr>
-            <td>수정 날짜</td>
-        </tr>
+    <tr class = "left">
+        <td>
+            <pre><code id = "file_content" th:class = "${extension}" th:text = "${content}"></code></pre>
+        </td>
+    </tr>
+    <!-- 그저 time , code 리스트를 가져오기 위한 태그 -->
+    <tr>
         <tr th:each = "version : ${versionList}">
-            <td th:text = "${version.time}"></td>
+            <td th:content = "${version.content}" th:text = "${version.time}"></td>
         </tr>
         <div id = "chart_div"></div>
-    </td>
+    </tr>
 </table>
 <div id = "time" th:text = "${time}"></div>
 <div id = "code" th:text = "${code}"></div>

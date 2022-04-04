@@ -70,7 +70,7 @@ public class FileDto {
                 .atZone(ZoneId.systemDefault())
                 .toLocalDateTime();
         return time.getYear() + "년 " + time.getMonthValue() + "월 " + time.getDayOfMonth() + "일 "
-                + time.getHour() + "시 " + time.getMinute() + "분 " + time.getSecond() +"초";
+                + time.getHour() + "시 " + time.getMinute() + "분 " + time.getSecond() +"초 ";
     }
 
     // 해당 method 가 static method 이기 떄문에 , getExtension도 static method 로 선언을 해야함
