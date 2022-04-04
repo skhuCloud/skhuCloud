@@ -40,11 +40,9 @@ public class DownloadServiceImpl implements DownloadService {
         return true;
     }
 
-
     //단일 파일 다운로드
     @Override
     public void downloadOne(HttpServletResponse httpServletResponse, File file){
-
         try(FileInputStream fis = new FileInputStream(file);
             OutputStream out = httpServletResponse.getOutputStream()) {
 
@@ -54,7 +52,6 @@ public class DownloadServiceImpl implements DownloadService {
             while ((read = fis.read(buffer)) >= 0){
                 out.write(buffer,0,read); // 그래서 read 만큼 작성한다.
             }
-
             httpServletResponse.setHeader("Content-Disposition", "attachment;filename=" + file.getName());
 
         } catch (FileNotFoundException e) {
@@ -75,11 +72,7 @@ public class DownloadServiceImpl implements DownloadService {
         httpServletResponse.setHeader("Content-Disposition","attachment; filename="+
                 LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm:ss")) +".zip"); // 현재의 시간을 , zipfile name 으로 지정
 
-        ZipOutputStream zipOut = null; // 일단 ZipOutputStream 에 null 을 넣고 시작함 , 나중에 zipOut == null 인지 아닌지 확인하는 로직이 존재해서
-
-        try {
-            zipOut = new ZipOutputStream(httpServletResponse.getOutputStream()); // httpServletResponse OutputStream 을 ZipOutputStream 으로 주입 , 그러면 압축한 내용을 Servlet 에다가 담을 수 있음
-
+        try(ZipOutputStream zipOut = new ZipOutputStream(httpServletResponse.getOutputStream())) {
             while (!que_path.isEmpty()) { // que_path 가 이제 없을 때 까지 , 남은 path
                 String path = que_path.poll(); // path 들 뺌
                 File file = new File(path); // 객체로 만들어주고
@@ -106,11 +99,8 @@ public class DownloadServiceImpl implements DownloadService {
                 }
             }
             zipOut.closeEntry();
-            zipOut.close();
         } catch (IOException e) {
             e.printStackTrace(); // zipOut 도 , close 조금 더 단순화 시킬 수 있을 것 같은데 아쉽다.
-            try { if(zipOut != null) zipOut.closeEntry();} catch (IOException e1) {e1.printStackTrace();}
-            try { if(zipOut != null) zipOut.close();} catch (IOException e2) {e2.printStackTrace();}
         }
     }
 
@@ -127,10 +117,7 @@ public class DownloadServiceImpl implements DownloadService {
 
     @Override
     public void addFile(File subFile, ZipOutputStream zipOut, String relativePath){
-        FileInputStream fis = null;
-        try {
-            fis = new FileInputStream(subFile);
-
+        try(FileInputStream fis = new FileInputStream(subFile)) {
             zipOut.putNextEntry(new ZipEntry(relativePath));
 
             byte[] buffer = new byte[1024];
@@ -138,14 +125,10 @@ public class DownloadServiceImpl implements DownloadService {
             while ((length = fis.read(buffer)) >= 0) {
                 zipOut.write(buffer, 0, length);
             }
-            fis.close();
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
-        }
-        finally {
-            try { if(fis != null) fis.close();} catch (IOException e) {e.printStackTrace();}
         }
     }
 
