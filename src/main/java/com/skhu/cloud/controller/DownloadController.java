@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletResponse;
@@ -15,12 +16,12 @@ import java.util.Queue;
 @Controller
 @Slf4j
 @RequiredArgsConstructor
-//@RequestMapping("/download")
+@RequestMapping("/download")
 public class DownloadController {
 
     private final DownloadServiceImpl downloadService;
 
-    @GetMapping("/download/checked")
+    @GetMapping("checked")
     public void downloadChecked(@RequestParam(value = "checkedFiles",required = false)List<String> checkedFiles, HttpServletResponse httpServletResponse)  {
         System.out.println("실행 됨~~~~000~");
         System.out.println(checkedFiles);
@@ -31,10 +32,10 @@ public class DownloadController {
                 System.out.println("~~~   " + s);
             }
 
-            //before() zip 의 필요 유뮤를 리턴.
+            //before() zip 의 필요 유뮤를 리턴(List -> Queue 로 변환한 que_checked 변수를 넘김)
             boolean toZip = downloadService.before(httpServletResponse,que_checked);
             if(toZip){
-                httpServletResponse.setStatus(HttpServletResponse.SC_OK);
+//                httpServletResponse.setStatus(HttpServletResponse.SC_OK); // 현재 페이지가 정상 응답합라는 표시
                 httpServletResponse.setContentType("application/zip");
             }
         } catch (NullPointerException e){

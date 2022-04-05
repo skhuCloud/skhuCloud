@@ -94,7 +94,7 @@ div.footer {
     border-top:1px solid #eee; padding:30px; font-size:10pt; color:#888; width: 100%;
 }
 
-[directory-url]:hover , [file-url]:hover , [data]:hover{
+[directory-url]:hover , [file-url]:hover , [data]:hover , [content]:hover {
     cursor : pointer;
     color : blue;
 }
