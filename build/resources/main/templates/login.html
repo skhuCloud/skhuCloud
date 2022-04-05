@@ -43,7 +43,7 @@
     <div class="login-form">
         <h1 class="login-header">소프 게시판 로그인</h1>
         <div class="login-body">
-            <img th:src="@{/images/skhu_logo.png}" style="width: 200px;" />
+            <img th:src="@{/static/images/skhu_logo.png}" style="width: 200px;" />
             <form th:method="post" th:action="@{/user/login}">
                 <div class="input">
                     <i class="fa fa-user fa-lg"></i>
@@ -59,13 +59,14 @@
         </div>
     </div>
 
-    <div class="footer">
-        <div style="float: left; padding-right: 20px;">
-            <img th:src="@{/images/skhu.png}" style="width: 200px; "/>
-        </div>
-        <div>152-716 서울시 구로구 연동로 320 / 지하철 1, 7호선 온수(성공회대입구)역 T.02-2610-4114</div>
-        <div style="margin-top: 5px;">Copyright (c) Sung-Kong-Hoe Univisity. All rights reserved.</div>
-    </div>
+<!--    <div class="footer">-->
+<!--        <div style="float: left; padding-right: 20px;">-->
+<!--            <img th:src="@{/static/images/skhu.png}" style="width: 200px; "/>-->
+<!--        </div>-->
+<!--        <div>152-716 서울시 구로구 연동로 320 / 지하철 1, 7호선 온수(성공회대입구)역 T.02-2610-4114</div>-->
+<!--        <div style="margin-top: 5px;">Copyright (c) Sung-Kong-Hoe Univisity. All rights reserved.</div>-->
+<!--    </div>-->
+    <footer th:replace="fragments/footer.html :: footer"></footer>
 </div>
 
 </body>
