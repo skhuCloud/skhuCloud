@@ -24,6 +24,7 @@ public class MainController {
         ModelAndView mvc = new ModelAndView("main");
         String path = "/Users";
 
+        mvc.addObject("nowPath" , path);
         mainService.mvcAddObject(mvc , mainService.getDirectoryList(path) , mainService.createFileDtoList(path));
 
         return mvc;
@@ -33,6 +34,7 @@ public class MainController {
     public ModelAndView clickDirectory(String path) throws IOException{
         ModelAndView mvc = new ModelAndView("main");
 
+        mvc.addObject("nowPath" , path);
         mainService.mvcAddObject(mvc , mainService.getDirectoryList(path) , mainService.createFileDtoList(path));
 
         return mvc;

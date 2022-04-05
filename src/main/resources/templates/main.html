@@ -27,12 +27,12 @@
                         <div class="card-body">
                             <div class="table-responsive">
                                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                                    <form th:action="@{/download/checked}" method="get">
+                                    <form th:action="@{/download/checked(nowPath = ${nowPath})}" method="get">
+                                        <input type ="hidden" th:name = "nowPath" th:value = "${nowPath}"/>
                                     <tr> <input type="submit" value="다운로드"/></tr>
                                     <thead>
                                     <tr>
                                         <th class="ex">
-<!--                                            <input type="submit" value="다운로드"/> -->
                                         </th>
                                         <th>이름</th>
                                         <th>수정일</th>
@@ -51,6 +51,7 @@
                                     </tfoot>
                                     <tbody>
                                     <tr th:each="file : ${fileList}">
+<!--                                            <input type ="hidden" th:name = "nowPath" th:value = "${nowPath}"/>-->
                                             <td><input th:name="checkedFiles" th:type="checkbox" th:value="${file.path}"/></td>
                                             <td th:if = "${file.kind == '폴더'}" th:directory-url = "${'/directories?path=' + file.path}" th:text="${file.name}"></td>
                                             <td th:if = "${file.kind != '폴더'}" th:file-url = "${'/files?path=' + file.path}" th:text="${file.name}"></td>
