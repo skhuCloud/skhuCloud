@@ -2,7 +2,6 @@ package com.skhu.cloud.service;
 
 //import com.skhu.cloud.config.security.JwtTokenProvider;
 //import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.bind.annotation.RequestBody;
 import com.skhu.cloud.entity.User;
 import com.skhu.cloud.repository.UserRepository;
 import lombok.RequiredArgsConstructor;

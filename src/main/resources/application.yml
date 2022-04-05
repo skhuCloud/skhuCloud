@@ -9,7 +9,15 @@ spring:
       filter:
         enable: true
     static-path-pattern: "/static/**"
-
+  devtools:
+    livereload:
+      enable: true
+    restart:
+      enable: false
+      additional-paths: "/Users/jaeyeonkim/Desktop/skhuCloud/build"
+    remote:
+      restart:
+        enable: true
 
   jpa:
 #    hibernate:

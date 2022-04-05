@@ -1,7 +1,7 @@
 package com.skhu.cloud.controller;
 
 import com.skhu.cloud.dto.FileDto;
-import com.skhu.cloud.dto.VersionDto;
+import com.skhu.cloud.dto.FileVersionDto;
 import com.skhu.cloud.service.MainService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -39,13 +38,11 @@ public class MainController {
         return mvc;
     }
 
-    // 새로운 창을 띄워서 거기다가 file 의 content 를 띄움
     @GetMapping("files")
     public ModelAndView clickFile(String path) throws IOException{
         ModelAndView mvc = new ModelAndView("filecontent");
 
-        List<VersionDto> versionList = mainService.getVersionList(path);
-
+        List<FileVersionDto> versionList = mainService.getVersionList(path);
         List<String> time = mainService.getTimeList(versionList);
         List<Long> code = mainService.getCodeList(versionList); // method 로 구현
 
@@ -54,11 +51,11 @@ public class MainController {
         mvc.addObject("versionList" , versionList);
         mvc.addObject("time" , time);
         mvc.addObject("code" , code);
+        // content 가 null 이면 , file 을 읽어오고 , 아니면 content 를 내보내는 형식의 폼
         mvc.addObject("content" , mainService.readFile(path));
 
         return mvc;
     }
-
 
 
 }

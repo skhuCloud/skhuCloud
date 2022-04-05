@@ -2,7 +2,7 @@ package com.skhu.cloud.service;
 
 import com.skhu.cloud.dto.DirectoryDto;
 import com.skhu.cloud.dto.FileDto;
-import com.skhu.cloud.dto.VersionDto;
+import com.skhu.cloud.dto.FileVersionDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -82,11 +82,13 @@ public class MainServiceImpl implements MainService {
     }
 
     @Override
-    public List<VersionDto> getVersionList(String path){
-        List<VersionDto> result = new ArrayList<>();
+    public List<FileVersionDto> getVersionList(String path){
+        List<FileVersionDto> result = new ArrayList<>();
+        // path 추가(생성자)
         try {
             for (int i = 0; i < 10; i++) {
-                result.add(new VersionDto(LocalDateTime.now(), readFile(path)));
+                if(i == 0) result.add(new FileVersionDto(LocalDateTime.now() , readFile(path)));
+                else result.add(new FileVersionDto(LocalDateTime.now(), "안녕하세요" + i));
             }
         } catch(IOException e){ // throws IOException 처리
             log.error("error code : " + e.getMessage());
@@ -96,24 +98,24 @@ public class MainServiceImpl implements MainService {
 
     // 해당 versionDto List 에서 Time 만 빼내서 표현
     @Override
-    public List<String> getTimeList(List<VersionDto> versionDtoList) {
+    public List<String> getTimeList(List<FileVersionDto> fileVersionDtoList) {
         List<String> result = new ArrayList<>();
-        for(VersionDto versionDto : versionDtoList){
-            result.add(versionDto.getTimeToString());
+        for(FileVersionDto fileVersionDto : fileVersionDtoList){
+            result.add(fileVersionDto.getTimeToString());
         }
         return result;
     }
 
     // 해당 versionDto List 에서 Code양 만 빼내서 표현
     @Override
-    public List<Long> getCodeList(List<VersionDto> versionDtoList) {
+    public List<Long> getCodeList(List<FileVersionDto> fileVersionDtoList) {
         List<Long> result = new ArrayList<>();
 
         // 지금은 코드가 그럴싸 해 보이도록 조금 바꾸었음
         Random random = new Random();
 
-        for(VersionDto versionDto : versionDtoList){
-            result.add(new Long(versionDto.getContent().length()) + random.nextInt(500));
+        for(FileVersionDto fileVersionDto : fileVersionDtoList){
+            result.add(new Long(fileVersionDto.getContent().length()) + random.nextInt(500));
         }
         return result;
     }
