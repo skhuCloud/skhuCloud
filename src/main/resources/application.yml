@@ -14,7 +14,6 @@ spring:
       enable: true
     restart:
       enable: false
-      additional-paths: "/Users/jaeyeonkim/Desktop/skhuCloud/build"
     remote:
       restart:
         enable: true
