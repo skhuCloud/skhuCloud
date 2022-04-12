@@ -41,23 +41,17 @@ public class MainController {
     }
 
     @GetMapping("files")
-    public ModelAndView clickFile(String path) throws IOException{
+    public ModelAndView clickFile(String path , Long index) throws IOException{
+        // 원래 content 를 직접적으로 넘겼었지만 , versionList 에 담겨있는 content 를 넘기는 식으로 request header to large 문제를 해결 하였음
         ModelAndView mvc = new ModelAndView("filecontent");
+        if(index == null) index = 0L;
 
+        // index 값은 , 해당 버전이 몇번째인지이고 , 현재로서는 index = 1이 첫번째 버전이니까 index 가 null 이라면 index = 1 로 설정해주자.
         List<FileVersionDto> versionList = mainService.getVersionList(path);
-        List<String> time = mainService.getTimeList(versionList);
-        List<Long> code = mainService.getCodeList(versionList); // method 로 구현
 
-        // versionList , time , code , content 등의 object 들을 mvc 에다가 등록
-        mvc.addObject("extension" , FileDto.getExtension(path));
-        mvc.addObject("versionList" , versionList);
-        mvc.addObject("time" , time);
-        mvc.addObject("code" , code);
-        // content 가 null 이면 , file 을 읽어오고 , 아니면 content 를 내보내는 형식의 폼
-        mvc.addObject("content" , mainService.readFile(path));
+        mainService.filesMvcAddObject(mvc , FileDto.getExtension(path) , versionList , mainService.getTimeList(versionList),
+                mainService.getCodeList(versionList) , path , index , mainService.getComponentName(path));
 
         return mvc;
     }
-
-
 }

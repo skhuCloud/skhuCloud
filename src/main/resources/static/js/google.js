@@ -21,13 +21,37 @@ for(var i = 0; i < time.length; i++){
 }
 
 var options = {
+//    width : 500,
+    height : 700,
+    titleTextStyle: {
+        color : '#fbfbfe',
+    },
     title: 'Version 별 코드량',
-hAxis: {
-    title: '시간',
-},
-vAxis: {
-    title: '코드량\n(Byte)'
-}
+    backgroundColor: '#1E1E1E',
+    is3D: true ,
+    hAxis: {
+        textStyle: {
+            color : '#fbfbfe',
+        },
+        title: '시간',
+        titleTextStyle: {
+            color : '#fbfbfe'
+        },
+    },
+    vAxis: {
+        textStyle: {
+            color : '#fbfbfe',
+        },
+        title: '코드량\n(Byte)',
+        titleTextStyle: {
+            color : '#fbfbfe'
+        },
+    },
+    legend: {
+        textStyle: {
+            color : '#fbfbfe'
+        },
+    }
 };
 
 var chart = new google.visualization.ColumnChart(
