@@ -3,20 +3,22 @@
 <head th:replace="fragments/head.html :: header">
 </head>
 <body>
-<table>
-    <tr class = "left">
-        <td>
-            <pre><code id = "file_content" th:class = "${extension}" th:text = "${content}"></code></pre>
-        </td>
-    </tr>
-    <!-- 그저 time , code 리스트를 가져오기 위한 태그 -->
-    <tr>
-        <tr th:each = "version : ${versionList}">
-            <td th:content = "${version.content}" th:text = "${version.time}"></td>
-        </tr>
+<div style = "display : flex; height : 100vh;">
+    <div style = "width : 80vw; overflow-y : scroll; overflow-x : auto;">
+        <h2 th:text = "${' file : ' + title}" style = "color : #fbfbfe; margin-bottom : 20px;"></h2>
+        <pre><code id = "file_content" th:class = "${extension}" th:text = "${content}"></code></pre>
+    </div>
+    <div style = "overflow-y : scroll; overflow-x : auto; width : 20vw; text-align : center; border-left : 1px solid white;
+                    box-shadow: rgba(255, 255, 255, 0.35) 5px 5px 5px; color : #fbfbfe">
+        <h3>버전 기록</h3>
+        <div th:each = "version : ${versionList}" style = "padding : 40px; border-bottom : 1px solid white; border-top : 1px solid white;">
+            <span th:if = "${index == versionStat.index}">-></span>
+            <span th:if = "${!(index == versionStat.index)}">&nbsp;&nbsp;</span>
+            <span th:content = "@{/files(path=${path}, index = ${versionStat.index})}" th:text = "${version.time}"/>
+        </div>
         <div id = "chart_div"></div>
-    </tr>
-</table>
-<div id = "time" th:text = "${time}"></div>
-<div id = "code" th:text = "${code}"></div>
+    </div>
+</div>
+<div id = "time" th:text = "${time}"/>
+<div id = "code" th:text = "${code}"/>
 </body>

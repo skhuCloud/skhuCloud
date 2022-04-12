@@ -12,8 +12,8 @@ $(function() {
     })
 
     $("[content]").click(function() {
-        var content = $(this).attr("content") // content 정보를 얻고
-        $("#file_content").text(content);
+        var url = $(this).attr("content") // content 정보를 얻고
+        location.href = url
     })
 })
 
