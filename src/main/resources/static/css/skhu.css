@@ -1,6 +1,27 @@
-tr:hover{
-    background-color: #d6e0f5;
+tr:hover {
+    background-color: #d6e0f5 !important;
 }
-/*.cbox{*/
-/*    display: inline-block;*/
-/*}*/
+.cbox{
+    opacity: 0.1;
+}
+
+tr:hover .cbox{
+    opacity: 100;
+}
+
+tr:hover .more{
+    opacity: 0.4;
+}
+
+input[type="checkbox"]:checked {
+    opacity: 100 !important;
+}
+
+.cbox-cover{
+    width: 5%;
+}
+
+.more{
+    opacity: 0;
+    float: right;
+}

@@ -31,63 +31,55 @@
                                     <tr> <input type="submit" value="다운로드"/></tr>
                                     <thead>
                                     <tr>
-                                        <th class="ex">
-                                        </th>
+                                        <th class="cbox-cover"> <input type="checkbox" id="selectAll"></th>
                                         <th>이름</th>
                                         <th>수정일</th>
                                         <th>크기</th>
                                         <th>종류</th>
                                     </tr>
                                     </thead>
-                                    <tfoot>
-                                    <tr>
-                                        <th>다운로드 하기 </th>
-                                        <th>Name</th>
-                                        <th>Position</th>
-                                        <th>Office</th>
-                                        <th>Age</th>
-                                    </tr>
-                                    </tfoot>
+
+<!--                                    <tr>-->
+<!--                                        <th>다운로드 하기 </th>-->
+<!--                                        <th>Name</th>-->
+<!--                                        <th>Position</th>-->
+<!--                                        <th>Office</th>-->
+<!--                                        <th>Age</th>-->
+<!--                                    </tr>-->
+<!--                                    </tfoot>-->
                                     <tbody>
-                                    <tr th:class="cbox" th:each="file : ${fileList}">
-                                        <td><input th:class = "love"th:name="checkedFiles" th:type="checkbox" th:value="${file.path}"/></td>
-                                        <td th:if = "${file.kind == '폴더'}" th:directory-url = "${'/directories?path=' + file.path}" th:text="${file.name}"></td>
-                                        <td th:if = "${file.kind != '폴더'}" th:file-url = "${'/files?path=' + file.path}" th:text="${file.name}"></td>
+                                    <tr th:class="table-values" th:each="file : ${fileList}">
+                                        <td><input th:class="cbox" th:name="checkedFiles" th:type="checkbox" th:value="${file.path}"/></td>
+                                        <td th:if = "${file.kind == '폴더'}" th:directory-url = "${'/directories?path=' + file.path}"><span th:text="${file.name}"/><img th:class="more" src="/static/images/mini.png"></td>
+                                        <td th:if = "${file.kind != '폴더'}" th:file-url = "${'/files?path=' + file.path}"><span th:text="${file.name}"/><img th:class="more" src="/static/images/mini.png"></td>
                                         <td th:text="${file.modifiedTime}"></td>
                                         <td th:text="${file.size}"></td>
-                                        <td th:text="${file.kind}"></td>
+                                        <td th:text="${file.kind}" ></td>
 
                                     </tr>
                                     </tbody>
+                                    <tfoot/>
                                 </form>
                             </table>
                         </div>
                     </div>
                 </div>
-
             </div>
         </div>
         <footer th:replace="fragments/footer.html :: footer"></footer>
-
-
     </div>
-
 </div>
 </body>
 </html>
 
 <script>
-    $(".cbox").mouseover(function (){
-        console.log("mouseover~~~~~~");
-        console.log($(this));
-        $(this)[0].children[0].style.display = "inline-block";
-    })
-
-    $(".cbox").mouseout(function (){
-        console.log("mouseout~~~~~~~~~~~~~");
-        // console.log($(this));
-        // $(this)[0].children[0].style.visibility = "hidden";
-
-        $(this)[0].children[0].style.display = "none";
+    $("#selectAll").click(function (){
+        $("input[name=checkedFiles]").each(function (){
+            if($("#selectAll").prop('checked')){
+                if(!$(this).prop('disabled')) $(this).prop('checked',true);
+            }else {
+                $(this).prop('checked',false);
+            }
+        })
     })
 </script>
