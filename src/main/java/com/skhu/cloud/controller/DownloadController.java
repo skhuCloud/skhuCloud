@@ -22,6 +22,12 @@ public class DownloadController {
 
     private final DownloadServiceImpl downloadService;
 
+
+    @GetMapping("/test")
+    public String test(){
+        return "diffTest";
+    }
+    
     @GetMapping("/download/checked")
     public void downloadChecked(@RequestParam String nowPath ,@RequestParam(value = "checkedFiles",required = false)List<String> checkedFiles, HttpServletResponse httpServletResponse, HttpServletRequest request) throws CustomException  {
         System.out.println("실행 됨~~~~~");

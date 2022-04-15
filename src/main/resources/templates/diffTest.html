@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/head.html :: header"/>
+        <body>
+            <pre id="display"></pre>
+<!--            해당 태그를 통해 본래 서식 그대로 표현 가능하다.-->
+        </body>
+</html>
+
+<script>
+    const one = '안녕하세요 저는 신정은 입니다.'+
+                '\n' +
+                 '저는 24살 입니다.',
+
+        other = '  안녕하세요 저는 신정은 입니다.ㅎㅎ',
+        color = '';
+
+    let span = null;
+
+    // const diff = Diff.diffChars(one, other), //공백 차이 인식됨
+    // const diff = Diff.diffWords(one, other), //공백 차이는 무시 , 변경된 문자만 red로
+    // const diff = Diff.diffWordsWithSpace(one, other) // 단어단위(공백기중)으로 비교 진행, 공백 차이 인식됨
+    // const diff = Diff.diffSentences(one, other) // .  단위로 비교되며, 문장에 한 단어만 추가되도 아예 다른 문장으로 취  급됨
+
+    // const diff = Diff.diffLines(one,other), //문장에 한 단어만 추가되도 아예 다른 문장으로 취급됨
+        display = document.getElementById('display'),
+        fragment = document.createDocumentFragment(); //다른 노드를 담는 임시 컨테이너 역할을 하는 특수 목적의 노드이다.
+                                                    //가상의 노드 객체이며 문서 탬플릿이라고 생각하면 된다.
+                                                    //appendChild(),insertBefore()로 자손 객체를 가질 수 있다.
+
+    diff.forEach((part) => {
+        // green for additions, red for deletions
+        // grey for common parts
+        const color = part.added ? 'green' :
+            part.removed ? 'red' : 'grey';
+        span = document.createElement('span');
+        span.style.backgroundColor = color;
+        span.appendChild(document
+            .createTextNode(part.value));
+        fragment.appendChild(span);
+    });
+
+    display.appendChild(fragment);
+</script>
