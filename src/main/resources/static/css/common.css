@@ -96,9 +96,19 @@ div.footer {
 
 [directory-url]:hover , [file-url]:hover , [data]:hover , [content]:hover {
     cursor : pointer;
-    color : blue;
+    color : #800000;
+    transition: color 0.5s;
 }
 
-#time , #code{
+#time , #code , #diff_content1 , #diff_content2{
     display : none;
 }
+
+#version_date:hover {
+    cursor : pointer;
+    color : #800000;
+    transition: color 0.5s;
+}
+
+
+

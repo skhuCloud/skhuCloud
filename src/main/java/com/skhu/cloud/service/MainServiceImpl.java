@@ -96,6 +96,22 @@ public class MainServiceImpl implements MainService {
     }
 
     @Override
+    public void versionMvcAddObject(ModelAndView mvc , String extension, List<FileVersionDto> versionList,
+                                  List<String> time, List<Long> code, String path, Long index , String title) throws IOException{
+        // 원래 content 를 직접적으로 넘겼었지만 , versionList 에 담겨있는 content 를 넘기는 식으로 request header to large 문제를 해결 하였음
+        mvc.addObject("extension" , extension);
+        mvc.addObject("versionList" , versionList);
+        mvc.addObject("time" , time);
+        mvc.addObject("code" , code);
+        mvc.addObject("path" , path);
+        mvc.addObject("content1" , versionList.get(index.intValue()).getContent());
+        if(versionList.size() - 1 != index) // 제일 초기 버전일 때에는 content 2 를 넘기지 않는다.
+            mvc.addObject("content2" , versionList.get(index.intValue() + 1).getContent());
+        mvc.addObject("index" , index);
+        mvc.addObject("title" , title);
+    }
+
+    @Override
     public String getComponentName(String path){
         // 만약 / 가 없다면 -1 을 반환한다.
         int lastIndex = path.lastIndexOf("/");
