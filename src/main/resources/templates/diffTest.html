@@ -9,8 +9,8 @@
         <h2 th:text = "${' file : ' + title}" style = "color : #fbfbfe; margin-bottom : 20px;"></h2>
         <div>추가된 글자 수 :   <span id="textAdded"></span></div>
         <div>삭제된 글자 수 :   <span id="textRemoved"></span></div>
-<!--        <pre><code id = "file_content" th:class = "${extension}"></code></pre>-->
-        <pre id = "file_content"></pre>
+        <pre><code id = "file_content" th:class = "${extension}"></code></pre>
+<!--        <pre id = "file_content"></pre>-->
     </div>
     <div style = "overflow-y : scroll; overflow-x : auto; width : 20vw; text-align : center; border-left : 1px solid white;
                     box-shadow: rgba(255, 255, 255, 0.35) 5px 5px 5px; color : #fbfbfe">
@@ -61,11 +61,11 @@
             color = "";
         }
 
-        div = document.createElement('div');
-        div.style.backgroundColor = color;
-        div.appendChild(document
+        code = document.createElement('code');
+        code.style.backgroundColor = color + " !important";
+        code.appendChild(document
             .createTextNode(part.value + "\n"));
-        fragment.appendChild(div);
+        fragment.appendChild(code);
 
 
     });
