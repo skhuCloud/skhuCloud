@@ -2,6 +2,8 @@
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head th:replace="fragments/head.html :: header"/>
         <body>
+        <div>추가된 글자 수 :   <span id="textAdded"></span></div>
+        <div>삭제된 글자 수 :   <span id="textRemoved"></span></div>
             <pre id="display"></pre>
 <!--            해당 태그를 통해 본래 서식 그대로 표현 가능하다.-->
         </body>
@@ -22,23 +24,43 @@
     // const diff = Diff.diffWordsWithSpace(one, other) // 단어단위(공백기중)으로 비교 진행, 공백 차이 인식됨
     // const diff = Diff.diffSentences(one, other) // .  단위로 비교되며, 문장에 한 단어만 추가되도 아예 다른 문장으로 취  급됨
 
-    // const diff = Diff.diffLines(one,other), //문장에 한 단어만 추가되도 아예 다른 문장으로 취급됨
+    const diff = Diff.diffLines(one,other), //문장에 한 단어만 추가되도 아예 다른 문장으로 취급됨
         display = document.getElementById('display'),
-        fragment = document.createDocumentFragment(); //다른 노드를 담는 임시 컨테이너 역할을 하는 특수 목적의 노드이다.
+        fragment = document.createDocumentFragment(), //다른 노드를 담는 임시 컨테이너 역할을 하는 특수 목적의 노드이다.
                                                     //가상의 노드 객체이며 문서 탬플릿이라고 생각하면 된다.
                                                     //appendChild(),insertBefore()로 자손 객체를 가질 수 있다.
+        textAdded = document.getElementById('textAdded'),
+        textRemoved = document.getElementById('textRemoved');
 
+    let _added = 0;
+    let _removed = 0;
     diff.forEach((part) => {
-        // green for additions, red for deletions
-        // grey for common parts
-        const color = part.added ? 'green' :
-            part.removed ? 'red' : 'grey';
+        // console.log(part.value + "~~~   " + part.value.length);
+        let color="";
+
+        if(part.added) {
+            color = "green";
+            _added += part.value.length;
+        }
+        else if(part.removed){
+            color = "red";
+            _removed += part.value.length;
+        }
+        else {
+            color = "";
+        }
         span = document.createElement('span');
         span.style.backgroundColor = color;
         span.appendChild(document
-            .createTextNode(part.value));
+            .createTextNode(part.value + "\n"));
         fragment.appendChild(span);
-    });
 
+
+    });
+    console.log("added :   " +  _added);
+    console.log("removed :   " +  _removed);
     display.appendChild(fragment);
+    textAdded.appendChild(document.createElement('span').appendChild(document.createTextNode(_added)));
+    textRemoved.appendChild(document.createElement('span').appendChild(document.createTextNode(_removed)));
+
 </script>
