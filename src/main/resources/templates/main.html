@@ -50,8 +50,23 @@
                                     <tbody>
                                     <tr th:class="table-values" th:each="file : ${fileList}">
                                         <td><input th:class="cbox" th:name="checkedFiles" th:type="checkbox" th:value="${file.path}"/></td>
-                                        <td th:if = "${file.kind == '폴더'}" th:directory-url = "${'/directories?path=' + file.path}"><span th:text="${file.name}"/><img th:class="more" src="/static/images/mini.png"></td>
-                                        <td th:if = "${file.kind != '폴더'}" th:file-url = "${'/files?path=' + file.path}"><span th:text="${file.name}"/><img th:class="more" src="/static/images/mini.png"></td>
+                                        <td th:if = "${file.kind == '폴더'}"><span th:class="fileName" th:text="${file.name}" th:directory-url = "${'/directories?path=' + file.path}"/>
+                                            <button  th:class="button-wrapper" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                <img th:class="more" src="/static/images/mini.png">
+                                            </button>
+                                            <div class="dropdown-menu">
+                                                <a class="dropdown-item" href="#">버전 정보</a>
+                                            </div>
+                                        </td>
+
+                                        <td th:if = "${file.kind != '폴더'}"><span th:text="${file.name}" th:file-url = "${'/files?path=' + file.path}"/>
+                                            <button  th:class="button-wrapper" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                <img th:class="more" src="/static/images/mini.png">
+                                            </button>
+                                            <div class="dropdown-menu">
+                                                <a class="dropdown-item" href="#">버전 정보</a>
+                                            </div>
+                                        </td>
                                         <td th:text="${file.modifiedTime}"></td>
                                         <td th:text="${file.size}"></td>
                                         <td th:text="${file.kind}" ></td>
@@ -76,6 +91,7 @@
     var tes = "[[${nowPath}]]";
     console.log(tes);
 
+    //전체 선택 기능 함수
     $("#selectAll").click(function (){
         $("input[name=checkedFiles]").each(function (){
             if($("#selectAll").prop('checked')){
