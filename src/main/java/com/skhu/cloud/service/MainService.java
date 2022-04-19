@@ -39,4 +39,8 @@ public interface MainService {
 
     // 각 versionDto 들의 Code양을 반환해주는 getCodeList
     List<Long> getCodeList(List<FileVersionDto> fileVersionDtoList);
+
+    // "/version" controller 에서 mvc object 에다가 content 주입
+    void versionMvcAddObject(ModelAndView mvc , String extension , List<FileVersionDto> versionList,
+                           List<String> time , List<Long> code , String path , Long index , String title) throws IOException;
 }

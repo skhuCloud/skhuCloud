@@ -3,6 +3,7 @@
 <head th:replace="fragments/head.html :: header">
 </head>
 <body>
+<nav th:replace="fragments/filetopbar.html :: filetopbar"></nav>
 <div style = "display : flex; height : 100vh;">
     <div style = "width : 80vw; overflow-y : scroll; overflow-x : auto;">
         <h2 th:text = "${' file : ' + title}" style = "color : #fbfbfe; margin-bottom : 20px;"></h2>
