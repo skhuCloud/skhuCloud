@@ -2,24 +2,50 @@
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head th:replace="fragments/head.html :: header">
 </head>
-<body>
-<nav th:replace="fragments/filetopbar.html :: filetopbar"></nav>
-<div style = "display : flex; height : 100vh;">
-    <div style = "width : 80vw; overflow-y : scroll; overflow-x : auto;">
-        <h2 th:text = "${' file : ' + title}" style = "color : #fbfbfe; margin-bottom : 20px;"></h2>
-        <pre><code id = "file_content" th:class = "${extension}" th:text = "${content}"></code></pre>
-    </div>
-    <div style = "overflow-y : scroll; overflow-x : auto; width : 20vw; text-align : center; border-left : 1px solid white;
-                    box-shadow: rgba(255, 255, 255, 0.35) 5px 5px 5px; color : #fbfbfe">
-        <h3>버전 기록</h3>
-        <div th:each = "version : ${versionList}" style = "padding : 40px; border-bottom : 1px solid white; border-top : 1px solid white;">
-            <span th:if = "${index == versionStat.index}">-></span>
-            <span th:if = "${!(index == versionStat.index)}">&nbsp;&nbsp;</span>
-            <span th:content = "@{/files(path=${path}, index = ${versionStat.index})}" th:text = "${version.time}"/>
+
+
+<body id="page-top">
+<div id="wrapper">
+    <div id="content-wrapper" class="d-flex flex-column">
+        <div id="content">
+            <nav th:replace="fragments/topbar.html :: topbar" style="height: 100%"></nav>
+            <ul th:replace="fragments/sidebar.html :: sidebar" style="display: inline-block; float: left; width: 15% !important;"></ul>
+
+            <div class="container-fluid" style="padding-top: 1.5rem; display: inline-block; justify-content: center !important;width: 80% !important;">
+                <div><h1 class="h3 mb-2 text-gray-800" th:text= "${' file : ' + title}"></h1></div>
+                <div><p class="mb-4">버전 정보</p></div>
+
+                <div class="card shadow mb-4" style="float: left !important; width: 85% !important; ">
+                    <div class="card-header py-3">
+                        <h2 th:text= "${' file : ' + title}"></h2>
+                    </div>
+                    <div class="card-body" style="overflow-y : scroll; overflow-x : auto;">
+                        <pre><code id = "file_content" th:class = "${extension}" th:text = "${content}"></code></pre>
+                    </div>
+                </div>
+
+                <!-- 버전 기록 -->
+<!--                <div style = "overflow-y : scroll; overflow-x : auto; width : 15%; text-align : center; border-left : 1px solid white;&ndash;&gt;-->
+<!--                    box-shadow: rgba(255, 255, 255, 0.35) 5px 5px 5px; color : lightblue">-->
+<!--                            <h3>버전 기록</h3>-->
+<!--                            <div th:each = "version : ${versionList}" style = "padding : 40px; border-bottom : 1px solid white; border-top : 1px solid white;">-->
+<!--                                <span th:if = "${index == versionStat.index}">-></span>-->
+<!--                                <span th:if = "${!(index == versionStat.index)}">&nbsp;&nbsp;</span>-->
+<!--                                <span th:content = "@{/files(path=${path}, index = ${versionStat.index})}" th:text = "${version.time}"/>-->
+<!--                            </div>-->
+<!--                            <div id = "chart_div"></div>-->
+<!--                </div>-->
+
+                <div id = "time" th:text = "${time}"/>
+                <div id = "code" th:text = "${code}"/>
+
+            </div>
+
         </div>
-        <div id = "chart_div"></div>
     </div>
 </div>
-<div id = "time" th:text = "${time}"/>
-<div id = "code" th:text = "${code}"/>
+<footer th:replace="fragments/footer.html :: footer"></footer>
+</div>
 </body>
+
+
