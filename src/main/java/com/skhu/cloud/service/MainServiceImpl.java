@@ -13,6 +13,8 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Service
 @RequiredArgsConstructor
@@ -38,7 +40,25 @@ public class MainServiceImpl implements MainService {
     } // list 를 return
 
     @Override
-    public List<FileDto> createFileDtoList(String path) throws IOException{
+    public List<FileDto> createFolderDtoList(String path) throws IOException {
+        File file = new File(path);
+
+        File[] files = file.listFiles();
+        List<FileDto> list = new ArrayList<>();
+
+        if (file != null) {
+            for (File innerFile : files) {
+                if (innerFile.isDirectory()) { // file kind 가 folder 일 때에만
+                    list.add(FileDto.createFileDto(innerFile));
+                }
+            }
+        }
+
+        return list;
+    }
+
+    @Override
+    public List<FileDto> createFileDtoList(String path) throws IOException {
         // 해당 path 를 받으면 해당 path 아래에 모든 것들을 createFileDto 에다가 넘겨서 fileDtoList 로 만든다음 반환
         File file = new File(path);
 
@@ -47,7 +67,9 @@ public class MainServiceImpl implements MainService {
 
         if (file != null) {
             for (File innerFile : files) {
-                list.add(FileDto.createFileDto(innerFile));
+                if (!innerFile.isDirectory()) { // file kind 가 file 일 때에만
+                    list.add(FileDto.createFileDto(innerFile));
+                }
             }
         }
 
@@ -76,8 +98,9 @@ public class MainServiceImpl implements MainService {
     }
 
     @Override
-    public void mvcAddObject(ModelAndView mvc, List<DirectoryDto> directoryList, List<FileDto> fileDtoList) {
+    public void mvcAddObject(ModelAndView mvc, List<DirectoryDto> directoryList, List<FileDto> folderDtoList, List<FileDto> fileDtoList) {
         mvc.addObject("directoryList" , directoryList);
+        mvc.addObject("folderList", folderDtoList);
         mvc.addObject("fileList" , fileDtoList);
     }
 

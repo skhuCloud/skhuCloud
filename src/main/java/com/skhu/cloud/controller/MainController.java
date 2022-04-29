@@ -14,9 +14,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
-import java.util.HashSet;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Controller
 @RequiredArgsConstructor
@@ -27,12 +25,12 @@ public class MainController {
 
     // 맨 처음에만 불러져야 하는 action method
     @GetMapping("main")
-    public ModelAndView getMainPage() throws IOException{
+    public ModelAndView getMainPage() throws IOException {
         ModelAndView mvc = new ModelAndView("main");
         String path = "/Users";
 
         mvc.addObject("nowPath" , path);
-        mainService.mvcAddObject(mvc , mainService.getDirectoryList(path) , mainService.createFileDtoList(path));
+        mainService.mvcAddObject(mvc , mainService.getDirectoryList(path) ,mainService.createFolderDtoList(path), mainService.createFileDtoList(path));
 
         return mvc;
     }
@@ -42,7 +40,7 @@ public class MainController {
         ModelAndView mvc = new ModelAndView("main");
 
         mvc.addObject("nowPath" , path);
-        mainService.mvcAddObject(mvc , mainService.getDirectoryList(path) , mainService.createFileDtoList(path));
+        mainService.mvcAddObject(mvc , mainService.getDirectoryList(path) , mainService.createFolderDtoList(path), mainService.createFileDtoList(path));
 
         return mvc;
     }
@@ -65,11 +63,6 @@ public class MainController {
     // version 간의 차이를 보여주는 action method
     @GetMapping("version")
     public ModelAndView compareVersion(String path , Long index) throws IOException{
-        /*
-        현재 path 는 그냥 중요하고 , 그리고 현재의 index 도 중요하다
-        그래서 이전처럼 filesMvcAddObject 에서 diff content 도 추가적으로 보내주어야 한다.
-         */
-
         ModelAndView mvc = new ModelAndView("diffTest");
         if(index == null) index = 0L;
 

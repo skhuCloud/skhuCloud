@@ -40,7 +40,7 @@ public class FileDto {
     }
 
     // 해당 파일의 size를 받고 , byte , kb , mb , gb , tb 등등으로 변환시킬 것임
-    public static String sizeConvert(double size){
+    public static String sizeConvert(double size) {
         HashMap<Integer , String> map = new HashMap<>();
 
         map.put(0 , "B");
@@ -52,7 +52,7 @@ public class FileDto {
         map.put(6 , "EB");
 
         int index = 0;
-        while(size >= 1024){ // size 가 1024 보다 작을 때까지 진행해야함 , 그래야지 더 나눌 수가 없으니까
+        while (size >= 1024) { // size 가 1024 보다 작을 때까지 진행해야함 , 그래야지 더 나눌 수가 없으니까
             index++;
             size /= 1024d;
         }
@@ -60,7 +60,37 @@ public class FileDto {
         return String.format("%.1f" , size) + map.get(index); // 한자리 까지만
     }
 
-    public static String modifiedTime(Long lastModified){
+    public static String mappingImageUrl(File file) {
+        HashMap<String, String> map = new HashMap<>();
+
+        // 기본
+        map.put("folder", "/static/images/folder.png");
+        map.put("file", "/static/images/file.png");
+
+        // 추가
+        map.put("java", "/static/images/java.png");
+        map.put("css", "/static/images/css.png");
+        map.put("html", "/static/images/html.png");
+        map.put("js", "/static/images/js.png");
+        map.put("yml", "/static/images/yml.png");
+        map.put("xml", "/static/images/xml.png");
+
+        String key = "";
+
+        if (file.isDirectory()) { // folder 이면
+            key = "folder";
+        } else { // file 이면
+            key = getExtension(file.getName());
+
+            if (!map.containsKey(key)) { // Extension 이 만일 HashMap 에 없는 extension이면 그냥 file 로 표시
+                key = "file";
+            }
+        }
+
+        return map.get(key);
+    }
+
+    public static String modifiedTime(Long lastModified) {
         // 년 , 월 , 일 , 시 , 분 , 초 로 나타내면 된다.
         LocalDateTime time = Instant.ofEpochMilli(lastModified)
                 .atZone(ZoneId.systemDefault())
@@ -77,7 +107,7 @@ public class FileDto {
                 .kind(file.isDirectory() ? "폴더" : getExtension(file.getPath()) + " 파일")
                 .size(sizeConvert(Files.size(Paths.get(file.getPath())))) // 사이즈를 byte로 받기 위한 연산
                 .path(file.getPath())
-                .imageUrl("image")
+                .imageUrl(mappingImageUrl(file))
                 .build();
     }
 }
