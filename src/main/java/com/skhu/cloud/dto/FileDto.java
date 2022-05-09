@@ -72,7 +72,6 @@ public class FileDto {
         map.put("css", "/static/images/css.png");
         map.put("html", "/static/images/html.png");
         map.put("js", "/static/images/js.png");
-        map.put("yml", "/static/images/yml.png");
         map.put("xml", "/static/images/xml.png");
 
         String key = "";
