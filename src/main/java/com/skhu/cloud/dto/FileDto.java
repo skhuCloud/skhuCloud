@@ -72,7 +72,11 @@ public class FileDto {
         map.put("css", "/static/images/css.png");
         map.put("html", "/static/images/html.png");
         map.put("js", "/static/images/js.png");
+        map.put("py", "/static/images/py.png");
         map.put("xml", "/static/images/xml.png");
+        map.put("docx", "/static/images/docx.png");
+        map.put("xlsx", "/static/images/xlsx.png");
+        map.put("md", "/static/images/md.png");
 
         String key = "";
 
