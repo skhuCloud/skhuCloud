@@ -1,6 +1,6 @@
 package com.skhu.cloud.service;
 
-import com.skhu.cloud.dto.FolderVersionDto;
+import com.skhu.cloud.dto.version.FolderVersionDto;
 import com.skhu.cloud.entity.FolderVersion;
 
 import java.time.LocalDateTime;

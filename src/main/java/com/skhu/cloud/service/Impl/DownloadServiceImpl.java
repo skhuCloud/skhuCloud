@@ -1,5 +1,6 @@
-package com.skhu.cloud.service;
+package com.skhu.cloud.service.Impl;
 
+import com.skhu.cloud.service.DownloadService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

@@ -1,8 +1,9 @@
-package com.skhu.cloud.service;
+package com.skhu.cloud.service.Impl;
 
-import com.skhu.cloud.dto.FolderVersionDto;
+import com.skhu.cloud.dto.version.FolderVersionDto;
 import com.skhu.cloud.entity.FolderVersion;
 import com.skhu.cloud.repository.FolderVersionRepository;
+import com.skhu.cloud.service.FolderService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -15,7 +16,7 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
-public class FolderServiceImpl implements FolderService{
+public class FolderServiceImpl implements FolderService {
 
     private final FolderVersionRepository folderVersionRepository;
     // FolderVersionDto 로 만들어서 반환

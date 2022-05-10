@@ -2,7 +2,7 @@ package com.skhu.cloud.service;
 
 import com.skhu.cloud.dto.DirectoryDto;
 import com.skhu.cloud.dto.FileDto;
-import com.skhu.cloud.dto.FileVersionDto;
+import com.skhu.cloud.dto.version.FileVersionDto;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.io.IOException;

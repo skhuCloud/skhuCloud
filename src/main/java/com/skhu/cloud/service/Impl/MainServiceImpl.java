@@ -1,8 +1,9 @@
-package com.skhu.cloud.service;
+package com.skhu.cloud.service.Impl;
 
 import com.skhu.cloud.dto.DirectoryDto;
 import com.skhu.cloud.dto.FileDto;
-import com.skhu.cloud.dto.FileVersionDto;
+import com.skhu.cloud.dto.version.FileVersionDto;
+import com.skhu.cloud.service.MainService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -13,8 +14,6 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 @Service
 @RequiredArgsConstructor

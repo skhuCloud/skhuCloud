@@ -1,7 +1,7 @@
 package com.skhu.cloud.controller;
 
 import com.skhu.cloud.dto.FileDto;
-import com.skhu.cloud.dto.FileVersionDto;
+import com.skhu.cloud.dto.version.FileVersionDto;
 import com.skhu.cloud.entity.FolderVersion;
 import com.skhu.cloud.repository.FolderVersionRepository;
 import com.skhu.cloud.service.FolderService;

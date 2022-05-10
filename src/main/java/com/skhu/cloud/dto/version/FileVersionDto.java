@@ -1,4 +1,4 @@
-package com.skhu.cloud.dto;
+package com.skhu.cloud.dto.version;
 
 import lombok.Builder;
 import lombok.Data;

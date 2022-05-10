@@ -1,4 +1,4 @@
-package com.skhu.cloud.dto;
+package com.skhu.cloud.dto.version;
 
 import com.skhu.cloud.entity.FolderVersion;
 import lombok.AllArgsConstructor;

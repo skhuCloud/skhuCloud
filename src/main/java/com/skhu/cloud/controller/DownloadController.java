@@ -1,7 +1,7 @@
 package com.skhu.cloud.controller;
 
-import com.skhu.cloud.dto.CustomException;
-import com.skhu.cloud.service.DownloadServiceImpl;
+import com.skhu.cloud.dto.error.CustomException;
+import com.skhu.cloud.service.Impl.DownloadServiceImpl;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
