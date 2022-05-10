@@ -64,8 +64,8 @@ public class FileDto {
         HashMap<String, String> map = new HashMap<>();
 
         // 기본
-        map.put("folder", "/static/images/folder.png");
-        map.put("file", "/static/images/file.png");
+        map.put("folder", "https://res-1.cdn.office.net/files/fabric-cdn-prod_20220127.003/assets/item-types/20/sharedfolder.svg");
+        map.put("file", "https://res-1.cdn.office.net/files/fabric-cdn-prod_20220127.003/assets/item-types/20/genericfile.svg");
 
         // 추가
         map.put("java", "/static/images/java.png");
@@ -74,9 +74,13 @@ public class FileDto {
         map.put("js", "/static/images/js.png");
         map.put("py", "/static/images/py.png");
         map.put("xml", "/static/images/xml.png");
-        map.put("docx", "/static/images/docx.png");
-        map.put("xlsx", "/static/images/xlsx.png");
+        map.put("docx", "https://res-1.cdn.office.net/files/fabric-cdn-prod_20220127.003/assets/item-types/20/docx.svg");
+        map.put("xlsx", "https://spoppe-b.azureedge.net/files/fabric-cdn-prod_20211104.001/assets/item-types/32/xlsx.svg");
         map.put("md", "/static/images/md.png");
+        map.put("png", "https://res-1.cdn.office.net/files/fabric-cdn-prod_20220127.003/assets/item-types/20/photo.svg");
+        map.put("zip", "https://res-1.cdn.office.net/files/fabric-cdn-prod_20220127.003/assets/item-types/20/zip.svg");
+        map.put("sql", "https://res-1.cdn.office.net/files/fabric-cdn-prod_20220127.003/assets/item-types/20/code.svg");
+        map.put("pdf", "https://spoppe-b.azureedge.net/files/fabric-cdn-prod_20211104.001/assets/item-types/32/pdf.svg");
 
         String key = "";
 
