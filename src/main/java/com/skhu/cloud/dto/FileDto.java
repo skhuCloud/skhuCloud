@@ -1,6 +1,7 @@
 package com.skhu.cloud.dto;
 
 import lombok.*;
+import lombok.experimental.SuperBuilder;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.io.File;
@@ -33,6 +34,11 @@ public class FileDto {
     private String path;
 
     private String imageUrl;
+
+    public FileDto(FileDto fileDto) {
+        this(fileDto.getName(), fileDto.getModifiedTime(), fileDto.getSize(),
+                fileDto.getKind(), fileDto.getPath(), fileDto.getImageUrl());
+    }
 
     // 확장자 따는 method , 근데 . 으로 시작하는 파일들은 숨김파일인데 , 그런 것들은 어떻게 해야 할까?
     public static String getExtension(String path){

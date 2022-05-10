@@ -10,6 +10,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Content { // 해당 flag 와 대응되는 content 를 담음, fileDiff 를 위해서 존재하는 객체
-    private Long flag;
+    private Long flag; // 1 == 그대로, 2 == 수정, 3 == 삭제 (생성은 수정과 동일시하자)
     private String content;
 }

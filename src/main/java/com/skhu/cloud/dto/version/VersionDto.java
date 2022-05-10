@@ -1,18 +1,20 @@
 package com.skhu.cloud.dto.version;
 
+import com.skhu.cloud.dto.FileDto;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDateTime;
-
 @Data
-@Builder
+@EqualsAndHashCode(callSuper = true)
 @AllArgsConstructor
 @NoArgsConstructor
-public class VersionDto {
+public class VersionDto extends FileDto {
+    private FileDto fileDto;
     private Long versionId; // Version Id
-    private LocalDateTime modifiedTime; // 수정시각
-    private Long kind; // 유형, 1 = 폴더, 2 = 파일 (유형을 알아야지, FileDiff 와 FolderDiff 중 어떤 것을 요청할지 정함)
+
+    public VersionDto(Long versionId) {
+        this.versionId = versionId;
+    }
 }
