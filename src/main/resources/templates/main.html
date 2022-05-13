@@ -8,7 +8,7 @@
     <div id="content-wrapper" class="d-flex flex-column">
         <div id="content">
             <nav th:replace="fragments/topbar.html :: topbar"></nav>
-<!--            position: absolute;left: -300px-->
+<!--            position: absolute;left: -30px-->
             <div id="sidebarWrapper" style="display:none;"><ul th:replace="fragments/sidebar.html :: sidebar" style="display: inline-block; float: left; width: 15% !important;"></ul></div>
 
             <!-- Begin Page Content -->
@@ -38,7 +38,7 @@
                                         <th>이름</th>
                                         <th>수정일</th>
                                         <th>크기</th>
-                                        <th>종류</th>
+<!--                                        <th>종류</th>-->
                                     </tr>
                                     </thead>
 
@@ -51,9 +51,11 @@
 <!--                                    </tr>-->
 <!--                                    </tfoot>-->
                                     <tbody>
-                                    <tr th:class="table-values" th:each="file : ${fileList}">
+                                    <tr th:class="table-values" th:each="file : ${folderList}">
                                         <td><input th:class="cbox" th:name="checkedFiles" th:type="checkbox" th:value="${file.path}"/></td>
-                                        <td th:if = "${file.kind == '폴더'}"><span th:class="fileName" th:text="${file.name}" th:directory-url = "${'/directories?path=' + file.path}"/>
+                                        <td th:if = "${file.kind == '폴더'}">
+                                            <img th:src = "${file.imageUrl}" style = "display : inline-block;" width = "20px" height = "20px"/>
+                                            <span th:class="fileName" th:text="${file.name}" th:directory-url = "${'/directories?path=' + file.path}"></span>
                                             <button  th:class="button-wrapper" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                                 <img th:class="more" src="/static/images/mini.png">
                                             </button>
@@ -62,7 +64,9 @@
                                             </div>
                                         </td>
 
-                                        <td th:if = "${file.kind != '폴더'}"><span th:text="${file.name}" th:file-url = "${'/files?path=' + file.path}"/>
+                                        <td th:if = "${file.kind != '폴더'}">
+                                            <img th:src = "${file.imageUrl}" style = "display : inline-block;" width = "20px" height = "20px"/>
+                                            <span th:text= "${file.name}" th:file-url = "${'/files?path=' + file.path}"/>
                                             <button  th:class="button-wrapper" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                                 <img th:class="more" src="/static/images/mini.png">
                                             </button>
@@ -72,8 +76,36 @@
                                         </td>
                                         <td th:text="${file.modifiedTime}"></td>
                                         <td th:text="${file.size}"></td>
-                                        <td th:text="${file.kind}" ></td>
+<!--                                        <td th:text="${file.kind}" ></td>-->
 
+                                    </tr>
+
+                                    <tr th:class="table-values" th:each="file : ${fileList}">
+                                        <td><input th:class="cbox" th:name="checkedFiles" th:type="checkbox" th:value="${file.path}"/></td>
+                                        <td th:if = "${file.kind == '폴더'}">
+                                            <img th:src = "${file.imageUrl}" style = "display : inline-block;" width = "20px" height = "20px"/>
+                                            <span th:class="fileName" th:text="${file.name}" th:directory-url = "${'/directories?path=' + file.path}"/>
+                                            <button  th:class="button-wrapper" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                <img th:class="more" src="/static/images/mini.png">
+                                            </button>
+                                            <div class="dropdown-menu">
+                                                <a class="dropdown-item" href="#">버전 정보</a>
+                                            </div>
+                                        </td>
+
+                                        <td th:if = "${file.kind != '폴더'}">
+                                            <img th:src = "${file.imageUrl}" style = "display : inline-block;" width = "20px" height = "20px"/>
+                                            <span th:text="${file.name}" th:file-url = "${'/files?path=' + file.path}"></span>
+                                            <button  th:class="button-wrapper" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                <img th:class="more" src="/static/images/mini.png">
+                                            </button>
+                                            <div class="dropdown-menu">
+                                                <a class="dropdown-item" href="#">버전 정보</a>
+                                            </div>
+                                        </td>
+                                        <td th:text="${file.modifiedTime}"></td>
+                                        <td th:text="${file.size}"></td>
+<!--                                        <td th:text="${file.kind}" ></td>-->
                                     </tr>
                                     </tbody>
                                     <tfoot/>

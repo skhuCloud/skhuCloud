@@ -1,10 +1,11 @@
-package com.skhu.cloud.dto;
+package com.skhu.cloud.dto.version;
 
 import lombok.Builder;
 import lombok.Data;
 
 import java.time.LocalDateTime;
 
+// 이 Dto 는 일단 안 쓸 것인데, 남겨놓자
 @Data
 @Builder
 public class FileVersionDto {

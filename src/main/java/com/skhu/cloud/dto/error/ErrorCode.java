@@ -1,4 +1,4 @@
-package com.skhu.cloud.dto;
+package com.skhu.cloud.dto.error;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Getter;

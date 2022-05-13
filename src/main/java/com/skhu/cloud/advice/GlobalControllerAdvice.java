@@ -1,6 +1,6 @@
 package com.skhu.cloud.advice;
 
-import com.skhu.cloud.dto.CustomException;
+import com.skhu.cloud.dto.error.CustomException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.servlet.ModelAndView;

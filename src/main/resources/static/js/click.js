@@ -9,7 +9,7 @@ $(function() {
         var newWindow = window.open("about:blank");
 
         newWindow.location.href = path;
-    })
+    }) // window 객체 하나 형성하고, location.href 로 연결해주면 된다.
 
     $("[content]").click(function() {
         var url = $(this).attr("content"); // content 정보를 얻고

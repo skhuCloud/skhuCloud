@@ -1,4 +1,4 @@
-package com.skhu.cloud.dto;
+package com.skhu.cloud.dto.error;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
