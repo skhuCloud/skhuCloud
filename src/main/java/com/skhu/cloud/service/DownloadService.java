@@ -12,7 +12,6 @@ import java.util.zip.ZipOutputStream;
 @Service
 public interface DownloadService {
 
-
     boolean before(HttpServletResponse httpServletResponse, Queue<String> que_path);
 
     void downloadOne(HttpServletResponse httpServletResponse, File file);
@@ -22,6 +21,5 @@ public interface DownloadService {
     void addFolder(ZipOutputStream zipOut, String relativePath) ;
 
     void addFile(File subFile, ZipOutputStream zipOut, String relativePath);
-
 
 }

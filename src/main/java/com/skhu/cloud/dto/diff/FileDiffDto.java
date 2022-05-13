@@ -12,7 +12,7 @@ import java.util.List;
 @AllArgsConstructor
 public class FileDiffDto extends FileDto {
     private FileDto fileDto;
-    private List<Content> content; // 요기안에 flag 도 들어있음
+    private List<Content> content; // 요기안에 flag 도 들어있음, flag 값은 1, 2, 3 이 있음
 
     public FileDiffDto(List<Content> content) {
         this.content = content;

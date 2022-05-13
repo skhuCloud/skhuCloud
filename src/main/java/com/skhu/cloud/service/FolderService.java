@@ -1,12 +1,14 @@
 package com.skhu.cloud.service;
-//
+
+import org.springframework.stereotype.Service;
+
 //import com.skhu.cloud.dto.version.FolderVersionDto;
 //import com.skhu.cloud.entity.FolderVersion;
 //
 //import java.time.LocalDateTime;
 //import java.util.List;
-//
-//
+
+@Service
 public interface FolderService {
 //    // folder version list 를 얻는 메소드
 //    List<FolderVersionDto> getFolderVersionDtoList(List<FolderVersion> folderVersionList);

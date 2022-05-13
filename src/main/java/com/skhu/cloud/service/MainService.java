@@ -3,11 +3,13 @@ package com.skhu.cloud.service;
 import com.skhu.cloud.dto.DirectoryDto;
 import com.skhu.cloud.dto.FileDto;
 import com.skhu.cloud.dto.version.FileVersionDto;
+import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.io.IOException;
 import java.util.List;
 
+@Service
 public interface MainService {
 
     // 현재 디렉토리까지의 목록을 가져와 줄 method 가 필요함

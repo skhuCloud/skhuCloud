@@ -9,6 +9,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Random;
 
 @SpringBootTest
 public class VersionDtoTest {
@@ -18,8 +19,10 @@ public class VersionDtoTest {
     public void fileDiffDtoTest() {
         // 자식 클래스 속성은 무조건 다 채워야 함, 근데 채워야 하는 것들만 넣어놓긴했음
         List<Content> fileDiffDtoList = new ArrayList<>();
+
+        Random random = new Random();
         for (int i = 0; i < 10; i++) {
-            fileDiffDtoList.add(new Content((long) i, i + ""));
+            fileDiffDtoList.add(new Content((long) random.nextInt(2), i + ""));
         }
 
         FileDiffDto fileDiffDto = new FileDiffDto(FileDto.builder()

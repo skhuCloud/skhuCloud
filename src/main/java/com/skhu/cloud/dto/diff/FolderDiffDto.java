@@ -10,4 +10,8 @@ import lombok.*;
 public class FolderDiffDto extends FileDto {
     private FileDto fileDto;
     private Long flag; // 1 = 수정 X, 2 = 수정 O, 3 = 생성, 4 = 삭제
+
+    public FolderDiffDto(Long flag) {
+        this.flag = flag;
+    }
 }
