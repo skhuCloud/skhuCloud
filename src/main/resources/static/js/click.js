@@ -19,8 +19,17 @@ $(function() {
     $('#version_date').click(function() {
         var date = $('#version_input_date').value;
         var parent = $('#now_path').value;
-        var url = "/folder/version?parent" + parent + "&localDateTime" + date;
+        var url = "/folder/version?parent=" + parent + "&localDateTime=" + date;
         location.href = url;
+    })
+
+    $('#search-key-submit').click(function() {
+        var key = document.getElementById('search-key').value
+        var path = document.getElementById('now-path').value // 한번, document 로 해보자.
+        var url = "/version/histories?key=" + key + "&path=" + path;
+        var newWindow = window.open("about:blank");
+
+        newWindow.location.href = url;
     })
 })
 

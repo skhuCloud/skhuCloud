@@ -19,7 +19,7 @@ public class MokServiceTest {
         System.out.println(createMokService.returnMokFileDto());
 
         System.out.println("====== FolderDto List ======");
-        System.out.println(createMokService.returnMokFolderDtoList());
+        System.out.println(createMokService.returnMokFolderDtoList("Folder"));
 
         System.out.println("====== FileDiffDto List ======");
         System.out.println(createMokService.returnMokFileDiffDto());

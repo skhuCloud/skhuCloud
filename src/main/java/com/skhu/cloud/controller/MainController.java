@@ -13,7 +13,7 @@ import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
-@RequestMapping("/") // 기본 디렉토리로
+@RequestMapping("") // 기본 디렉토리로
 public class MainController {
 
     private final MainService mainService;
