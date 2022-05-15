@@ -12,25 +12,24 @@ import java.util.List;
 @Service
 public interface CreateMokService {
     // Folder Version 조회
-    List<FolderDiffDto> createMokFolderDtoList();
+    List<FolderDiffDto> returnMokFolderDtoList();
 
     // Folder Version diff 조회
-    List<FolderDiffDto> createMokFolderDiffDtoList();
+    List<FolderDiffDto> returnMokFolderDiffDtoList();
 
     // File Version 조회
-    FileDiffDto createMokFileDto();
+    FileDiffDto returnMokFileDto();
 
     // File Version Diff 조회
-    FileDiffDto createMokFileDiffDto();
+    List<FileDiffDto> returnMokFileDiffDto();
 
-    // path 와 kind 로 Folder, File Version Dto 를 조회
-    List<VersionDto> createMokVersionDtoList(String path, String kind);
-
-    // MokFileDto 를 반환
     FileDto createMokFileDto(String path, String kind);
 
+    // MokFileDto 를 반환
+    FileDiffDto createMokFileDiffDto(Long versionId, List<Content> contentList);
+
     // Mok Folder Dto 를 반환
-    FolderDiffDto createMokFolderDto(Long flag);
+    FolderDiffDto createMokFolderDiffDto(Long versionId, Long flag);
 
     // Mok File Dto 를 반환
     void addContentComponent(Long flag, List<Content> content);

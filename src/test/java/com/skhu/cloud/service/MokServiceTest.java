@@ -16,21 +16,15 @@ public class MokServiceTest {
     @DisplayName("MokServiceTest")
     public void mokServiceTest() {
         System.out.println("====== FileDto List ======");
-        System.out.println(createMokService.createMokFileDto());
+        System.out.println(createMokService.returnMokFileDto());
 
         System.out.println("====== FolderDto List ======");
-        System.out.println(createMokService.createMokFolderDtoList());
+        System.out.println(createMokService.returnMokFolderDtoList());
 
         System.out.println("====== FileDiffDto List ======");
-        System.out.println(createMokService.createMokFileDiffDto());
+        System.out.println(createMokService.returnMokFileDiffDto());
 
         System.out.println("====== FolderDiffDto List ======");
-        System.out.println(createMokService.createMokFolderDiffDtoList());
-
-        System.out.println("====== File Version Dto List ======");
-        System.out.println(createMokService.createMokVersionDtoList("Users/file", "파일"));
-
-        System.out.println("====== Folder Version Dto List ======");
-        System.out.println(createMokService.createMokVersionDtoList("Users/folder", "폴더"));
+        System.out.println(createMokService.returnMokFolderDiffDtoList());
     }
 }

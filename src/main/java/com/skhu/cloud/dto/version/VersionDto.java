@@ -11,8 +11,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class VersionDto extends FileDto {
-    private FileDto fileDto;
-    private Long versionId; // Version Id
+    private FileDto fileDto; // @ManyToOne
+    private Long versionId; // 해당 파일의 versionId
 
     public VersionDto(Long versionId) {
         this.versionId = versionId;
