@@ -23,10 +23,10 @@ public class VersionTestController {
     public ModelAndView showVersions(String kind){
         log.info(" 시작 ㄴㄹㅇㄹ");
         ModelAndView mv = new ModelAndView("/fragments/sidebar");
-        List<FolderDiffDto> mockList =  createMokService.createMokFolderDtoList();
+        List<FolderDiffDto> mockList =  createMokService.returnMokFolderDtoList("test1");
 
         for(FolderDiffDto f : mockList){
-            System.out.println("~!  " +f.getFileDto().getName());
+            System.out.println("~!  " +f.getVersionDto().getFileDto().getName());
         }
 
         System.out.println(kind);

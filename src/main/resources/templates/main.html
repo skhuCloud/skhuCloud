@@ -8,8 +8,6 @@
     <div id="content-wrapper" class="d-flex flex-column">
         <div id="content">
             <nav th:replace="fragments/topbar.html :: topbar"></nav>
-<!--            position: absolute;left: -30px-->
-            <div id="sidebarWrapper" style="display:none;"><ul th:replace="fragments/sidebar.html :: sidebar" style="display: inline-block; float: left; width: 15% !important;"></ul></div>
 
             <!-- Begin Page Content -->
             <div class="container-fluid" style="padding-top: 1.5rem">
@@ -60,6 +58,7 @@
                                                 <img th:class="more" src="/static/images/mini.png">
                                             </button>
                                             <div class="dropdown-menu">
+                                                <input th:type="hidden" th:value="${file.kind}"/>
                                                 <a class="dropdown-item" href="#">버전 정보</a>
                                             </div>
                                         </td>
@@ -77,13 +76,13 @@
                                             <button  th:class="button-wrapper" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                                 <img th:class="more" src="/static/images/mini.png">
                                             </button>
-                                            <div class="dropdown-menu" th:text = "${file.kind}">
+                                            <div class="dropdown-menu">
+                                                <input th:type="hidden" th:value="${file.kind}"/>
                                                 <a class="dropdown-item" href="#">버전 정보</a>
                                             </div>
                                         </td>
                                         <td th:text="${file.modifiedTime}"></td>
                                         <td th:text="${file.size}"></td>
-<!--                                        <td th:text="${file.kind}" ></td>-->
                                     </tr>
                                     </tbody>
                                     <tfoot/>
@@ -120,8 +119,8 @@
     })
 
     var sWrapper = document.getElementById("sidebarWrapper");
-    $(".dropdown-item").click(function () {
-        console.log($(this).children());
+    $(".dropdown-menu").click(function () {
+        var kind = $(this).children()[0].value;
 
         const url = window.location.protocol + '//' + window.location.host+"/version/test/1?kind=" + kind;
         console.log("드롭다운 눌림~~" + url) ;
@@ -131,7 +130,6 @@
             url: url,
         })
             .done(function (result) {
-                console.log(result);
                 $("#sidebar").replaceWith(result);
             })
             .fail(function(jqXHR) {

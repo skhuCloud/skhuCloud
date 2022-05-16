@@ -23,11 +23,11 @@
     <li class="nav-item active" th:each="mock : ${mockList}">
         <div style="display: inline-block">
             <a class="nav-link" href="tables.html">
-                <span th:text="${mock.getFileDto().getName()}"></span>
+                <span th:text="${mock.getVersionDto().getFileDto().getName()}"></span>
             </a>
         </div>
         <div style="display:inline-block">
-            <input th:class="version-checkbox" type="checkbox">
+            <input th:class = "version-checkbox" type = "checkbox" th:value = "${mock.versionDto.versionId}"/>
         </div>
 
     </li>
@@ -41,30 +41,55 @@
 <script>
 
     let count =0;
-    $('input[name=checkbox]').change(function() {
-        if(count == 2)
+    let kind = "[[${kind}]]";
+    let checkedVersion =[];
+    let nowPath = window.location.href;
+    nowPath = nowPath.substring(0, nowPath.length - 1);
+
+    $('.version-checkbox').change(function() {
 
         if ($(this).is(':checked')) {
-            console.log("Checkbox is checked..")
+            console.log("Checkbox is checked..");
+            checkedVersion.push($(this).value);
             count ++;
         } else {
+            checkedVersion.pop();
             count--;
+        }
+        console.log("count : " + count);
+
+        if(count == 2) {
+            console.log(" 2개 ~~~");
+
+            setTimeout(() => {
+                if (confirm("비교하겠습니까? 휴먼")) {
+                    var newWindow = window.open("about:blank");
+                    var url = "/version/folder/diff?name=폴더";
+                    newWindow.location.href = url;
+                    location.href = nowPath;
+                } else {
+                    location.href = nowPath;
+                }
+            }, 200);  // 2개가 체크가 된 후 alert 창을 띄우기 위해서 200ms 뒤에 실행시킴.
+
         }
     });
 
-    $.ajax({
-        type: "GET",
-        url: url,
-    })
-        .done(function (result) {
-            console.log(result);
-            $("#sidebar").replaceWith(result);
-        })
-        .fail(function(jqXHR) {
-            console.log(jqXHR);
-        })
-        .always(function() {
-            console.log("요청, 응답 결과에 상관없이, 이건 항상 실행됩니다.");
-        })
+    if()
+
+    // $.ajax({
+    //     type: "GET",
+    //     url: url,
+    // })
+    //     .done(function (result) {
+    //         console.log(result);
+    //         $("#sidebar").replaceWith(result);
+    //     })
+    //     .fail(function(jqXHR) {
+    //         console.log(jqXHR);
+    //     })
+    //     .always(function() {
+    //         console.log("요청, 응답 결과에 상관없이, 이건 항상 실행됩니다.");
+    //     })
 
 </script>
