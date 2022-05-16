@@ -19,7 +19,7 @@
                                                                         href="https://da    tatables.net">official DataTables documentation</a>.</p>
 
                 <!-- DataTales Example -->
-                <div class="card shadow mb-4">
+                <div class="card shadow mb-4" style="float: left; width: 85%">
                     <div class="card-header py-3">
                         <div style = "display : inline-block;" class = "directory-list" th:each = "directory : ${directoryList}">
                             <span th:directory-url = "${'/directories?path=' + directory.path}" th:text="${directory.nowDirectory}"></span>
@@ -77,12 +77,13 @@
                                             <button  th:class="button-wrapper" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                                 <img th:class="more" src="/static/images/mini.png">
                                             </button>
-                                            <div class="dropdown-menu">
+                                            <div class="dropdown-menu" th:text = "${file.kind}">
                                                 <a class="dropdown-item" href="#">버전 정보</a>
                                             </div>
                                         </td>
                                         <td th:text="${file.modifiedTime}"></td>
                                         <td th:text="${file.size}"></td>
+<!--                                        <td th:text="${file.kind}" ></td>-->
                                     </tr>
                                     </tbody>
                                     <tfoot/>
@@ -90,6 +91,10 @@
                             </table>
                         </div>
                     </div>
+                </div>
+                <!-- 사이드 바-->
+                <div id="sidebarWrapper" style="display:none;">
+                    <ul th:id= "sidebar"></ul>
                 </div>
             </div>
         </div>
@@ -116,8 +121,31 @@
 
     var sWrapper = document.getElementById("sidebarWrapper");
     $(".dropdown-item").click(function () {
-        console.log("드롭다운 눌림~~");
+        console.log($(this).children());
+
+        const url = window.location.protocol + '//' + window.location.host+"/version/test/1?kind=" + kind;
+        console.log("드롭다운 눌림~~" + url) ;
+
+        $.ajax({
+            type: "GET",
+            url: url,
+        })
+            .done(function (result) {
+                console.log(result);
+                $("#sidebar").replaceWith(result);
+            })
+            .fail(function(jqXHR) {
+                console.log(jqXHR);
+            })
+            .always(function() {
+                console.log("요청, 응답 결과에 상관없이, 이건 항상 실행됩니다.");
+            })
+
         sWrapper.style.display = 'block';
         console.log("!!!    "+sWrapper.style.display);
+        const parents = $(this).parentNode;
+        console.log("~~~ " + parents[0][0]  );
     })
+
+
 </script>
