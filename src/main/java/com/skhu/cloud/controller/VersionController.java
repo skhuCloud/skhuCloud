@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -48,22 +49,50 @@ public class VersionController {
     }
 
     @GetMapping("file")
-    public ModelAndView inquiryFileVersion() { // file version 조회
+    public ModelAndView inquiryFileVersion(String name) { // file version 조회
         ModelAndView mvc = new ModelAndView("filecontent");
 
-        mvc.addObject("content1", createMokService.returnMokFileDto());
+        mvc.addObject("diff", false);
+        mvc.addObject("title", name);
+
+        FileDiffDto fileDiffDto = createMokService.returnMokFileDto();
+
+        StringBuilder sb = new StringBuilder();
+        fileDiffDto.getContent().stream().forEach(s -> sb.append(s.getContent()));
+        mvc.addObject("content", sb.toString());
 
         return mvc;
     }
 
     @GetMapping("file/diff")
-    public ModelAndView inquiryFileDiffVersion() { // file diff version 조회
+    public ModelAndView inquiryFileDiffVersion(String name) { // file diff version 조회
         ModelAndView mvc = new ModelAndView("filecontent");
 
         List<FileDiffDto> diff = createMokService.returnMokFileDiffDto();
 
-        mvc.addObject("content1", diff.get(0));
-        mvc.addObject("content2", diff.get(1));
+        mvc.addObject("diff", true);
+        mvc.addObject("title", name);
+
+        List<String> content1 = new ArrayList();
+        List<String> content2 = new ArrayList();
+
+        diff.get(0).getContent().stream()
+                .forEach(s -> {
+                    content1.add(Long.toString(s.getFlag()));
+                    content1.add(s.getContent()
+                            .replaceAll("\n", "")
+                            .replaceAll("\r", ""));
+                });
+        diff.get(1).getContent().stream()
+                .forEach(s -> {
+                    content2.add(Long.toString(s.getFlag()));
+                    content2.add(s.getContent()
+                            .replaceAll("\n", "")
+                            .replaceAll("\r", ""));
+                }); // content1, 2 생성
+
+        mvc.addObject("content1", content1);
+        mvc.addObject("content2", content2);
 
         return mvc;
     }

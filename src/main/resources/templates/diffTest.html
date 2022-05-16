@@ -29,7 +29,6 @@
 <div id = "diff_content2" th:text = "${content2}"/>
 </body>
 <script>
-
     const one = $('#diff_content1').text();
     const other = $('#diff_content2').text();
 
@@ -66,8 +65,6 @@
         code.appendChild(document
             .createTextNode(part.value + "\n"));
         fragment.appendChild(code);
-
-
     });
 
     content.appendChild(fragment);
