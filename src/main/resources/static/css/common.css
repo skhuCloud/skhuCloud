@@ -147,14 +147,24 @@ div.footer {
 #file-diff-content-parent {
     display : flex;
     padding : 0px;
+    width : 100vw;
+    height : 100vh;
     background : #1E1E1E;
 }
 
 #content1, #content2 {
     display : inline-block;
     margin : 0px;
-    padding-left : 10px;
+    padding-left : 0vw;
     padding-top : 10px;
     width : 50vw;
     height : 100vh;
+    overflow-y : scroll;
+    overflow-x : auto;
+}
+
+[version-url]:hover {
+    cursor : pointer;
+    color : blue;
+    transition : color 0.5s;
 }
