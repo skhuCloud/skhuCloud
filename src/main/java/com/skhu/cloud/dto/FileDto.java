@@ -116,7 +116,7 @@ public class FileDto {
         return FileDto.builder()
                 .name(file.getName())
                 .modifiedTime(modifiedTime(file.lastModified()))
-                .kind(file.isDirectory() ? "폴더" : getExtension(file.getPath()) + " 파일")
+                .kind(file.isDirectory() ? "폴더" : "파일")
                 .size(sizeConvert(Files.size(Paths.get(file.getPath())))) // 사이즈를 byte로 받기 위한 연산
                 .path(file.getPath())
                 .imageUrl(mappingImageUrl(file))

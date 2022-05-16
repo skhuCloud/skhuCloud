@@ -44,7 +44,7 @@
                                             <button  th:class="button-wrapper" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                                 <img th:class="more" src="/static/images/mini.png">
                                             </button>
-                                            <div class="dropdown-menu">
+                                            <div class="dropdown-menu" th:value = "${file.versionDto.fileDto.kind}">
                                                 <a class="dropdown-item" href="#">버전 정보</a>
                                             </div>
                                         </td>
