@@ -31,7 +31,7 @@ $(function() {
             location.href = "/directories?path=" + path;
         }
 
-        var url = "/version/histories?key=" + key + "&path=" + path;
+        var url = "/version/histories?key=" + key;
         var newWindow = window.open("about:blank");
         newWindow.location.href = url;
     })

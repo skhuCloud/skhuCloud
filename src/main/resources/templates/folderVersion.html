@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/head.html :: header">
+</head>
+
+<body id="page-top">
+<div id="wrapper">
+    <div id="content-wrapper" class="d-flex flex-column">
+        <div id="content">
+            <nav th:replace="fragments/topbar.html :: topbar"></nav>
+            <div id="sidebarWrapper" style="display:none;"><ul th:replace="fragments/sidebar.html :: sidebar" style="display: inline-block; float: left; width: 15% !important;"></ul></div>
+
+            <div class="container-fluid" style="padding-top: 1.5rem">
+                <h1 class="h3 mb-2 text-gray-800" th:text = "${main + ' 버전 조회'}"></h1>
+                <div class="card shadow mb-4">
+                    <div class="card-header py-3">
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                <form th:action="@{/download/checked(nowPath = ${nowPath})}" method="get">
+                                    <input id = "now-path" type ="hidden" th:name = "nowPath" th:value = "${nowPath}"/>
+                                    <tr>
+                                        <input type = "submit" value = "다운로드"/>
+                                    </tr>
+                                    <thead>
+                                    <tr>
+                                        <th class="cbox-cover">
+                                            <input type="checkbox" id="selectAll">
+                                        </th>
+                                        <th>이름</th>
+                                        <th>수정일</th>
+                                        <th>크기</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr th:class="table-values" th:each="file : ${folderList}">
+                                        <td>
+                                            <input th:class="cbox" th:name="checkedFiles" th:type="checkbox" th:value="${file.versionDto.fileDto.path}"/>
+                                        </td>
+                                        <td>
+                                            <img th:src = "${file.versionDto.fileDto.imageUrl}" style = "display : inline-block;" width = "20px" height = "20px"/>
+                                            <span th:class="file-name" th:value = "${file.flag}" th:text="${file.versionDto.fileDto.name}" th:directory-url = "${'/directories?path=' + file.versionDto.fileDto.path}"></span>
+                                            <button  th:class="button-wrapper" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                <img th:class="more" src="/static/images/mini.png">
+                                            </button>
+                                            <div class="dropdown-menu">
+                                                <a class="dropdown-item" href="#">버전 정보</a>
+                                            </div>
+                                        </td>
+                                        <td th:text="${file.versionDto.fileDto.modifiedTime}"></td>
+                                        <td th:text="${file.versionDto.fileDto.size}"></td>
+                                    </tr>
+
+                                    <tr th:class="table-values" th:each="file : ${fileList}">
+                                        <td>
+                                            <input th:class="cbox" th:name="checkedFiles" th:type="checkbox" th:value="${file.versionDto.fileDto.path}"/>
+                                        </td>
+                                        <td>
+                                            <img th:src = "${file.versionDto.fileDto.imageUrl}" style = "display : inline-block;" width = "20px" height = "20px"/>
+                                            <span th:text = "${file.versionDto.fileDto.name}" th:file-url = "${'/files?path=' + file.versionDto.fileDto.path}"></span>
+                                            <button  th:class="button-wrapper" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                <img th:class="more" src="/static/images/mini.png">
+                                            </button>
+                                            <div class="dropdown-menu">
+                                                <a class="dropdown-item" href="#">버전 정보</a>
+                                            </div>
+                                        </td>
+                                        <td th:text="${file.versionDto.fileDto.modifiedTime}"></td>
+                                        <td th:text="${file.versionDto.fileDto.size}"></td>
+                                    </tr>
+
+                                    </tbody>
+                                    <tfoot/>
+                                </form>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <footer th:replace="fragments/footer.html :: footer"></footer>
+    </div>
+</div>
+</body>
+</html>
+
+<script>
+    var tes = "[[${nowPath}]]";
+    console.log(tes);
+
+    //전체 선택 기능 함수
+    $("#selectAll").click(function (){
+        $("input[name=checkedFiles]").each(function (){
+            if($("#selectAll").prop('checked')){
+                if(!$(this).prop('disabled')) $(this).prop('checked',true);
+            }else {
+                $(this).prop('checked',false);
+            }
+        })
+    })
+
+    var sWrapper = document.getElementById("sidebarWrapper");
+    $(".dropdown-item").click(function () {
+        console.log("드롭다운 눌림~~");
+        sWrapper.style.display = 'block';
+        console.log("!!!    "+sWrapper.style.display);
+    })
+
+    window.onload = function() {
+        var spanList = document.getElementsByClassName("file-name"); // 제목 다 가져옴
+        console.log(spanList);
+
+        for (var i = 0; i < spanList.length; i++) {
+            var flag = spanList[i].attributes.value.nodeValue;
+            if (flag == 2) { // 수정 (초록색)
+                spanList[i].style.color = "green";
+            } else if (flag == 3) { // 생성 (노란색)
+                spanList[i].style.color = "yellow";
+            } else if (flag == 4) { // 삭제 (빨간색)
+                spanList[i].style.color = "red";
+            }
+        }
+    }
+
+</script>

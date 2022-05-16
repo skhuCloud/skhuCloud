@@ -34,7 +34,7 @@ public class CreateMokServiceImpl implements CreateMokService {
         List<FolderDiffDto> mokFolderDiffDtoList = new ArrayList<>();
 
         for (int i = 0; i < 10; i++) {
-            mokFolderDiffDtoList.add(createMokFolderDiffDto("파일", (long) random.nextInt(5), (long) (random.nextInt(4) + 1))); // flag 1 ~ 4 까지 보내준다.
+            mokFolderDiffDtoList.add(createMokFolderDiffDto("folderDiff", (long) random.nextInt(5), (long) (random.nextInt(4) + 1))); // flag 1 ~ 4 까지 보내준다.
         }
 
         return mokFolderDiffDtoList;
@@ -48,7 +48,7 @@ public class CreateMokServiceImpl implements CreateMokService {
             addContentComponent(1L, contentList);
         } // 10 줄 짜리의 mokDate 만들음
 
-        return createMokFileDiffDto("파일", (long) random.nextInt(5), contentList); // Version Id 무작위로 배정
+        return createMokFileDiffDto("file", (long) random.nextInt(5), contentList); // Version Id 무작위로 배정
     }
 
     @Override
@@ -62,8 +62,8 @@ public class CreateMokServiceImpl implements CreateMokService {
         }
 
         List<FileDiffDto> fileDiffDtoList = new ArrayList<>();
-        fileDiffDtoList.add(createMokFileDiffDto("파일", 1L, contentListVersion1));
-        fileDiffDtoList.add(createMokFileDiffDto("파일", 2L, contentListVersion2));
+        fileDiffDtoList.add(createMokFileDiffDto("file1", 1L, contentListVersion1));
+        fileDiffDtoList.add(createMokFileDiffDto("file2", 2L, contentListVersion2));
 
         return fileDiffDtoList;
     }
@@ -73,7 +73,7 @@ public class CreateMokServiceImpl implements CreateMokService {
         List<VersionDto> mokVersionDtoList = new ArrayList<>();
 
         for (int i = 0; i < 10; i++) {
-            mokVersionDtoList.add(createMokVersionDto(name, ("Users/" + name), kind, (long) (i + 1)));
+            mokVersionDtoList.add(createMokVersionDto(name, kind, (long) (i + 1)));
         }
 
         return mokVersionDtoList;
@@ -81,12 +81,12 @@ public class CreateMokServiceImpl implements CreateMokService {
 
 
     @Override
-    public FileDto createMokFileDto(String name, String path, String kind) {
+    public FileDto createMokFileDto(String name, String kind) {
         return FileDto.builder()
                 .name(name)
                 .modifiedTime(FileDto.modifiedTime(System.currentTimeMillis()))
                 .kind(kind)
-                .path(path)
+                .path("Users/" + name)
                 .size("100B")
                 .imageUrl((kind.equals("폴더")) ? FOLDER_IMAGE_URL : FILE_IMAGE_URL)
                 .build();
@@ -94,12 +94,12 @@ public class CreateMokServiceImpl implements CreateMokService {
 
     @Override
     public FileDiffDto createMokFileDiffDto(String name, Long versionId, List<Content> contentList) {
-        return new FileDiffDto(createMokVersionDto(name, ("Users/" + name), "파일", versionId), contentList);
+        return new FileDiffDto(createMokVersionDto(name, "파일", versionId), contentList);
     }
 
     @Override
     public FolderDiffDto createMokFolderDiffDto(String name, Long versionId, Long flag) { // Mok Folder Dto 를 받은 flag 값으로 반환
-        return new FolderDiffDto(createMokVersionDto(name, ("Users/" + name), "폴더", versionId), flag);
+        return new FolderDiffDto(createMokVersionDto(name, "폴더", versionId), flag);
     }
 
     @Override
@@ -110,7 +110,7 @@ public class CreateMokServiceImpl implements CreateMokService {
     }
 
     @Override
-    public VersionDto createMokVersionDto(String name, String path, String kind, Long versionId) { // Mok Version Dto 를 받은 VersionId 값을 매겨서 반환
-        return new VersionDto(createMokFileDto(name, path, kind), versionId); // folder or file version dto 를 반환함
+    public VersionDto createMokVersionDto(String name, String kind, Long versionId) { // Mok Version Dto 를 받은 VersionId 값을 매겨서 반환
+        return new VersionDto(createMokFileDto(name, kind), versionId); // folder or file version dto 를 반환함
     }
 }

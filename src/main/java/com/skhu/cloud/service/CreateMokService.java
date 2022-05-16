@@ -27,7 +27,7 @@ public interface CreateMokService {
     List<VersionDto> returnMokVersionDtoList(String name, String kind);
 
     // Mok File Dto 를 반환
-    FileDto createMokFileDto(String name, String path, String kind);
+    FileDto createMokFileDto(String name, String kind);
 
     // Mok File Diff Dto 를 반환
     FileDiffDto createMokFileDiffDto(String name, Long versionId, List<Content> contentList);
@@ -39,5 +39,5 @@ public interface CreateMokService {
     void addContentComponent(Long flag, List<Content> content);
 
     // Mok Version Dto 를 반환
-    VersionDto createMokVersionDto(String name, String path, String kind, Long versionId);
+    VersionDto createMokVersionDto(String name, String kind, Long versionId);
 }
