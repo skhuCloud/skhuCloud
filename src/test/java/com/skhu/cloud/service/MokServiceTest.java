@@ -15,6 +15,12 @@ public class MokServiceTest {
     @Test
     @DisplayName("MokServiceTest")
     public void mokServiceTest() {
+        System.out.println("====== VersionDto Folder List ======");
+        System.out.println(createMokService.returnMokVersionDtoList("Version", "폴더"));
+
+        System.out.println("====== VersionDto File List ======");
+        System.out.println(createMokService.returnMokVersionDtoList("Version", "파일"));
+
         System.out.println("====== FileDto List ======");
         System.out.println(createMokService.returnMokFileDto());
 

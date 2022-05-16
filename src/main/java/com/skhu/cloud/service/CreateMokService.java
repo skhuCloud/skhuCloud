@@ -20,18 +20,22 @@ public interface CreateMokService {
     // File Version 조회
     FileDiffDto returnMokFileDto();
 
-    // File Version Diff 조회
+    // Mok File Version Diff 조회
     List<FileDiffDto> returnMokFileDiffDto();
 
-    FileDto createMokFileDto(String name, String path, String kind);
-
-    // MokFileDto 를 반환
-    FileDiffDto createMokFileDiffDto(String name, Long versionId, List<Content> contentList);
-
-    // Mok Folder Dto 를 반환
-    FolderDiffDto createMokFolderDiffDto(String name, Long versionId, Long flag);
+    // Mok Version Dto List 조회
+    List<VersionDto> returnMokVersionDtoList(String name, String kind);
 
     // Mok File Dto 를 반환
+    FileDto createMokFileDto(String name, String path, String kind);
+
+    // Mok File Diff Dto 를 반환
+    FileDiffDto createMokFileDiffDto(String name, Long versionId, List<Content> contentList);
+
+    // Mok Folder Diff Dto 를 반환
+    FolderDiffDto createMokFolderDiffDto(String name, Long versionId, Long flag);
+
+    // Mok File Diff Dto 의 Content 를 채워줌
     void addContentComponent(Long flag, List<Content> content);
 
     // Mok Version Dto 를 반환

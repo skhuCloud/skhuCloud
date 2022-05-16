@@ -68,6 +68,17 @@ public class CreateMokServiceImpl implements CreateMokService {
         return fileDiffDtoList;
     }
 
+    @Override
+    public List<VersionDto> returnMokVersionDtoList(String name, String kind) {
+        List<VersionDto> mokVersionDtoList = new ArrayList<>();
+
+        for (int i = 0; i < 10; i++) {
+            mokVersionDtoList.add(createMokVersionDto(name, ("Users/" + name), kind, (long) (i + 1)));
+        }
+
+        return mokVersionDtoList;
+    }
+
 
     @Override
     public FileDto createMokFileDto(String name, String path, String kind) {
@@ -83,12 +94,12 @@ public class CreateMokServiceImpl implements CreateMokService {
 
     @Override
     public FileDiffDto createMokFileDiffDto(String name, Long versionId, List<Content> contentList) {
-        return new FileDiffDto(createMokVersionDto(name, "Users/file", "파일", versionId), contentList);
+        return new FileDiffDto(createMokVersionDto(name, ("Users/" + name), "파일", versionId), contentList);
     }
 
     @Override
     public FolderDiffDto createMokFolderDiffDto(String name, Long versionId, Long flag) { // Mok Folder Dto 를 받은 flag 값으로 반환
-        return new FolderDiffDto(createMokVersionDto(name, "Users/folder", "폴더", versionId), flag);
+        return new FolderDiffDto(createMokVersionDto(name, ("Users/" + name), "폴더", versionId), flag);
     }
 
     @Override
