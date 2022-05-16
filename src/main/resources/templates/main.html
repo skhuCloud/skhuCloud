@@ -6,7 +6,7 @@
 <body id="page-top">
 <div id="wrapper">
     <div id="content-wrapper" class="d-flex flex-column">
-        <div id="content">
+        <div id="content" style="padding-bottom: 2rem">
             <nav th:replace="fragments/topbar.html :: topbar"></nav>
 
             <!-- Begin Page Content -->
@@ -31,9 +31,9 @@
                                     <input id = "now-path" type ="hidden" th:name = "nowPath" th:value = "${nowPath}"/>
                                     <tr>
                                         <div id = "search-bar">
-                                        <input type = "submit" value = "다운로드"/>
-                                        <input id = "search-key" type = "text" placeholder = "입력하시오." th:name = "${key}" th:value = "${key}"/>
-                                        <span id = "search-key-submit">
+                                        <input type = "submit" value = "다운로드" style="border-width: 1px; border-radius: 5px;"/>
+                                        <input id = "search-key" type = "text" placeholder = "입력하시오." th:name = "${key}" th:value = "${key}" style="border-radius: 5px;"/>
+                                        <span id = "search-key-submit" style="border-radius: 5px;">
                                             <img id = "search-key-submit-content" src = "/static/images/search_icon.png"/>
                                         </span>
                                         </div>
