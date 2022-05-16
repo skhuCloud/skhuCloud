@@ -32,9 +32,11 @@
                                 <form th:action="@{/download/checked(nowPath = ${nowPath})}" method="get">
                                     <input id = "now-path" type ="hidden" th:name = "nowPath" th:value = "${nowPath}"/>
                                     <tr>
+                                        <div id = "search-bar">
                                         <input type = "submit" value = "다운로드"/>
                                         <input id = "search-key" type = "text" placeholder = "입력하시오." th:name = "${key}" th:value = "${key}"/>
-                                        <span id = "search-key-submit">버튼</span>
+                                        <span id = "search-key-submit">검색</span>
+                                        </div>
                                     </tr>
                                     <thead>
                                     <tr>

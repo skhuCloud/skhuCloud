@@ -26,9 +26,13 @@ $(function() {
     $('#search-key-submit').click(function() {
         var key = document.getElementById('search-key').value
         var path = document.getElementById('now-path').value // 한번, document 로 해보자.
+
+        if (key == null || key.length == 0) {
+            location.href = "/directories?path=" + path;
+        }
+
         var url = "/version/histories?key=" + key + "&path=" + path;
         var newWindow = window.open("about:blank");
-
         newWindow.location.href = url;
     })
 })

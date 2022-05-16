@@ -15,7 +15,7 @@ public class VersionController {
     private final CreateMokService createMokService;
 
     @GetMapping("histories")
-    public ModelAndView getHistory(String key, String path) { // history 를 검색할 수 있는 기능
+    public ModelAndView getHistory(String key, String path) throws Exception { // history 를 검색할 수 있는 기능
         ModelAndView mvc = new ModelAndView("history");
 
         mvc.addObject("key", key);

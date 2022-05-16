@@ -56,21 +56,23 @@
                                         <td th:text="${file.versionDto.fileDto.size}"></td>
                                     </tr>
 
-<!--                                    <tr th:class="table-values" th:each="file : ${fileList}">-->
-<!--                                        <td>-->
-<!--                                            <input th:class="cbox" th:name="checkedFiles" th:type="checkbox" th:value="${file.path}"/>-->
-<!--                                        </td>-->
-<!--                                            <img th:src = "${file.imageUrl}" style = "display : inline-block;" width = "20px" height = "20px"/>-->
-<!--                                            <span th:text="${file.name}" th:file-url = "${'/files?path=' + file.path}"></span>-->
-<!--                                            <button  th:class="button-wrapper" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">-->
-<!--                                                <img th:class="more" src="/static/images/mini.png">-->
-<!--                                            </button>-->
-<!--                                            <div class="dropdown-menu">-->
-<!--                                                <a class="dropdown-item" href="#">버전 정보</a>-->
-<!--                                            </div>-->
-<!--                                        <td th:text="${file.modifiedTime}"></td>-->
-<!--                                        <td th:text="${file.size}"></td>-->
-<!--                                    </tr>-->
+                                    <tr th:class="table-values" th:each="file : ${fileList}">
+                                        <td>
+                                            <input th:class="cbox" th:name="checkedFiles" th:type="checkbox" th:value="${file.versionDto.fileDto.path}"/>
+                                        </td>
+                                        <td>
+                                            <img th:src = "${file.versionDto.fileDto.imageUrl}" style = "display : inline-block;" width = "20px" height = "20px"/>
+                                            <span th:text="${file.versionDto.fileDto.name}" th:file-url = "${'/files?path=' + file.versionDto.fileDto.path}"></span>
+                                            <button  th:class="button-wrapper" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                <img th:class="more" src="/static/images/mini.png">
+                                            </button>
+                                            <div class="dropdown-menu">
+                                                <a class="dropdown-item" href="#">버전 정보</a>
+                                            </div>
+                                        </td>
+                                        <td th:text="${file.versionDto.fileDto.modifiedTime}"></td>
+                                        <td th:text="${file.versionDto.fileDto.size}"></td>
+                                    </tr>
 
                                     </tbody>
                                     <tfoot/>
