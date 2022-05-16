@@ -22,9 +22,7 @@
     <!-- Nav Item - Tables -->
     <li class="nav-item active" th:each="mock : ${mockList}">
         <div style="display: inline-block">
-            <a class="nav-link" href="tables.html">
-                <span th:text="${mock.getVersionDto().getFileDto().getName()}"></span>
-            </a>
+            <div th:version-url = "${'/version/' + kind + '?name=' + kind}" th:text="${mock.getVersionDto().getFileDto().getName()}"></div>
         </div>
         <div style="display:inline-block">
             <input th:class = "version-checkbox" type = "checkbox" th:value = "${mock.versionDto.versionId}"/>
@@ -39,57 +37,53 @@
 </ul>
 </html>
 <script>
+    window.onload = function() {
+        console.log("href : " + window.location.href);
+        console.log("pathname : " + window.location.pathname);
+    }
 
-    let count =0;
+    let count = 0;
     let kind = "[[${kind}]]";
     let checkedVersion =[];
     let nowPath = window.location.href;
-    nowPath = nowPath.substring(0, nowPath.length - 1);
+    if (nowPath.charAt(nowPath.length - 1) == '#') { // 끝이 # 이 아닐 때도 짤라서
+        nowPath = nowPath.substring(0, nowPath.length - 1);
+    }
+
+    $('[version-url]').click(function() {
+        var url = $(this).attr('version-url');
+        console.log(url);
+        var newWindow = window.open("about:blank");
+        newWindow.location.href = url;
+        location.href = nowPath;
+    });
 
     $('.version-checkbox').change(function() {
-
         if ($(this).is(':checked')) {
             console.log("Checkbox is checked..");
             checkedVersion.push($(this).value);
-            count ++;
+            count++;
         } else {
             checkedVersion.pop();
             count--;
         }
-        console.log("count : " + count);
 
         if(count == 2) {
-            console.log(" 2개 ~~~");
-
             setTimeout(() => {
                 if (confirm("비교하겠습니까? 휴먼")) {
                     var newWindow = window.open("about:blank");
-                    var url = "/version/folder/diff?name=폴더";
+                    var url = "";
+                    if (kind === "folder") {
+                        url = "/version/folder/diff?name=폴더";
+                    } else {
+                        url = "/version/file/diff?name=파일";
+                    }
                     newWindow.location.href = url;
                     location.href = nowPath;
                 } else {
                     location.href = nowPath;
                 }
             }, 200);  // 2개가 체크가 된 후 alert 창을 띄우기 위해서 200ms 뒤에 실행시킴.
-
         }
     });
-
-    if()
-
-    // $.ajax({
-    //     type: "GET",
-    //     url: url,
-    // })
-    //     .done(function (result) {
-    //         console.log(result);
-    //         $("#sidebar").replaceWith(result);
-    //     })
-    //     .fail(function(jqXHR) {
-    //         console.log(jqXHR);
-    //     })
-    //     .always(function() {
-    //         console.log("요청, 응답 결과에 상관없이, 이건 항상 실행됩니다.");
-    //     })
-
 </script>

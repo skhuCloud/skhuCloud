@@ -162,3 +162,9 @@ div.footer {
     overflow-y : scroll;
     overflow-x : auto;
 }
+
+[version-url]:hover {
+    cursor : pointer;
+    color : blue;
+    transition : color 0.5s;
+}

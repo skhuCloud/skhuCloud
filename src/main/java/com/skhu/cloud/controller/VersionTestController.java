@@ -24,14 +24,14 @@ public class VersionTestController {
         log.info(" 시작 ㄴㄹㅇㄹ");
         ModelAndView mv = new ModelAndView("/fragments/sidebar");
 
-        List<FolderDiffDto> mockList =  createMokService.returnMokFolderDtoList("folder");
+        List<FolderDiffDto> mockList =  createMokService.returnMokFolderDtoList(kind);
 
         for(FolderDiffDto f : mockList){
             System.out.println("~!  " +f.getVersionDto().getFileDto().getName());
         }
 
-        mv.addObject("mockList",mockList);
-        mv.addObject("kind", kind);
+        mv.addObject("mockList", mockList);
+        mv.addObject("kind", (kind.equals("폴더")) ? "folder" : "file");
 
         return mv;
     }
