@@ -122,18 +122,24 @@ div.footer {
 }
 
 #search-key-submit {
-    display : inline-block;
     border : 1px solid grey;
     margin : 0px;
     background : #4e73df;
     width  : 50px;
     height : 40px;
     text-align : center;
-    vertical-align : middle;
     color : black;
+}
+
+#search-key-submit-content {
+    margin-top : 10px;
+    width : 20px;
+    height : 20px;
+    text-align : center;
 }
 
 #search-key-submit:hover {
     background : rgba(78, 115, 223, 0.4);
+    cursor : pointer;
     transition : background 0.5s;
 }

@@ -12,15 +12,21 @@
             <ul th:replace="fragments/sidebar.html :: sidebar" style="display: inline-block; float: left; width: 15% !important;"></ul>
 
             <div class="container-fluid" style="padding-top: 1.5rem; display: inline-block; justify-content: center !important;width: 80% !important;">
-                <div><h1 class="h3 mb-2 text-gray-800" th:text= "${' file : ' + title}"></h1></div>
-                <div><p class="mb-4">버전 정보</p></div>
+                <div>
+                    <h1 class="h3 mb-2 text-gray-800" th:text= "${' file : ' + title}"></h1>
+                </div>
+                <div>
+                    <p class="mb-4">버전 정보</p>
+                </div>
 
                 <div class="card shadow mb-4" style="float: left !important; width: 85% !important; ">
                     <div class="card-header py-3">
                         <h2 th:text= "${' file : ' + title}"></h2>
                     </div>
                     <div class="card-body" style="overflow-y : scroll; overflow-x : auto;">
-                        <pre><code id = "file_content" th:class = "${extension}" th:text = "${content}"></code></pre>
+                        <pre>
+                            <code id = "file_content" th:class = "${extension}" th:text = "${content}"></code>
+                        </pre>
                     </div>
                 </div>
 
@@ -38,9 +44,7 @@
 
                 <div id = "time" th:text = "${time}"/>
                 <div id = "code" th:text = "${code}"/>
-
             </div>
-
         </div>
     </div>
 </div>
