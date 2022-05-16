@@ -1,5 +1,6 @@
 package com.skhu.cloud.dto.error;
 
+import com.skhu.cloud.constant.ErrorCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;

@@ -8,23 +8,12 @@
     <div id="content-wrapper" class="d-flex flex-column">
         <div id="content">
             <nav th:replace="fragments/topbar.html :: topbar"></nav>
-<!--            position: absolute;left: -30px-->
             <div id="sidebarWrapper" style="display:none;"><ul th:replace="fragments/sidebar.html :: sidebar" style="display: inline-block; float: left; width: 15% !important;"></ul></div>
 
-            <!-- Begin Page Content -->
             <div class="container-fluid" style="padding-top: 1.5rem">
-                <!-- Page Heading -->
-                <h1 class="h3 mb-2 text-gray-800">강의 목록</h1>
-                <p class="mb-4">강의 목록 페이지, 후에 해당 열 클릭하여 화면 이동 구현 예정  <a target="_blank"
-                                                                        href="https://da    tatables.net">official DataTables documentation</a>.</p>
-
-                <!-- DataTales Example -->
+                <h1 class="h3 mb-2 text-gray-800" th:text = "${main + ' 버전 조회'}"></h1>
                 <div class="card shadow mb-4">
                     <div class="card-header py-3">
-                        <div style = "display : inline-block;" class = "directory-list" th:each = "directory : ${directoryList}">
-                            <span th:directory-url = "${'/directories?path=' + directory.path}" th:text="${directory.nowDirectory}"></span>
-                            <span th:if = "${!directoryStat.last}"> >> </span>
-                        </div>
                     </div>
                     <div class="card-body">
                         <div class="table-responsive">
@@ -32,17 +21,13 @@
                                 <form th:action="@{/download/checked(nowPath = ${nowPath})}" method="get">
                                     <input id = "now-path" type ="hidden" th:name = "nowPath" th:value = "${nowPath}"/>
                                     <tr>
-                                        <div id = "search-bar">
                                         <input type = "submit" value = "다운로드"/>
-                                        <input id = "search-key" type = "text" placeholder = "입력하시오." th:name = "${key}" th:value = "${key}"/>
-                                        <span id = "search-key-submit">
-                                            <img id = "search-key-submit-content" src = "/static/images/search_icon.png"/>
-                                        </span>
-                                        </div>
                                     </tr>
                                     <thead>
                                     <tr>
-                                        <th class="cbox-cover"> <input type="checkbox" id="selectAll"></th>
+                                        <th class="cbox-cover">
+                                            <input type="checkbox" id="selectAll">
+                                        </th>
                                         <th>이름</th>
                                         <th>수정일</th>
                                         <th>크기</th>
@@ -51,11 +36,11 @@
                                     <tbody>
                                     <tr th:class="table-values" th:each="file : ${folderList}">
                                         <td>
-                                            <input th:class="cbox" th:name="checkedFiles" th:type="checkbox" th:value="${file.path}"/>
+                                            <input th:class="cbox" th:name="checkedFiles" th:type="checkbox" th:value="${file.versionDto.fileDto.path}"/>
                                         </td>
                                         <td>
-                                            <img th:src = "${file.imageUrl}" style = "display : inline-block;" width = "20px" height = "20px"/>
-                                            <span th:class="fileName" th:text="${file.name}" th:directory-url = "${'/directories?path=' + file.path}"></span>
+                                            <img th:src = "${file.versionDto.fileDto.imageUrl}" style = "display : inline-block;" width = "20px" height = "20px"/>
+                                            <span th:class="file-name" th:value = "${file.flag}" th:text="${file.versionDto.fileDto.name}" th:directory-url = "${'/directories?path=' + file.versionDto.fileDto.path}"></span>
                                             <button  th:class="button-wrapper" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                                 <img th:class="more" src="/static/images/mini.png">
                                             </button>
@@ -63,17 +48,17 @@
                                                 <a class="dropdown-item" href="#">버전 정보</a>
                                             </div>
                                         </td>
-                                        <td th:text="${file.modifiedTime}"></td>
-                                        <td th:text="${file.size}"></td>
+                                        <td th:text="${file.versionDto.fileDto.modifiedTime}"></td>
+                                        <td th:text="${file.versionDto.fileDto.size}"></td>
                                     </tr>
 
                                     <tr th:class="table-values" th:each="file : ${fileList}">
                                         <td>
-                                            <input th:class="cbox" th:name="checkedFiles" th:type="checkbox" th:value="${file.path}"/>
+                                            <input th:class="cbox" th:name="checkedFiles" th:type="checkbox" th:value="${file.versionDto.fileDto.path}"/>
                                         </td>
                                         <td>
-                                            <img th:src = "${file.imageUrl}" style = "display : inline-block;" width = "20px" height = "20px"/>
-                                            <span th:text="${file.name}" th:file-url = "${'/files?path=' + file.path}"></span>
+                                            <img th:src = "${file.versionDto.fileDto.imageUrl}" style = "display : inline-block;" width = "20px" height = "20px"/>
+                                            <span th:text = "${file.versionDto.fileDto.name}" th:file-url = "${'/files?path=' + file.versionDto.fileDto.path}"></span>
                                             <button  th:class="button-wrapper" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                                 <img th:class="more" src="/static/images/mini.png">
                                             </button>
@@ -81,9 +66,10 @@
                                                 <a class="dropdown-item" href="#">버전 정보</a>
                                             </div>
                                         </td>
-                                        <td th:text="${file.modifiedTime}"></td>
-                                        <td th:text="${file.size}"></td>
+                                        <td th:text="${file.versionDto.fileDto.modifiedTime}"></td>
+                                        <td th:text="${file.versionDto.fileDto.size}"></td>
                                     </tr>
+
                                     </tbody>
                                     <tfoot/>
                                 </form>
@@ -120,4 +106,21 @@
         sWrapper.style.display = 'block';
         console.log("!!!    "+sWrapper.style.display);
     })
+
+    window.onload = function() {
+        var spanList = document.getElementsByClassName("file-name"); // 제목 다 가져옴
+        console.log(spanList);
+
+        for (var i = 0; i < spanList.length; i++) {
+            var flag = spanList[i].attributes.value.nodeValue;
+            if (flag == 2) { // 수정 (초록색)
+                spanList[i].style.color = "green";
+            } else if (flag == 3) { // 생성 (노란색)
+                spanList[i].style.color = "yellow";
+            } else if (flag == 4) { // 삭제 (빨간색)
+                spanList[i].style.color = "red";
+            }
+        }
+    }
+
 </script>

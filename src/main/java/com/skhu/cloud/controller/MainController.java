@@ -13,7 +13,7 @@ import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
-@RequestMapping("/") // 기본 디렉토리로
+@RequestMapping("") // 기본 디렉토리로
 public class MainController {
 
     private final MainService mainService;
@@ -49,6 +49,7 @@ public class MainController {
         // index 값은 , 해당 버전이 몇번째인지이고 , 현재로서는 index = 1이 첫번째 버전이니까 index 가 null 이라면 index = 1 로 설정해주자.
         List<FileVersionDto> versionList = mainService.getVersionList(path);
 
+        mvc.addObject("diff", false);
         mainService.filesMvcAddObject(mvc , FileDto.getExtension(path) , versionList , mainService.getTimeList(versionList),
                 mainService.getCodeList(versionList) , path , index , mainService.getComponentName(path));
 

@@ -18,7 +18,6 @@ import java.util.HashMap;
 @NoArgsConstructor
 @Builder
 public class FileDto {
-
     // fileName
     private String name;
 

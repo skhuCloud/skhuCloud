@@ -1,6 +1,7 @@
-package com.skhu.cloud.dto.error;
+package com.skhu.cloud.constant;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.skhu.cloud.dto.error.EnumModel;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 

@@ -12,18 +12,32 @@
             <ul th:replace="fragments/sidebar.html :: sidebar" style="display: inline-block; float: left; width: 15% !important;"></ul>
 
             <div class="container-fluid" style="padding-top: 1.5rem; display: inline-block; justify-content: center !important;width: 80% !important;">
-                <div><h1 class="h3 mb-2 text-gray-800" th:text= "${' file : ' + title}"></h1></div>
-                <div><p class="mb-4">버전 정보</p></div>
+                <div>
+                    <h1 class="h3 mb-2 text-gray-800" th:text= "${' file : ' + title}"></h1>
+                </div>
+                <div>
+                    <p class="mb-4">버전 정보</p>
+                </div>
 
-                <div class="card shadow mb-4" style="float: left !important; width: 85% !important; ">
-                    <div class="card-header py-3">
-                        <h2 th:text= "${' file : ' + title}"></h2>
-                    </div>
+<!--                not diff version-->
+                <div th:if = "${!diff}" class="card shadow mb-4" style="float: left !important; width: 85% !important;">
                     <div class="card-body" style="overflow-y : scroll; overflow-x : auto;">
-                        <pre><code id = "file_content" th:class = "${extension}" th:text = "${content}"></code></pre>
+                        <pre>
+                            <code id = "file_content" th:class = "${extension}" th:text = "${content}"></code>
+                        </pre>
+                        <pre id = "file-content"></pre>
                     </div>
                 </div>
 
+<!--                diff version-->
+                <div th:if = "${diff}" class="card shadow mb-4" style="float: left !important; width: 85% !important;">
+                    <div id = "file-diff-content-parent" class="card-body" style="overflow-y : scroll; overflow-x : auto;">
+                        <div id = "content1">
+                        </div>
+                        <div id = "content2">
+                        </div>
+                    </div>
+                </div>
                 <!-- 버전 기록 -->
 <!--                <div style = "overflow-y : scroll; overflow-x : auto; width : 15%; text-align : center; border-left : 1px solid white;&ndash;&gt;-->
 <!--                    box-shadow: rgba(255, 255, 255, 0.35) 5px 5px 5px; color : lightblue">-->
@@ -36,16 +50,65 @@
 <!--                            <div id = "chart_div"></div>-->
 <!--                </div>-->
 
-                <div id = "time" th:text = "${time}"/>
-                <div id = "code" th:text = "${code}"/>
-
+<!--                <div id = "time" th:text = "${time}"/>-->
+<!--                <div id = "code" th:text = "${code}"/>-->
             </div>
-
         </div>
     </div>
 </div>
 <footer th:replace="fragments/footer.html :: footer"></footer>
 </div>
 </body>
+</html>
+
+<script>
+    window.onload = function() {
+        var content1String = "[[${content1}]]";
+        var content2String = "[[${content2}]]";
+
+        var content1Split = content1String.substring(1, content1String.length - 1).split(',');
+        var content2Split = content2String.substring(1, content2String.length - 1).split(','); // content1, 2 얻음
+
+        var content1 = document.getElementById("content1");
+        var content2 = document.getElementById("content2");
+
+        var add = '#2EA04326';
+        var remove = '#F8514926';
+
+        if ([[${diff}]]) { // diff 인 경우에만 진행
+            for (var i = 0; i < content1Split.length; i += 2) { // Content 가 애초에 개행문자 단위로 뜯어져서 온다는 가정하에
+                var flag = Number(content1Split[i]); // number type 으로 변환
+                var color = '';
+
+                if (flag == 2) { // 생성 된 경우
+                    color = add;
+                } else if (flag == 3) { // 삭제 된 경우
+                    color = remove;
+                }
+
+                var div = document.createElement('div');
+                div.style.backgroundColor = color;
+                div.innerHTML = content1Split[i + 1];
+                content1.appendChild(div);
+            }
+
+            for (var i = 0; i < content2Split.length; i += 2) { // diff 시작
+                var flag = Number(content2Split[i]); // number type 으로 변환
+                var color = '';
+
+                if (flag == 2) { // 생성 된 경우
+                    color = add;
+                } else if (flag == 3) { // 삭제 된 경우
+                    color = remove;
+                }
+
+                var div = document.createElement('div');
+                div.style.backgroundColor = color;
+                div.innerHTML = content2Split[i + 1];
+                content2.appendChild(div);
+            }
+        }
+    }
+</script>
 
 
