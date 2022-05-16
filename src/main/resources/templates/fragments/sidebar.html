@@ -2,33 +2,37 @@
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <!-- Sidebar -->
 <ul th:id="sidebar";
-    th:fragment="sidebar" style="background: -moz-linear-gradient(top, #E2E2E2 0%, #F6F6F6 100%);
-    background: -webkit-linear-gradient(top, #E2E2E2 0%, #F6F6F6 100%);
+    th:fragment="sidebar" style="
+    background: -moz-linear-gradient(top, #E2E2E2 0%, #ECECEC 50%, #F6F6F6 100%);
+    background: -webkit-linear-gradient(top, #E2E2E2 0%, #ECECEC 50%, #F6F6F6 100%);
     background: linear-gradient(to bottom, #E2E2E2 0%, #F6F6F6 100%);
     background: -moz-linear-gradient(top, #E2E2E2 0%, #ECECEC 50%, #F6F6F6 100%);
     background: -webkit-linear-gradient(top, #E2E2E2 0%, #ECECEC 50%, #F6F6F6 100%);
     background: linear-gradient(to bottom, #E2E2E2 0%, #ECECEC 50%, #F6F6F6 100%);
+    border-radius: 5px;
     float: left;width: 14%;
-    margin-left: 1%;">
+    margin-left: 1%;
+    padding-top: 0.5rem;
+    padding-left: 1rem !important;
+    padding-right: 1rem !important;">
 
     <!-- Sidebar - Brand -->
-    <h6>버전 내역</h6>
+    <h6 style="text-align: center; color: #bebebe;">버전 내역</h6>
 
     <!-- Divider -->
-    <hr class="sidebar-divider my-0">
+    <hr class="sidebar-divider my-0" style="margin-bottom: 1rem !important;">
 
-
-
-    <!-- Nav Item - Tables -->
-    <li class="nav-item active" th:each="mock : ${mockList}">
-        <div style="display: inline-block">
-            <div th:version-url = "${'/version/' + kind + '?name=' + kind}" th:text="${mock.getVersionDto().getFileDto().getName()}"></div>
-        </div>
-        <div style="display:inline-block">
-            <input th:class = "version-checkbox" type = "checkbox" th:value = "${mock.versionDto.versionId}"/>
-        </div>
-
-    </li>
+    <!-- Side bar Version List -->
+    <div style="padding-left: 1rem;">
+        <li class="nav-item active" th:each="mock : ${mockList}" style="margin-bottom:1rem;">
+            <div style="display: inline-block; margin-right: 0.5rem;">
+                <div th:version-url = "${'/version/' + kind + '?name=' + kind}" th:text="${mock.getVersionDto().getFileDto().getName()}"></div>
+            </div>
+            <div style="display:inline-block">
+                <input th:class = "version-checkbox" type = "checkbox" th:value = "${mock.versionDto.versionId}"/>
+            </div>
+        </li>
+    </div>
 
     <!-- Divider -->
     <hr class="sidebar-divider d-none d-md-block">
