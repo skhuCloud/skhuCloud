@@ -54,7 +54,7 @@
         nowPath = nowPath.substring(0, nowPath.length - 1);
     }
 
-    $('[version-url]').click(function() {
+    $('[version-url]').click(function() { // Folder, File Version
         var url = $(this).attr('version-url');
         console.log(url);
         var newWindow = window.open("about:blank");
@@ -62,7 +62,7 @@
         location.href = nowPath;
     });
 
-    $('.version-checkbox').change(function() {
+    $('.version-checkbox').change(function() { // Folder, File Diff
         if ($(this).is(':checked')) {
             console.log("Checkbox is checked..");
             checkedVersion.push($(this).value);
@@ -74,7 +74,7 @@
 
         if(count == 2) {
             setTimeout(() => {
-                if (confirm("비교하겠습니까? 휴먼")) {
+                if (confirm("비교하겠습니까?")) {
                     var newWindow = window.open("about:blank");
                     var url = "";
                     if (kind === "folder") {
