@@ -1,10 +1,27 @@
+.downloadWrapper{
+    display: flex;
+    height: 27px;
+    flex-wrap: nowrap;
+    /*justify-content: center;*/
+    align-items: center;
+}
+
+.downloadImg{
+    width: 26px;
+    margin-left: 10px;
+    margin-right: 5px;
+}
+
 .table-values:hover{
     background-color: #d6e0f5 !important;
 }
-
-/*.cbox{
+.cbox{
     opacity: 0.1;
-}*/
+}
+
+tr:hover .cbox{
+    opacity: 100;
+}
 
 tr:hover .more{
     opacity: 0.4;
@@ -35,6 +52,33 @@ tr:hover .more{
     float: right;
     background:none;
     border: none;
+}
+
+/*    folderVersion.html    */
+.version-badge {
+    line-height: 1;
+    color: black;
+    border-radius: 0.9rem;
+    text-align: center;
+    font-size: 0.75em;
+    font-weight: 700;
+    padding: 0.2em 0.65em;
+    white-space: nowrap;
+    vertical-align: baseline;
+    display: inline-block;
+    float: right;
+}
+
+.changed{
+    background-color: yellow;
+}
+
+.removed{
+    background-color: red;
+}
+
+.added{
+    background-color: limegreen;
 }
 
 input[type=checkbox] {
