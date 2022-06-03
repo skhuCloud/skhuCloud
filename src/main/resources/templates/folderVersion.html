@@ -17,10 +17,11 @@
                     <div class="card-body">
                         <div class="table-responsive">
                             <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                                <form th:action="@{/download/checked(nowPath = ${nowPath})}" method="get">
+                                <form id = "version-form" th:action="@{/download/checked(nowPath = ${nowPath})}" method="get">
                                     <input id = "now-path" type ="hidden" th:name = "nowPath" th:value = "${nowPath}"/>
                                     <tr>
-                                        <input type = "submit" value = "다운로드"/>
+<!--                                        <input type = "submit" value = "다운로드"/>-->
+                                        <a href = "#" onclick = "return downloads()"></a>
                                     </tr>
                                     <thead>
                                     <tr>
@@ -120,6 +121,10 @@
                 spanList[i].style.color = "red";
             }
         }
+    }
+
+    function downloads() {
+        document.getElementById('version-form').submit(); // submit 버튼역할을 해줄 것임
     }
 
 </script>

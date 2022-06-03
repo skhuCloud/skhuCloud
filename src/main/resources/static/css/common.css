@@ -198,8 +198,18 @@ input[type=checkbox]:disabled + label {
     transition : color 0.5s;
 }
 
-.directory-url-content {
+.directory-url-content{
     display : none;
 }
 
+a#download-button {
+    text-decoration : none;
+    color : black;
+}
+
+a#download-button:active {
+    text-decoration : none;
+    background-color: rgb(237, 235, 233);
+    transition : background-color 0.5s;
+}
 
