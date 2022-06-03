@@ -12,14 +12,15 @@
             <!-- Begin Page Content -->
             <div class="container-fluid" style="padding-top: 1.5rem">
                 <!-- Page Heading -->
-                <h1 class="h3 mb-2 text-gray-800">SKHU CLOUD</h1>
+                <h1 class="h3 mb-2 text-gray-800"></h1>
 
                 <!-- DataTales Example -->
                 <div class="card shadow mb-4" style="float: left; width: 85%">
                     <div class="card-header py-3">
+                        <i class = "fas fa-user"></i>
                         <div style = "display : inline-block;" class = "directory-list" th:each = "directory : ${directoryList}">
-                            <span th:directory-url = "${'/directories?path=' + directory.path}" th:text="${directory.nowDirectory}"></span>
-                            <span th:if = "${!directoryStat.last}"> >> </span>
+                            <span class = "directory-list" th:directory-url = "${'/directories?path=' + directory.path}" th:text="${directory.nowDirectory}"></span>
+                            <i class = "fas fa-chevron-right" th:if = "${!directoryStat.last}"></i>
                         </div>
                     </div>
                     <div class="card-body">

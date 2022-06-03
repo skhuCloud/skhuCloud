@@ -104,12 +104,7 @@ public class CreateMokServiceImpl implements CreateMokService {
 
     @Override
     public void addContentComponent(Long flag, List<Content> contentList) { // flag 와 contentList 를 넘기면, 추가해줌
-        String appendString = "안녕하세요 " + (contentList.size() + random.nextInt(10)) + " 번째 요소입니다.";
-        for (int i = 0; i < 10; i++) {
-            appendString += appendString;
-        }
-
-        appendString += "\n";
+        String appendString = "안녕하세요 " + (contentList.size() + random.nextInt(10)) + " 번째 요소입니다.\n";
 
         contentList.add(new Content(flag, appendString)); // 요소를 추가
     }
