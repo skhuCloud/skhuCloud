@@ -10,7 +10,7 @@
         <div id="content">
             <nav th:replace="fragments/topbar.html :: topbar" style="height: 100%"></nav>
 
-            <div class="container-fluid" style="padding-top: 1.5rem; display: inline-block; justify-content: center !important;width: 80% !important;">
+            <div class="container-fluid">
                 <div>
                     <h1 class="h3 mb-2 text-gray-800" th:text= "${' file : ' + title}"></h1>
                 </div>
@@ -54,9 +54,10 @@
         </div>
     </div>
 </div>
-<footer th:replace="fragments/footer.html :: footer"></footer>
+<!--<footer th:replace="fragments/footer.html :: footer"></footer>-->
 </div>
 </body>
+<footer th:replace="fragments/footer.html :: footer"></footer>
 </html>
 
 <script>

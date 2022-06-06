@@ -23,7 +23,7 @@ tr:hover .cbox{
     opacity: 100;
 }
 
-tr:hover .more{
+tr:hover .more {
     opacity: 0.4;
 }
 
@@ -42,12 +42,12 @@ tr:hover .more{
     margin-top : 30%;
 }
 
-.more{
+.more {
     opacity: 0;
     float: right;
 }
 
-.button-wrapper{
+.button-wrapper {
     display: inline-block;
     float: right;
     background:none;
@@ -69,17 +69,36 @@ tr:hover .more{
     float: right;
 }
 
-.changed{
-    background-color: yellow;
+.changed {
+    background-color: #f1f13b;
 }
 
-.removed{
-    background-color: red;
+.removed {
+    background-color: #f82d2d;
 }
 
-.added{
-    background-color: limegreen;
+.added {
+    background-color: #32ee32;
 }
+
+#download-button {
+    text-decoration : none;
+    color : black;
+    padding-top: 10px;
+    /*line-height: 40px;*/
+}
+
+#download-button:hover {
+    text-decoration: none;
+    background-color: rgb(237, 235, 233);
+    transition: background-color 0.5s;
+}
+
+#download-button-image {
+    margin-right: 3px;
+}
+
+
 
 input[type=checkbox] {
     display : none;

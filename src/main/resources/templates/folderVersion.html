@@ -9,19 +9,23 @@
         <div id="content">
             <nav th:replace="fragments/topbar.html :: topbar"></nav>
 
-            <div class="container-fluid" style="padding-top: 1.5rem">
-                <h1 class="h3 mb-2 text-gray-800" th:text = "${main + ' 버전 조회'}"></h1>
+            <div class="container-fluid">
+                <h5 class="h3 mb-2 text-gray-800" th:text = "${main + ' 폴더 변경 로그'}"></h5>
                 <div class="card shadow mb-4">
                     <div class="card-header py-3">
                     </div>
                     <div class="card-body">
                         <div class="table-responsive">
                             <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                                <form id = "version-form" th:action="@{/download/checked(nowPath = ${nowPath})}" method="get">
+                                <form th:action="@{/download/checked(nowPath = ${nowPath})}" method="get">
                                     <input id = "now-path" type ="hidden" th:name = "nowPath" th:value = "${nowPath}"/>
                                     <tr>
-<!--                                        <input type = "submit" value = "다운로드"/>-->
-                                        <a href = "#" onclick = "return downloads()"></a>
+                                        <div id = "search-bar">
+                                            <a id = "download-button" style = "display : flex;" href = "#" onclick = "return downloads()">
+                                                <img id="download-button-image"style = "width : 20px; height : 20px;" src = "/static/images/d32.png"/>
+                                                <span style = "font-weight : bold;">다운로드</span>
+                                            </a>
+                                         </div>
                                     </tr>
                                     <thead>
                                     <tr>
@@ -40,7 +44,10 @@
                                         </td>
                                         <td>
                                             <img th:src = "${file.versionDto.fileDto.imageUrl}" style = "display : inline-block;" width = "20px" height = "20px"/>
-                                            <span th:class="file-name" th:value = "${file.flag}" th:text="${file.versionDto.fileDto.name}" th:directory-url = "${'/directories?path=' + file.versionDto.fileDto.path}"></span>
+                                            <span class="file-name" th:value = "${file.flag}" th:text="${file.versionDto.fileDto.name}" th:directory-url = "${'/directories?path=' + file.versionDto.fileDto.path}"></span>
+                                            <span th:if="${file.flag == 2}" class="version-badge added">생성</span>
+                                            <span th:if="${file.flag == 3}" class="version-badge changed">수정</span>
+                                            <span th:if="${file.flag == 4}" class="version-badge removed">삭제</span>
                                             <button  th:class="button-wrapper" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                                 <img th:class="more" src="/static/images/mini.png">
                                             </button>
@@ -102,29 +109,30 @@
 
     var sWrapper = document.getElementById("sidebarWrapper");
     $(".dropdown-item").click(function () {
-        console.log("드롭다운 눌림~~");
+        // console.log("드롭다운 눌림~~");
         sWrapper.style.display = 'block';
-        console.log("!!!    "+sWrapper.style.display);
+        // console.log("!!!    "+sWrapper.style.display);
     })
 
-    window.onload = function() {
-        var spanList = document.getElementsByClassName("file-name"); // 제목 다 가져옴
-        console.log(spanList);
-
-        for (var i = 0; i < spanList.length; i++) {
-            var flag = spanList[i].attributes.value.nodeValue;
-            if (flag == 2) { // 수정 (초록색)
-                spanList[i].style.color = "green";
-            } else if (flag == 3) { // 생성 (노란색)
-                spanList[i].style.color = "yellow";
-            } else if (flag == 4) { // 삭제 (빨간색)
-                spanList[i].style.color = "red";
-            }
-        }
-    }
+    // window.onload = function() {
+    //     var spanList = document.getElementsByClassName("file-name"); // 제목 다 가져옴
+    //     console.log(spanList);
+    //
+    //     for (var i = 0; i < spanList.length; i++) {
+    //         var flag = spanList[i].attributes.value.nodeValue;
+    //         if (flag == 2) { // 수정 (초록색)
+    //             console.log("초록~~~~~~")
+    //             spanList[i].style.color = "green";
+    //         } else if (flag == 3) { // 생성 (노란색)
+    //             spanList[i].style.color = "yellow";
+    //         } else if (flag == 4) { // 삭제 (빨간색)
+    //             spanList[i].style.color = "red";
+    //         }
+    //     }
+    // }
 
     function downloads() {
-        document.getElementById('version-form').submit(); // submit 버튼역할을 해줄 것임
+        document.getElementById('main-form').submit(); // submit 버튼역할을 해줄 것임
     }
 
 </script>
