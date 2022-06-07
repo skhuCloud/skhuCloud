@@ -32,8 +32,8 @@ tr:hover .more {
 }*/
 
 .cbox-cover {
-    width : 5%;
-    padding-left : 1.7% !important;
+    /*width : 5%;*/
+    padding-left : 1.25% !important;
 }
 
 .cbox-cover label {
@@ -98,8 +98,6 @@ tr:hover .more {
     margin-right: 3px;
 }
 
-
-
 input[type=checkbox] {
     display : none;
 }
@@ -109,7 +107,7 @@ tr:hover input[type=checkbox] + label{ /* tr 에 hover 됐을 때, empty 로 변
     background-image : url("/static/images/empty.png")
 }
 
-input[type=checkbox] + label { /* check box area 에다가 background image 를 씌운다. */
+tr input[type=checkbox] + label { /* check box area 에다가 background image 를 씌운다. */
     cursor: pointer;
     padding-left: 23px;
     background-repeat: no-repeat;
@@ -118,15 +116,58 @@ input[type=checkbox] + label { /* check box area 에다가 background image 를 
     opacity : 0.0;
 }
 
-:not(input[type="checkbox"]:checked) input[type="checkbox"]:hover + label{ /* check 되지 않은 애들 중에 hover 되면 image check50 으로 변경*/
+tr :not(input[type="checkbox"]:checked) input[type="checkbox"]:hover + label{ /* check 되지 않은 애들 중에 hover 되면 image check50 으로 변경*/
     background-image: url("/static/images/check50.png");
     opacity : 1.0;
 }
 
-input[type="checkbox"]:checked + label { /* 이전과 같음 */
+tr input[type="checkbox"]:checked + label { /* 이전과 같음 */
     opacity : 1.0;
     background-image: url('/static/images/check100.png') !important;
 }
+
+
+
+
+
+
+._checkbox input[type=checkbox] + label { /* check box area 에다가 background image 를 씌운다. */
+    cursor: pointer;
+    padding-left: 23px;
+    background-repeat: no-repeat;
+    background-image: url("/static/images/empty.png");
+    background-size : 20px 20px;
+}
+._checkbox :not(input[type="checkbox"]:checked) input[type="checkbox"]:hover + label{ /* check 되지 않은 애들 중에 hover 되면 image check50 으로 변경*/
+    background-image: url("/static/images/check50.png");
+}
+
+._checkbox input[type="checkbox"]:checked + label { /* 이전과 같음 */
+    opacity : 1.0;
+    background-image: url('/static/images/check100.png') !important;
+}
+
+._checkbox input[type=checkbox] + label { /* check box area 에다가 background image 를 씌운다. */
+    cursor: pointer;
+    padding-left: 23px;
+    background-repeat: no-repeat;
+    background-image: url("/static/images/empty.png");
+    background-size : 20px 20px;
+}
+
+._checkbox :not(input[type="checkbox"]:checked) input[type="checkbox"]:hover + label{ /* check 되지 않은 애들 중에 hover 되면 image check50 으로 변경*/
+    background-image: url("/static/images/check50.png");
+}
+
+._checkbox input[type="checkbox"]:checked + label { /* 이전과 같음 */
+    background-image: url('/static/images/check100.png') !important;
+}
+
+
+
+
+
+
 
 
 

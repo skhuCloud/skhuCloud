@@ -23,8 +23,8 @@
     <!-- Divider -->
     <hr class="sidebar-divider my-0" style="margin-bottom: 1rem !important;">
 
-<!--    시간-->
-    <div th:each="mock : ${mockList}" style="margin-bottom:17px">
+    <!--    시간-->
+    <div th:each="mock, index : ${mockList}" style="margin-bottom:17px">
         <span style="font-size: 10px;">13:45분에 변경되었습니다.</span>
         <div class="card_" style="background-color: white;
         height: 70px; display: flex;
@@ -32,11 +32,10 @@
                  padding: 0.5rem;">
             <div class="_checkbox" style=" width: 20%;  display: flex;align-items: center;
                 justify-content: center;">
-<!--                background-color: wheat;-->
-<!--                <input th:class = "version-checkbox" type = "checkbox" />-->
-                <input th:class = "version-checkbox" type = "checkbox" th:value = "${mock.versionDto.versionId}" style=" width: 20px;
-    height: 20px;"/>
-
+                <div th:class="cbox-cover">
+                    <input type="checkbox" th:id= "${'cbox-sidebar' + index.index}" onclick = "onClickCheckBox(this.id)">
+                    <label th:for = "${'cbox-sidebar' + index.index}" >&nbsp</label>
+                </div>
             </div>
             <div class="file-name_" style=" display: flex; height: 100%;
                 width: 70%;
@@ -45,28 +44,12 @@
                 align-items: center;
                 padding: 0.15rem;"
                  th:version-url = "${'/version/' + kind + '?name=' + kind}" th:text="${mock.getVersionDto().getFileDto().getName()}">
-<!--                <span>abc 폴더가 변경되었습니다.</span>-->
+                <!--                <span>abc 폴더가 변경되었습니다.</span>-->
             </div>
         </div>
     </div>
 
-
-    <!-- Side bar Version List -->
-<!--    <div style="padding-left: 1rem;">-->
-<!--        <li class="nav-item active" th:each="mock : ${mockList}" style="margin-bottom:1rem;">-->
-<!--            <div style="display: inline-block; margin-right: 0.5rem;">-->
-<!--                <div th:version-url = "${'/version/' + kind + '?name=' + kind}" th:text="${mock.getVersionDto().getFileDto().getName()}"></div>-->
-<!--            </div>-->
-<!--            <div style="display:inline-block">-->
-<!--                <input th:class = "version-checkbox" type = "checkbox" th:value = "${mock.versionDto.versionId}"/>-->
-<!--            </div>-->
-<!--        </li>-->
-<!--    </div>-->
-
-    <!-- Divider -->
     <hr class="sidebar-divider d-none d-md-block">
-
-
 </ul>
 </html>
 <script>
@@ -91,8 +74,8 @@
         location.href = nowPath;
     });
 
-    $('.version-checkbox').change(function() { // Folder, File Diff
-        if ($(this).is(':checked')) {
+    function onClickCheckBox(checkBoxId) { // Folder, File Diff
+        if ($(document.getElementById(checkBoxId)).is(':checked')) {
             console.log("Checkbox is checked..");
             checkedVersion.push($(this).value);
             count++;
@@ -101,7 +84,7 @@
             count--;
         }
 
-        if(count == 2) {
+        if (count == 2) {
             setTimeout(() => {
                 if (confirm("비교하겠습니까?")) {
                     var newWindow = window.open("about:blank");
@@ -118,5 +101,5 @@
                 }
             }, 200);  // 2개가 체크가 된 후 alert 창을 띄우기 위해서 200ms 뒤에 실행시킴.
         }
-    });
+    };
 </script>
