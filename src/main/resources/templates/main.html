@@ -12,44 +12,50 @@
             <!-- Begin Page Content -->
             <div class="container-fluid" style="padding-top: 1.5rem">
                 <!-- Page Heading -->
-                <h1 class="h3 mb-2 text-gray-800">강의 목록</h1>
-                <p class="mb-4">강의 목록 페이지, 후에 해당 열 클릭하여 화면 이동 구현 예정  <a target="_blank"
-                                                                        href="https://da    tatables.net">official DataTables documentation</a>.</p>
+                <h1 class="h3 mb-2 text-gray-800"></h1>
 
                 <!-- DataTales Example -->
                 <div class="card shadow mb-4" style="float: left; width: 85%">
                     <div class="card-header py-3">
+                        <i class = "fas fa-user"></i>
                         <div style = "display : inline-block;" class = "directory-list" th:each = "directory : ${directoryList}">
-                            <span th:directory-url = "${'/directories?path=' + directory.path}" th:text="${directory.nowDirectory}"></span>
-                            <span th:if = "${!directoryStat.last}"> >> </span>
+                            <span class = "directory-list" th:directory-url = "${'/directories?path=' + directory.path}" th:text="${directory.nowDirectory}"></span>
+                            <i class = "fas fa-chevron-right" th:if = "${!directoryStat.last}"></i>
                         </div>
                     </div>
                     <div class="card-body">
                         <div class="table-responsive">
                             <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                                <form th:action="@{/download/checked(nowPath = ${nowPath})}" method="get">
+                                <form id = "main-form" th:action="@{/download/checked(nowPath = ${nowPath})}" method="get">
                                     <input id = "now-path" type ="hidden" th:name = "nowPath" th:value = "${nowPath}"/>
                                     <tr>
                                         <div id = "search-bar">
-                                        <input type = "submit" value = "다운로드" style="border-width: 1px; border-radius: 5px;"/>
-                                        <input id = "search-key" type = "text" placeholder = "입력하시오." th:name = "${key}" th:value = "${key}" style="border-radius: 5px;"/>
-                                        <span id = "search-key-submit" style="border-radius: 5px;">
-                                            <img id = "search-key-submit-content" src = "/static/images/search_icon.png"/>
-                                        </span>
+                                            <a id = "download-button" style = "display : flex;" href = "#" onclick = "return downloads()">
+                                                <img style = "width : 20px; height : 20px;" src = "/static/images/download.png"/>
+                                                <span style = "font-weight : bold;">다운로드</span>
+                                            </a>
+                                            <input id = "search-key" type = "text" placeholder = "입력하시오." th:name = "${key}" th:value = "${key}" style="border-radius: 5px;"/>
+                                            <span id = "search-key-submit" style="border-radius: 5px;">
+                                                <img id = "search-key-submit-content" src = "/static/images/search_icon.png"/>
+                                            </span>
                                         </div>
                                     </tr>
                                     <thead>
                                     <tr>
-                                        <th class="cbox-cover"> <input type="checkbox" id="selectAll"></th>
+                                        <td th:class="cbox-cover">
+                                            <input type="checkbox" id="selectAll">
+                                            <label for = "selectAll">&nbsp</label>
+                                        </td>
                                         <th>이름</th>
                                         <th>수정일</th>
                                         <th>크기</th>
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    <tr th:class="table-values" th:each="file : ${folderList}">
-                                        <td>
-                                            <input th:class="cbox" th:name="checkedFiles" th:type="checkbox" th:value="${file.path}"/>
+                                    <tr th:class="table-values" th:each="file, index: ${folderList}">
+                                        <td th:class = "cbox-cover">
+                                            <input th:id = "${'cbox-file' + index.index}" th:name="checkedFiles" th:type="checkbox" th:value="${file.path}"/>
+                                            <label th:for = "${'cbox-file' + index.index}">&nbsp</label>
                                         </td>
                                         <td>
                                             <img th:src = "${file.imageUrl}" style = "display : inline-block;" width = "20px" height = "20px"/>
@@ -66,9 +72,10 @@
                                         <td th:text="${file.size}"></td>
                                     </tr>
 
-                                    <tr th:class="table-values" th:each="file : ${fileList}">
-                                        <td>
-                                            <input th:class="cbox" th:name="checkedFiles" th:type="checkbox" th:value="${file.path}"/>
+                                    <tr th:class="table-values" th:each="file, index : ${fileList}">
+                                        <td th:class = "cbox-cover">
+                                            <input th:id = "${'cbox-folder' + index.index}" th:name="checkedFiles" th:type="checkbox" th:value="${file.path}"/>
+                                            <label th:for = "${'cbox-folder' + index.index}">&nbsp</label>
                                         </td>
                                         <td>
                                             <img th:src = "${file.imageUrl}" style = "display : inline-block;" width = "20px" height = "20px"/>
@@ -125,6 +132,7 @@
         const url = window.location.protocol + '//' + window.location.host+"/version/test/1?kind=" + kind;
         console.log("드롭다운 눌림~~" + url) ;
 
+
         $.ajax({
             type: "GET",
             url: url,
@@ -145,5 +153,12 @@
         console.log("~~~ " + parents[0][0]  );
     })
 
+    function downloads() {
+        document.getElementById('main-form').submit(); // submit 버튼역할을 해줄 것임
+    }
+
+    function cl() {
+        console.log("~~~~~~~~~~~~~~~~~~~~~!!!!!!!!!!!!!!!!!!");
+    }
 
 </script>

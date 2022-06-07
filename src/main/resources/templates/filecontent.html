@@ -30,13 +30,12 @@
 
 <!--                diff version-->
                 <div th:if = "${diff}" class="card shadow mb-4" style="float: left !important; width: 85% !important;">
-                    <div id = "file-diff-content-parent" class="card-body" style="overflow-y : scroll; overflow-x : auto;">
-                        <div id = "content1">
-                        </div>
-                        <div id = "content2">
-                        </div>
+                    <div id = "file-diff-content-parent" class="card-body">
+                        <div id = "content1"></div>
+                        <div id = "content2"></div>
                     </div>
                 </div>
+
                 <!-- 버전 기록 -->
 <!--                <div style = "overflow-y : scroll; overflow-x : auto; width : 15%; text-align : center; border-left : 1px solid white;&ndash;&gt;-->
 <!--                    box-shadow: rgba(255, 255, 255, 0.35) 5px 5px 5px; color : lightblue">-->
@@ -47,7 +46,7 @@
 <!--                                <span th:content = "@{/files(path=${path}, index = ${versionStat.index})}" th:text = "${version.time}"/>-->
 <!--                            </div>-->
 <!--                            <div id = "chart_div"></div>-->
-<!--                </div>-->
+<!--                </div>  -->
 
 <!--                <div id = "time" th:text = "${time}"/>-->
 <!--                <div id = "code" th:text = "${code}"/>-->
@@ -61,7 +60,7 @@
 </html>
 
 <script>
-    window.onload = function() {
+    window.onload = function() { // 넘겨져온 Content 파싱
         var content1String = "[[${content1}]]";
         var content2String = "[[${content2}]]";
 

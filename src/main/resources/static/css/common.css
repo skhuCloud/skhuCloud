@@ -1,5 +1,8 @@
 
-body { background-color: #1E1E1E; padding: 0; margin-top: 2px; }
+body {
+    padding: 0;
+    margin-top: 2px;
+}
 
 div.main-menu {
     border-bottom: 1px solid #ccc; padding: 10px 0px;
@@ -100,6 +103,11 @@ div.footer {
     transition: color 0.5s;
 }
 
+[directory-url] { /* directory move bar css */
+    padding-left : 5px;
+    padding-right : 5px
+}
+
 #time , #code , #diff_content1 , #diff_content2{
     display : none;
 }
@@ -150,6 +158,8 @@ div.footer {
     width : 100vw;
     height : 100vh;
     background : #1E1E1E;
+    overflow-y : scroll;
+    overflow-x : scroll;
 }
 
 #content1, #content2 {
@@ -160,7 +170,8 @@ div.footer {
     width : 50vw;
     height : 100vh;
     overflow-y : scroll;
-    overflow-x : auto;
+    overflow-x : scroll;
+    white-space: nowrap; /* nowrap 으로 하면서, content 가 block 의 범위를 넘어가더라도 자동으로 줄바꿈 되지 않도록 하였음 */
 }
 
 [version-url]:hover {
@@ -168,3 +179,11 @@ div.footer {
     color : blue;
     transition : color 0.5s;
 }
+
+.directory-url-content{
+    display : none;
+}
+
+
+
+
