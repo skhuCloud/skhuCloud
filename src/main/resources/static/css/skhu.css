@@ -1,24 +1,28 @@
 .table-values:hover{
     background-color: #d6e0f5 !important;
 }
-.cbox{
-    opacity: 0.1;
-}
 
-tr:hover .cbox{
-    opacity: 100;
-}
+/*.cbox{
+    opacity: 0.1;
+}*/
 
 tr:hover .more{
     opacity: 0.4;
 }
 
-input[type="checkbox"]:checked {
+/*input[type="checkbox"]:checked {
     opacity: 100 !important;
+}*/
+
+.cbox-cover {
+    width : 5%;
+    padding-left : 1.7% !important;
 }
 
-.cbox-cover{
-    width: 5%;
+.cbox-cover label {
+    width : 100%;
+    text-align : center;
+    margin-top : 30%;
 }
 
 .more{
@@ -32,3 +36,34 @@ input[type="checkbox"]:checked {
     background:none;
     border: none;
 }
+
+input[type=checkbox] {
+    display : none;
+}
+
+tr:hover input[type=checkbox] + label{ /* tr 에 hover 됐을 때, empty 로 변경*/
+    opacity : 1.0;
+    background-image : url("/static/images/empty.png")
+}
+
+input[type=checkbox] + label { /* check box area 에다가 background image 를 씌운다. */
+    cursor: pointer;
+    padding-left: 23px;
+    background-repeat: no-repeat;
+    background-image: url("/static/images/empty.png");
+    background-size : 20px 20px;
+    opacity : 0.0;
+}
+
+:not(input[type="checkbox"]:checked) input[type="checkbox"]:hover + label{ /* check 되지 않은 애들 중에 hover 되면 image check50 으로 변경*/
+    background-image: url("/static/images/check50.png");
+    opacity : 1.0;
+}
+
+input[type="checkbox"]:checked + label { /* 이전과 같음 */
+    opacity : 1.0;
+    background-image: url('/static/images/check100.png') !important;
+}
+
+
+

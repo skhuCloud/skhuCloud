@@ -42,16 +42,20 @@
                                     </tr>
                                     <thead>
                                     <tr>
-                                        <th class="cbox-cover"> <input type="checkbox" id="selectAll"></th>
+                                        <td th:class="cbox-cover">
+                                            <input type="checkbox" id="selectAll">
+                                            <label for = "selectAll">&nbsp</label>
+                                        </td>
                                         <th>이름</th>
                                         <th>수정일</th>
                                         <th>크기</th>
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    <tr th:class="table-values" th:each="file : ${folderList}">
-                                        <td>
-                                            <input th:class="cbox" th:name="checkedFiles" th:type="checkbox" th:value="${file.path}"/>
+                                    <tr th:class="table-values" th:each="file, index: ${folderList}">
+                                        <td th:class = "cbox-cover">
+                                            <input th:id = "${'cbox-file' + index.index}" th:name="checkedFiles" th:type="checkbox" th:value="${file.path}"/>
+                                            <label th:for = "${'cbox-file' + index.index}">&nbsp</label>
                                         </td>
                                         <td>
                                             <img th:src = "${file.imageUrl}" style = "display : inline-block;" width = "20px" height = "20px"/>
@@ -68,9 +72,10 @@
                                         <td th:text="${file.size}"></td>
                                     </tr>
 
-                                    <tr th:class="table-values" th:each="file : ${fileList}">
-                                        <td>
-                                            <input th:class="cbox" th:name="checkedFiles" th:type="checkbox" th:value="${file.path}"/>
+                                    <tr th:class="table-values" th:each="file, index : ${fileList}">
+                                        <td th:class = "cbox-cover">
+                                            <input th:id = "${'cbox-folder' + index.index}" th:name="checkedFiles" th:type="checkbox" th:value="${file.path}"/>
+                                            <label th:for = "${'cbox-folder' + index.index}">&nbsp</label>
                                         </td>
                                         <td>
                                             <img th:src = "${file.imageUrl}" style = "display : inline-block;" width = "20px" height = "20px"/>
@@ -127,6 +132,7 @@
         const url = window.location.protocol + '//' + window.location.host+"/version/test/1?kind=" + kind;
         console.log("드롭다운 눌림~~" + url) ;
 
+
         $.ajax({
             type: "GET",
             url: url,
@@ -149,6 +155,10 @@
 
     function downloads() {
         document.getElementById('main-form').submit(); // submit 버튼역할을 해줄 것임
+    }
+
+    function cl() {
+        console.log("~~~~~~~~~~~~~~~~~~~~~!!!!!!!!!!!!!!!!!!");
     }
 
 </script>

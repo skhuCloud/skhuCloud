@@ -174,24 +174,6 @@ div.footer {
     white-space: nowrap; /* nowrap 으로 하면서, content 가 block 의 범위를 넘어가더라도 자동으로 줄바꿈 되지 않도록 하였음 */
 }
 
-input[type="checkbox" {
-    display : none;
-}
-
-input[type="checkbox"] + label{
-    cursor : pointer;
-    background-repeat : no-repeat;
-    background-image : url('https://res-1.cdn.office.net/files/fabric-cdn-prod_20220127.003/assets/item-types/20/sharedfolder.svg');
-}
-
-input[type=checkbox]:checked + label {
-    background-image: url('./https://res-1.cdn.office.net/files/fabric-cdn-prod_20220127.003/assets/item-types/20/sharedfolder.svg');
-}
-
-input[type=checkbox]:disabled + label {
-    background-image: url('https://res-1.cdn.office.net/files/fabric-cdn-prod_20220127.003/assets/item-types/20/sharedfolder.svg');
-}
-
 [version-url]:hover {
     cursor : pointer;
     color : blue;
@@ -202,14 +184,6 @@ input[type=checkbox]:disabled + label {
     display : none;
 }
 
-a#download-button {
-    text-decoration : none;
-    color : black;
-}
 
-a#download-button:active {
-    text-decoration : none;
-    background-color: rgb(237, 235, 233);
-    transition : background-color 0.5s;
-}
+
 
