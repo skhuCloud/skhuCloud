@@ -126,11 +126,6 @@ tr input[type="checkbox"]:checked + label { /* 이전과 같음 */
     background-image: url('/static/images/check100.png') !important;
 }
 
-
-
-
-
-
 ._checkbox input[type=checkbox] + label { /* check box area 에다가 background image 를 씌운다. */
     cursor: pointer;
     padding-left: 23px;

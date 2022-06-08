@@ -96,10 +96,20 @@ div.footer {
     border-top:1px solid #eee; padding:30px; font-size:10pt; color:#888; width: 100%;
 }
 
-[directory-url]:hover , [file-url]:hover , [data]:hover , [content]:hover {
+[directory-url]:hover, [file-url]:hover , [data]:hover , [content]:hover {
     cursor : pointer;
     color : #800000;
     transition: color 0.5s;
+}
+
+.directory-list [directory-url] { /* .directory-list 의 자식만 지정함으로써, 상단바에만 css 를 먹임 */
+    padding : 8px !important;
+}
+
+.directory-list [directory-url]:hover { /* Directory Url 에다가, 마우스를 올려놨을 때, 글자가 바뀌는 것이 아닌, background color 가 바뀌도록*/
+    cursor : pointer;
+    background-color: rgb(237, 235, 233) !important;
+    transition: background-color 0.5s !important;
 }
 
 #time , #code , #diff_content1 , #diff_content2{
