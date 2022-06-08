@@ -21,7 +21,6 @@ public class VersionTestController {
 
     @GetMapping("/1")
     public ModelAndView showVersions(String kind){
-        log.info(" 시작 ㄴㄹㅇㄹ");
         ModelAndView mv = new ModelAndView("/fragments/sidebar");
 
         List<FolderDiffDto> mockList =  createMokService.returnMokFolderDtoList(kind);

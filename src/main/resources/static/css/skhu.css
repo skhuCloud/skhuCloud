@@ -1,12 +1,29 @@
+.downloadWrapper{
+    display: flex;
+    height: 27px;
+    flex-wrap: nowrap;
+    /*justify-content: center;*/
+    align-items: center;
+}
+
+.downloadImg{
+    width: 26px;
+    margin-left: 10px;
+    margin-right: 5px;
+}
+
 .table-values:hover{
     background-color: #d6e0f5 !important;
 }
-
-/*.cbox{
+.cbox{
     opacity: 0.1;
-}*/
+}
 
-tr:hover .more{
+tr:hover .cbox{
+    opacity: 100;
+}
+
+tr:hover .more {
     opacity: 0.4;
 }
 
@@ -15,8 +32,8 @@ tr:hover .more{
 }*/
 
 .cbox-cover {
-    width : 5%;
-    padding-left : 1.7% !important;
+    /*width : 5%;*/
+    padding-left : 1.25% !important;
 }
 
 .cbox-cover label {
@@ -25,16 +42,60 @@ tr:hover .more{
     margin-top : 30%;
 }
 
-.more{
+.more {
     opacity: 0;
     float: right;
 }
 
-.button-wrapper{
+.button-wrapper {
     display: inline-block;
     float: right;
     background:none;
     border: none;
+}
+
+/*    folderVersion.html    */
+.version-badge {
+    line-height: 1;
+    color: black;
+    border-radius: 0.9rem;
+    text-align: center;
+    font-size: 0.75em;
+    font-weight: 700;
+    padding: 0.2em 0.65em;
+    white-space: nowrap;
+    vertical-align: baseline;
+    display: inline-block;
+    float: right;
+}
+
+.changed {
+    background-color: #f1f13b;
+}
+
+.removed {
+    background-color: #f82d2d;
+}
+
+.added {
+    background-color: #32ee32;
+}
+
+#download-button {
+    text-decoration : none;
+    color : black;
+    padding-top: 10px;
+    /*line-height: 40px;*/
+}
+
+#download-button:hover {
+    text-decoration: none;
+    background-color: rgb(237, 235, 233);
+    transition: background-color 0.5s;
+}
+
+#download-button-image {
+    margin-right: 3px;
 }
 
 input[type=checkbox] {
@@ -46,7 +107,7 @@ tr:hover input[type=checkbox] + label{ /* tr 에 hover 됐을 때, empty 로 변
     background-image : url("/static/images/empty.png")
 }
 
-input[type=checkbox] + label { /* check box area 에다가 background image 를 씌운다. */
+tr input[type=checkbox] + label { /* check box area 에다가 background image 를 씌운다. */
     cursor: pointer;
     padding-left: 23px;
     background-repeat: no-repeat;
@@ -55,15 +116,58 @@ input[type=checkbox] + label { /* check box area 에다가 background image 를 
     opacity : 0.0;
 }
 
-:not(input[type="checkbox"]:checked) input[type="checkbox"]:hover + label{ /* check 되지 않은 애들 중에 hover 되면 image check50 으로 변경*/
+tr :not(input[type="checkbox"]:checked) input[type="checkbox"]:hover + label{ /* check 되지 않은 애들 중에 hover 되면 image check50 으로 변경*/
     background-image: url("/static/images/check50.png");
     opacity : 1.0;
 }
 
-input[type="checkbox"]:checked + label { /* 이전과 같음 */
+tr input[type="checkbox"]:checked + label { /* 이전과 같음 */
     opacity : 1.0;
     background-image: url('/static/images/check100.png') !important;
 }
+
+
+
+
+
+
+._checkbox input[type=checkbox] + label { /* check box area 에다가 background image 를 씌운다. */
+    cursor: pointer;
+    padding-left: 23px;
+    background-repeat: no-repeat;
+    background-image: url("/static/images/empty.png");
+    background-size : 20px 20px;
+}
+._checkbox :not(input[type="checkbox"]:checked) input[type="checkbox"]:hover + label{ /* check 되지 않은 애들 중에 hover 되면 image check50 으로 변경*/
+    background-image: url("/static/images/check50.png");
+}
+
+._checkbox input[type="checkbox"]:checked + label { /* 이전과 같음 */
+    opacity : 1.0;
+    background-image: url('/static/images/check100.png') !important;
+}
+
+._checkbox input[type=checkbox] + label { /* check box area 에다가 background image 를 씌운다. */
+    cursor: pointer;
+    padding-left: 23px;
+    background-repeat: no-repeat;
+    background-image: url("/static/images/empty.png");
+    background-size : 20px 20px;
+}
+
+._checkbox :not(input[type="checkbox"]:checked) input[type="checkbox"]:hover + label{ /* check 되지 않은 애들 중에 hover 되면 image check50 으로 변경*/
+    background-image: url("/static/images/check50.png");
+}
+
+._checkbox input[type="checkbox"]:checked + label { /* 이전과 같음 */
+    background-image: url('/static/images/check100.png') !important;
+}
+
+
+
+
+
+
 
 
 
