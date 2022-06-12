@@ -51,14 +51,14 @@ public class VersionController {
     @GetMapping("file")
     public ModelAndView inquiryFileVersion(String name) { // file version 조회
         ModelAndView mvc = new ModelAndView("filecontent");
+        FileDiffDto fileDiffDto = createMokService.returnMokFileDto();
 
         mvc.addObject("diff", false);
         mvc.addObject("title", name);
-
-        FileDiffDto fileDiffDto = createMokService.returnMokFileDto();
+        mvc.addObject("modified", fileDiffDto.getVersionDto().getFileDto().getModifiedTime());
 
         StringBuilder sb = new StringBuilder();
-        fileDiffDto.getContent().stream().forEach(s -> sb.append(s.getContent()));
+        fileDiffDto.getContent().forEach(s -> sb.append(s.getContent()));
         mvc.addObject("content", sb.toString());
 
         return mvc;
@@ -69,26 +69,30 @@ public class VersionController {
         ModelAndView mvc = new ModelAndView("filecontent");
 
         List<FileDiffDto> diff = createMokService.returnMokFileDiffDto();
+        FileDiffDto first = diff.get(0);
+        FileDiffDto second = diff.get(1);
 
         mvc.addObject("diff", true);
         mvc.addObject("title", name);
+        mvc.addObject("firstModified", first.getVersionDto().getFileDto().getModifiedTime());
+        mvc.addObject("secondModified", first.getVersionDto().getFileDto().getModifiedTime());
 
         List<String> content1 = new ArrayList();
         List<String> content2 = new ArrayList();
 
-        diff.get(0).getContent().stream()
+        first.getContent()
                 .forEach(s -> {
                     content1.add(Long.toString(s.getFlag()));
                     content1.add(s.getContent()
                             .replaceAll("\n", "")
                             .replaceAll("\r", ""));
                 });
-        diff.get(1).getContent().stream()
+        second.getContent()
                 .forEach(s -> {
                     content2.add(Long.toString(s.getFlag()));
                     content2.add(s.getContent()
                             .replaceAll("\n", "")
-                            .replaceAll("\r", ""));
+                            .replaceAll("\r", "")); // 여러 줄 String 을 js 가 지원하지 않아, 줄바꿈 문자를 다 없앴음
                 }); // content1, 2 생성
 
         mvc.addObject("content1", content1);

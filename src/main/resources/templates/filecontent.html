@@ -12,15 +12,12 @@
 
             <div class="container-fluid">
                 <div>
-                    <h1 class="h3 mb-2 text-gray-800" th:text= "${' file : ' + title}"></h1>
+                    <h1 class="h3 mb-2 text-gray-800" th:text= "${title + ' 변경 로그'}"></h1>
                 </div>
-                <div>
-                    <p class="mb-4">버전 정보</p>
-                </div>
-
 <!--                not diff version-->
                 <div th:if = "${!diff}" class="card shadow mb-4" style="float: left !important; width: 85% !important;">
                     <div class="card-body" style="overflow-y : scroll; overflow-x : auto;">
+                        <h3 th:text = "${modified}"></h3>
                         <pre>
                             <code id = "file_content" th:class = "${extension}" th:text = "${content}"></code>
                         </pre>
@@ -31,8 +28,14 @@
 <!--                diff version-->
                 <div th:if = "${diff}" class="card shadow mb-4" style="float: left !important; width: 85% !important;">
                     <div id = "file-diff-content-parent" class="card-body">
-                        <div id = "content1"></div>
-                        <div id = "content2"></div>
+                        <div id = "content1-block">
+                            <div th:text = "${firstModified}"></div>
+                            <div id = "content1"></div>
+                        </div>
+                        <div id = "content2-block">
+                            <div th:text = "${secondModified}"></div>
+                            <div id = "content2"></div>
+                        </div>
                     </div>
                 </div>
 
