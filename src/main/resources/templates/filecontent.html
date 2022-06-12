@@ -29,11 +29,11 @@
                 <div th:if = "${diff}" class="card shadow mb-4" style="float: left !important; width: 85% !important;">
                     <div id = "file-diff-content-parent" class="card-body">
                         <div id = "content1-block">
-                            <div th:text = "${firstModified}"></div>
+                            <h3 id = "content1-modified" th:text = "${firstModified}"></h3>
                             <div id = "content1"></div>
                         </div>
                         <div id = "content2-block">
-                            <div th:text = "${secondModified}"></div>
+                            <h3 id = "content2-modified" th:text = "${secondModified}"></h3>
                             <div id = "content2"></div>
                         </div>
                     </div>

@@ -172,7 +172,7 @@ div.footer {
     overflow-x : scroll;
 }
 
-#content1-block, #content2-block {
+#content1, #content2 {
     display : inline-block;
     margin : 0px;
     padding-left : 0vw;
@@ -182,6 +182,12 @@ div.footer {
     overflow-y : scroll;
     overflow-x : scroll;
     white-space: nowrap; /* nowrap 으로 하면서, content 가 block 의 범위를 넘어가더라도 자동으로 줄바꿈 되지 않도록 하였음 */
+}
+
+#content1-modified, #content2-modified {
+    background : #fff;
+    padding : 0px;
+    margin : 0px;
 }
 
 [version-url]:hover {
