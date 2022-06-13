@@ -66,6 +66,25 @@ public class MainServiceImpl implements MainService {
     }
 
     @Override
+    public void findSubFile(List<FileDto> result, String path, String key) throws IOException {
+        File file = new File(path);
+
+        if (file.getName().contains(key)) { // 조건에 부합하면 무조건 포함시킨다.
+            result.add(FileDto.createFileDto(file));
+        }
+
+        if (file.isDirectory()) { // 파일이 아니고 directory 인 경우에만 진행한다 (하위에 파일이 더 존재하니까)
+            File[] files = file.listFiles();
+
+            if (files != null) { // 있을 때만 진행
+                for (File f : files) { // 재귀적으로 진행할 것이다.
+                    findSubFile(result, f.getPath(), key);
+                }
+            }
+        }
+    }
+
+    @Override
     public boolean isDirectory(String path) {
         return new File(path).isDirectory(); // directory 면 true , 아니면 false 를 반환한다.
     }

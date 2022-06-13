@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/head.html :: header">
+</head>
+
+<body id="page-top">
+<div id="wrapper">
+    <div id="content-wrapper" class="d-flex flex-column">
+        <div id="content" style="padding-bottom: 2rem">
+            <nav th:replace="fragments/topbar.html :: topbar"></nav>
+
+            <!-- Begin Page Content -->
+            <div class="container-fluid" style="padding-top: 1.5rem">
+                <!-- Page Heading -->
+                <h1 class="h3 mb-2 text-gray-800"></h1>
+
+                <!-- DataTales Example -->
+                <div class="card shadow mb-4" style="float: left; width: 85%">
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                <form id = "main-form" th:action="@{/download/checked(nowPath = ${nowPath})}" method="get">
+                                    <input id = "now-path" type ="hidden" th:name = "nowPath" th:value = "${nowPath}"/>
+                                    <tr>
+                                        <div id = "search-bar">
+                                            <a id = "download-button" style = "display : flex;" href = "#" onclick = "return downloads()">
+                                                <img style = "width : 20px; height : 20px;" src = "/static/images/d32.png"/>
+                                                <span>다운로드</span>
+                                            </a>
+                                        </div>
+                                    </tr>
+                                    <thead>
+                                    <tr>
+                                        <td th:class="cbox-cover">
+                                            <input type="checkbox" id="selectAll">
+                                            <label for = "selectAll">&nbsp</label>
+                                        </td>
+                                        <th>이름</th>
+                                        <th>경로</th>
+                                        <th>수정일</th>
+                                        <th>크기</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr th:class="table-values" th:each="file, index : ${fileList}">
+                                        <td th:class = "cbox-cover">
+                                            <input th:id = "${'cbox-file' + index.index}" th:name="checkedFiles" th:type="checkbox" th:value="${file.path}"/>
+                                            <label th:for = "${'cbox-file' + index.index}">&nbsp</label>
+                                        </td>
+                                        <td>
+                                            <img th:src = "${file.imageUrl}" style = "display : inline-block;" width = "20px" height = "20px"/>
+                                            <span th:if = "${file.kind == '폴더'}" th:class="fileName" th:text="${file.name}" th:directory-url = "${'/directories?path=' + file.path}"></span>
+                                            <span th:if = "${file.kind == '파일'}" th:class="fileName" th:text="${file.name}" th:file-url = "${'/files?path=' + file.path}"></span>
+                                            <button  th:class="button-wrapper" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                <img th:class="more" src="/static/images/mini.png">
+                                            </button>
+                                            <div class="dropdown-menu">
+                                                <input th:type="hidden" th:value="${file.kind}"/>
+                                                <a class="dropdown-item" href="#">버전 정보</a>
+                                            </div>
+                                        </td>
+                                        <td th:text = "${file.path}"></td>
+                                        <td th:text="${file.modifiedTime}"></td>
+                                        <td th:text="${file.size}"></td>
+                                    </tr>
+                                    </tbody>
+                                    <tfoot/>
+                                </form>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <footer th:replace="fragments/footer.html :: footer"></footer>
+    </div>
+</div>
+</body>
+</html>
+
+<script>
+</script>

@@ -21,6 +21,9 @@ public interface MainService {
     // list 를 pagination 해서 반환
     List<FileDto> pagingFileDtoList(List<FileDto> fileDtoList, Long pageNumber) throws IOException;
 
+    // path, key 가 주어지면 하위 디렉토리에서 이것과 유사한 것들을 전부 찾아온다.
+    void findSubFile(List<FileDto> result, String path, String key) throws IOException;
+
     // 해당 폴더 혹은 파일이 무엇인지 알 수 있어야 함
     boolean isDirectory(String path);
 

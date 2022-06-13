@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 @Controller
@@ -49,7 +51,10 @@ public class MainController {
     public ModelAndView clickFile(String path , Long index) throws IOException{
         // 원래 content 를 직접적으로 넘겼었지만 , versionList 에 담겨있는 content 를 넘기는 식으로 request header to large 문제를 해결 하였음
         ModelAndView mvc = new ModelAndView("filecontent");
-        if(index == null) index = 0L;
+
+        if (index == null) {
+            index = 0L;
+        }
 
         // index 값은 , 해당 버전이 몇번째인지이고 , 현재로서는 index = 1이 첫번째 버전이니까 index 가 null 이라면 index = 1 로 설정해주자.
         List<FileVersionDto> versionList = mainService.getVersionList(path);
@@ -60,6 +65,20 @@ public class MainController {
 
         return mvc;
     }
+
+    @GetMapping("all")
+    public ModelAndView searchAllFile(String path, String key) throws IOException {
+        ModelAndView mvc = new ModelAndView("search");
+        List<FileDto> fileList = new ArrayList<>();
+
+        mvc.addObject("nowPath", path);
+        mainService.findSubFile(fileList, path, key);
+        Collections.sort(fileList, (f1, f2) -> -f1.getKind().compareToIgnoreCase(f2.getKind()));
+        mvc.addObject("fileList", fileList);
+
+        return mvc;
+    }
+
 
     // version 간의 차이를 보여주는 action method
     @GetMapping("version")

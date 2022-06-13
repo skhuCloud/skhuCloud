@@ -34,6 +34,7 @@
                                                 <img style = "width : 20px; height : 20px;" src = "/static/images/d32.png"/>
                                                 <span>다운로드</span>
                                             </a>
+<!--                                            원래 version/histories 이 Api 호출하여서, file version 의 히스토리를 검색하는 바이지만, 잠시 하위 파일들 검색할 수 있도록 진행하자.-->
                                             <input id = "search-key" type = "text" placeholder = "입력하시오." th:name = "${key}" th:value = "${key}" style="border-radius: 5px;"/>
                                             <span id = "search-key-submit" style="border-radius: 5px;">
                                                 <img id = "search-key-submit-content" src = "/static/images/search_icon.png"/>
@@ -60,7 +61,7 @@
                                             <td>
                                                 <img th:src = "${file.imageUrl}" style = "display : inline-block;" width = "20px" height = "20px"/>
                                                 <span th:if = "${file.kind == '폴더'}" th:class="fileName" th:text="${file.name}" th:directory-url = "${'/directories?path=' + file.path}"></span>
-                                                <span th:if = "${file.kind == '파일'}" th:class="fileName" th:text="${file.name}" th:directory-url = "${'/files?path=' + file.path}"></span>
+                                                <span th:if = "${file.kind == '파일'}" th:class="fileName" th:text="${file.name}" th:file-url = "${'/files?path=' + file.path}"></span>
                                                 <button  th:class="button-wrapper" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                                     <img th:class="more" src="/static/images/mini.png">
                                                 </button>
