@@ -52,45 +52,25 @@
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    <tr th:class="table-values" th:each="file, index: ${folderList}">
-                                        <td th:class = "cbox-cover">
-                                            <input th:id = "${'cbox-file' + index.index}" th:name="checkedFiles" th:type="checkbox" th:value="${file.path}"/>
-                                            <label th:for = "${'cbox-file' + index.index}">&nbsp</label>
-                                        </td>
-                                        <td>
-                                            <img th:src = "${file.imageUrl}" style = "display : inline-block;" width = "20px" height = "20px"/>
-                                            <span th:class="fileName" th:text="${file.name}" th:directory-url = "${'/directories?path=' + file.path}"></span>
-                                            <button  th:class="button-wrapper" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                <img th:class="more" src="/static/images/mini.png">
-                                            </button>
-                                            <div class="dropdown-menu">
-                                                <input th:type="hidden" th:value="${file.kind}"/>
-                                                <a class="dropdown-item" href="#">버전 정보</a>
-                                            </div>
-                                        </td>
-                                        <td th:text="${file.modifiedTime}"></td>
-                                        <td th:text="${file.size}"></td>
-                                    </tr>
-
-                                    <tr th:class="table-values" th:each="file, index : ${fileList}">
-                                        <td th:class = "cbox-cover">
-                                            <input th:id = "${'cbox-folder' + index.index}" th:name="checkedFiles" th:type="checkbox" th:value="${file.path}"/>
-                                            <label th:for = "${'cbox-folder' + index.index}">&nbsp</label>
-                                        </td>
-                                        <td>
-                                            <img th:src = "${file.imageUrl}" style = "display : inline-block;" width = "20px" height = "20px"/>
-                                            <span th:text="${file.name}" th:file-url = "${'/files?path=' + file.path}"></span>
-                                            <button  th:class="button-wrapper" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                <img th:class="more" src="/static/images/mini.png">
-                                            </button>
-                                            <div class="dropdown-menu">
-                                                <input th:type="hidden" th:value="${file.kind}"/>
-                                                <a class="dropdown-item" href="#">버전 정보</a>
-                                            </div>
-                                        </td>
-                                        <td th:text="${file.modifiedTime}"></td>
-                                        <td th:text="${file.size}"></td>
-                                    </tr>
+                                        <tr th:class="table-values" th:each="file, index: ${fileList}">
+                                            <td th:class = "cbox-cover">
+                                                <input th:id = "${'cbox-file' + index.index}" th:name="checkedFiles" th:type="checkbox" th:value="${file.path}"/>
+                                                <label th:for = "${'cbox-file' + index.index}">&nbsp</label>
+                                            </td>
+                                            <td>
+                                                <img th:src = "${file.imageUrl}" style = "display : inline-block;" width = "20px" height = "20px"/>
+                                                <span th:class="fileName" th:text="${file.name}" th:directory-url = "${'/directories?path=' + file.path}"></span>
+                                                <button  th:class="button-wrapper" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                    <img th:class="more" src="/static/images/mini.png">
+                                                </button>
+                                                <div class="dropdown-menu">
+                                                    <input th:type="hidden" th:value="${file.kind}"/>
+                                                    <a class="dropdown-item" href="#">버전 정보</a>
+                                                </div>
+                                            </td>
+                                            <td th:text="${file.modifiedTime}"></td>
+                                            <td th:text="${file.size}"></td>
+                                        </tr>
                                     </tbody>
                                     <tfoot/>
                                 </form>

@@ -25,17 +25,17 @@ public class MainController {
         String path = "/Users";
 
         mvc.addObject("nowPath" , path);
-        mainService.mvcAddObject(mvc , mainService.getDirectoryList(path) ,mainService.createFolderDtoList(path), mainService.createFileDtoList(path));
+        mainService.mvcAddObject(mvc , mainService.getDirectoryList(path), mainService.createFileDtoList(path));
 
         return mvc;
     }
 
     @GetMapping("directories")
-    public ModelAndView clickDirectory(String path) throws IOException{
+    public ModelAndView clickDirectory(String path) throws IOException{ // 살짝 수정을 진행해야 할 것 같음.. kind 를 통해서 정렬을 진행하되, 역순으로 정렬을 하면 될 듯
         ModelAndView mvc = new ModelAndView("main");
 
         mvc.addObject("nowPath" , path);
-        mainService.mvcAddObject(mvc , mainService.getDirectoryList(path) , mainService.createFolderDtoList(path), mainService.createFileDtoList(path));
+        mainService.mvcAddObject(mvc , mainService.getDirectoryList(path), mainService.createFileDtoList(path));
 
         return mvc;
     }

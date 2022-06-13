@@ -11,9 +11,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import java.io.*;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 @Service
 @RequiredArgsConstructor
@@ -39,40 +37,19 @@ public class MainServiceImpl implements MainService {
     } // list 를 return
 
     @Override
-    public List<FileDto> createFolderDtoList(String path) throws IOException {
+    public List<FileDto> createFileDtoList(String path) throws IOException { // 그냥 아얘 kind 를 가지고 정렬을 진행하자.
         File file = new File(path);
-
         File[] files = file.listFiles();
-        List<FileDto> list = new ArrayList<>();
+        List<FileDto> result = new ArrayList<>();
 
-        if (file != null) {
-            for (File innerFile : files) {
-                if (innerFile.isDirectory()) { // file kind 가 folder 일 때에만
-                    list.add(FileDto.createFileDto(innerFile));
-                }
+        if (files != null) {
+            for (File f : files) {
+                 result.add(FileDto.createFileDto(f));
             }
         }
 
-        return list;
-    }
-
-    @Override
-    public List<FileDto> createFileDtoList(String path) throws IOException {
-        // 해당 path 를 받으면 해당 path 아래에 모든 것들을 createFileDto 에다가 넘겨서 fileDtoList 로 만든다음 반환
-        File file = new File(path);
-
-        File[] files = file.listFiles();
-        List<FileDto> list = new ArrayList<>();
-
-        if (file != null) {
-            for (File innerFile : files) {
-                if (!innerFile.isDirectory()) { // file kind 가 file 일 때에만
-                    list.add(FileDto.createFileDto(innerFile));
-                }
-            }
-        }
-
-        return list;
+        Collections.sort(result, (f1, f2) -> -f1.getKind().compareToIgnoreCase(f2.getKind())); // reverse 로 정렬하여 넘겨준다.
+        return result;
     }
 
     @Override
@@ -97,9 +74,8 @@ public class MainServiceImpl implements MainService {
     }
 
     @Override
-    public void mvcAddObject(ModelAndView mvc, List<DirectoryDto> directoryList, List<FileDto> folderDtoList, List<FileDto> fileDtoList) {
+    public void mvcAddObject(ModelAndView mvc, List<DirectoryDto> directoryList, List<FileDto> fileDtoList) {
         mvc.addObject("directoryList" , directoryList);
-        mvc.addObject("folderList", folderDtoList);
         mvc.addObject("fileList" , fileDtoList);
     }
 
@@ -127,8 +103,9 @@ public class MainServiceImpl implements MainService {
         mvc.addObject("code" , code);
         mvc.addObject("path" , path);
         mvc.addObject("content1" , versionList.get(index.intValue()).getContent());
-        if(versionList.size() - 1 != index) // 제일 초기 버전일 때에는 content 2 를 넘기지 않는다.
-            mvc.addObject("content2" , versionList.get(index.intValue() + 1).getContent());
+        if(versionList.size() - 1 != index) {// 제일 초기 버전일 때에는 content 2 를 넘기지 않는다.
+            mvc.addObject("content2", versionList.get(index.intValue() + 1).getContent());
+        }
         mvc.addObject("index" , index);
         mvc.addObject("title" , title);
     }
@@ -138,7 +115,10 @@ public class MainServiceImpl implements MainService {
         // 만약 / 가 없다면 -1 을 반환한다.
         int lastIndex = path.lastIndexOf("/");
 
-        if(lastIndex == -1) return path;
+        if(lastIndex == -1) {
+            return path;
+        }
+
         else return path.substring(lastIndex + 1);
     }
 
