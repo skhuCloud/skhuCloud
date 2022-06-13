@@ -1,5 +1,6 @@
 package com.skhu.cloud.controller;
 
+import com.skhu.cloud.constant.Const;
 import com.skhu.cloud.dto.FileDto;
 import com.skhu.cloud.dto.version.FileVersionDto;
 import com.skhu.cloud.service.MainService;
@@ -19,23 +20,27 @@ public class MainController {
     private final MainService mainService;
 
     // 맨 처음에만 불러져야 하는 action method
-    @GetMapping("main")
-    public ModelAndView getMainPage() throws IOException {
-        ModelAndView mvc = new ModelAndView("main");
+    @GetMapping("")
+    public ModelAndView getMainPage() throws IOException { // directories 로 redirect
+        ModelAndView mvc = new ModelAndView("redirect:directories");
         String path = "/Users";
-
-        mvc.addObject("nowPath" , path);
-        mainService.mvcAddObject(mvc , mainService.getDirectoryList(path) ,mainService.createFolderDtoList(path), mainService.createFileDtoList(path));
+        mvc.addObject("path", path);
 
         return mvc;
     }
 
     @GetMapping("directories")
-    public ModelAndView clickDirectory(String path) throws IOException{
-        ModelAndView mvc = new ModelAndView("main");
+    public ModelAndView clickDirectory(String path, Long pageNumber) throws IOException{ // 페이지네이션 적용된 이동
+        if (pageNumber == null) {
+            pageNumber = Const.INIT_PAGE_NUMBER;
+        }
 
+        List<FileDto> fileDtoList = mainService.createFileDtoList(path);
+        ModelAndView mvc = new ModelAndView("main");
         mvc.addObject("nowPath" , path);
-        mainService.mvcAddObject(mvc , mainService.getDirectoryList(path) , mainService.createFolderDtoList(path), mainService.createFileDtoList(path));
+        mvc.addObject("number", Math.ceil((double) fileDtoList.size() / Const.PAGE_SIZE));
+
+        mainService.mvcAddObject(mvc , mainService.getDirectoryList(path), mainService.pagingFileDtoList(fileDtoList, pageNumber)); // Paging 처리 부분
 
         return mvc;
     }

@@ -71,16 +71,21 @@ textarea { border: 1px solid #aaa; padding: 6px; }
 .btn2.yellow {
     color: black; border: 1px solid #eec; background: linear-gradient(#ffc, #dd0);
 }
+
 .btn2.yellow:active { background: #dd0; }
 
 .btn2.cyan {
     color: white; border: none; background: linear-gradient(#0ee, #099);
 }
+
 .btn2.cyan:active { background: #099; }
 
 .right { float: right; }
 
-ul.pagination { margin: 0; padding: 0; }
+ul.pagination {
+    margin: 0; padding: 0;
+}
+
 ul.pagination li {
   font-size: 11pt; color: #08f;
   display: inline-block; border: 1px solid #ddd; border-right: none;
@@ -88,6 +93,7 @@ ul.pagination li {
   text-align: center;
   cursor: pointer;
 }
+
 ul.pagination li:last-child { border: 1px solid #ddd; }
 
 ul.pagination li.active { color: white; background-color: #6ac; }
@@ -96,10 +102,20 @@ div.footer {
     border-top:1px solid #eee; padding:30px; font-size:10pt; color:#888; width: 100%;
 }
 
-[directory-url]:hover , [file-url]:hover , [data]:hover , [content]:hover {
+[directory-url]:hover, [file-url]:hover , [data]:hover , [content]:hover { /* 기존의 색깔이 변경되던 것을 text decoration 으로 변 */
     cursor : pointer;
-    color : #800000;
-    transition: color 0.5s;
+    text-decoration : underline;
+}
+
+.directory-list [directory-url] { /* .directory-list 의 자식만 지정함으로써, 상단바에만 css 를 먹임 */
+    padding : 8px !important;
+}
+
+.directory-list [directory-url]:hover { /* Directory Url 에다가, 마우스를 올려놨을 때, 글자가 바뀌는 것이 아닌, background color 가 바뀌도록*/
+    cursor : pointer;
+    text-decoration : none;
+    background-color: rgb(237, 235, 233) !important;
+    transition: background-color 0.5s !important;
 }
 
 #time , #code , #diff_content1 , #diff_content2{
@@ -166,6 +182,12 @@ div.footer {
     overflow-y : scroll;
     overflow-x : scroll;
     white-space: nowrap; /* nowrap 으로 하면서, content 가 block 의 범위를 넘어가더라도 자동으로 줄바꿈 되지 않도록 하였음 */
+}
+
+#content1-modified, #content2-modified {
+    background : #fff;
+    padding : 0px;
+    margin : 0px;
 }
 
 [version-url]:hover {

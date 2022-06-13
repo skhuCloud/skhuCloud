@@ -126,11 +126,6 @@ tr input[type="checkbox"]:checked + label { /* 이전과 같음 */
     background-image: url('/static/images/check100.png') !important;
 }
 
-
-
-
-
-
 ._checkbox input[type=checkbox] + label { /* check box area 에다가 background image 를 씌운다. */
     cursor: pointer;
     padding-left: 23px;
@@ -163,11 +158,25 @@ tr input[type="checkbox"]:checked + label { /* 이전과 같음 */
     background-image: url('/static/images/check100.png') !important;
 }
 
+.page-number-block {
+    display : flex;
+    text-align : center;
+    flex-direction : row;
+    justify-content : center;
+}
 
+.page-number {
+    color : black;
+    font-size : 15px;
+}
 
+.page-number-iterator {
+    display : inline-block;
+    margin-left : 5px;
+    margin-right : 5px;
+}
 
-
-
-
-
-
+.page-number:hover {
+    text-decoration : underline;
+    cursor : pointer;
+}
