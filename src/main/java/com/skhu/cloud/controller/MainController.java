@@ -31,7 +31,7 @@ public class MainController {
 
     @GetMapping("directories")
     public ModelAndView clickDirectory(String path, Long pageNumber) throws IOException{ // 페이지네이션 적용된 이동
-        if (pageNumber == null) {
+        if (pageNumber == null) { // pageNumber 가 넘어오지 않으면
             pageNumber = Const.INIT_PAGE_NUMBER;
         }
 

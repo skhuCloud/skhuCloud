@@ -60,7 +60,7 @@ public class MainServiceImpl implements MainService {
 
         if (start + Const.PAGE_SIZE < size) { // 현재 선택한 페이지가 PAGE SIZE 만큼의 요소가 있을 때
             return fileDtoList.subList(start, (int) (start + Const.PAGE_SIZE));
-        } else { // 부족할 떄
+        } else { // 부족할 때
             return fileDtoList.subList(start, size);
         }
     }

@@ -158,16 +158,12 @@ tr input[type="checkbox"]:checked + label { /* 이전과 같음 */
     background-image: url('/static/images/check100.png') !important;
 }
 
-.page-number-block {
-    display : flex;
+#page-number-block {
     text-align : center;
-    flex-direction : row;
-    justify-content : center;
 }
 
 .page-number {
-    color : black;
-    font-size : 15px;
+    font-size : 25px;
 }
 
 .page-number-iterator {
@@ -177,6 +173,8 @@ tr input[type="checkbox"]:checked + label { /* 이전과 같음 */
 }
 
 .page-number:hover {
-    text-decoration : underline;
+    /* text-decoration : underline; */
+    background-color: rgb(237, 235, 233);
+    transition: background-color 0.5s;
     cursor : pointer;
 }

@@ -52,14 +52,15 @@
                                     </tr>
                                     </thead>
                                     <tbody>
-                                        <tr th:class="table-values" th:each="file, index: ${fileList}">
+                                        <tr th:class="table-values" th:each="file, index : ${fileList}">
                                             <td th:class = "cbox-cover">
                                                 <input th:id = "${'cbox-file' + index.index}" th:name="checkedFiles" th:type="checkbox" th:value="${file.path}"/>
                                                 <label th:for = "${'cbox-file' + index.index}">&nbsp</label>
                                             </td>
                                             <td>
                                                 <img th:src = "${file.imageUrl}" style = "display : inline-block;" width = "20px" height = "20px"/>
-                                                <span th:class="fileName" th:text="${file.name}" th:directory-url = "${'/directories?path=' + file.path}"></span>
+                                                <span th:if = "${file.kind == '폴더'}" th:class="fileName" th:text="${file.name}" th:directory-url = "${'/directories?path=' + file.path}"></span>
+                                                <span th:if = "${file.kind == '파일'}" th:class="fileName" th:text="${file.name}" th:directory-url = "${'/files?path=' + file.path}"></span>
                                                 <button  th:class="button-wrapper" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                                     <img th:class="more" src="/static/images/mini.png">
                                                 </button>
