@@ -1,5 +1,6 @@
 package com.skhu.cloud.service.Impl;
 
+import com.skhu.cloud.constant.Const;
 import com.skhu.cloud.dto.DirectoryDto;
 import com.skhu.cloud.dto.FileDto;
 import com.skhu.cloud.dto.version.FileVersionDto;
@@ -50,6 +51,18 @@ public class MainServiceImpl implements MainService {
 
         Collections.sort(result, (f1, f2) -> -f1.getKind().compareToIgnoreCase(f2.getKind())); // reverse 로 정렬하여 넘겨준다.
         return result;
+    }
+
+    @Override
+    public List<FileDto> pagingFileDtoList(List<FileDto> fileDtoList, Long pageNumber) { // 이미 sort 해서 넘겨줬음
+        int size = fileDtoList.size(); // 사이즈를 파악하는 것이 우선시, subList 도 substring 과 굉장히 흡사
+        int start = (int) (Const.PAGE_SIZE * pageNumber);
+
+        if (start + Const.PAGE_SIZE < size) { // 현재 선택한 페이지가 PAGE SIZE 만큼의 요소가 있을 때
+            return fileDtoList.subList(start, (int) (start + Const.PAGE_SIZE));
+        } else { // 부족할 떄
+            return fileDtoList.subList(start, size);
+        }
     }
 
     @Override

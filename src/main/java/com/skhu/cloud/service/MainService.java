@@ -18,6 +18,7 @@ public interface MainService {
     // Path 를 이용하여 FileDtoList 를 만들고 정렬을 진행한 후 반환
     List<FileDto> createFileDtoList(String path) throws IOException;
 
+    List<FileDto> pagingFileDtoList(List<FileDto> fileDtoList, Long pageNumber) throws IOException;
     // 해당 폴더 혹은 파일이 무엇인지 알 수 있어야 함
     boolean isDirectory(String path);
 

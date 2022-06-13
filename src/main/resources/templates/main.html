@@ -75,6 +75,11 @@
                                     <tfoot/>
                                 </form>
                             </table>
+                            <div th:id = "page-number-block">
+                                <span th:class = "page-number-iterator" th:each="num : ${#numbers.sequence(1, number)}">
+                                    <span th:class = "page-number" th:page-number = "${num}" th:text="${num}"></span>
+                                </span >
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -92,7 +97,6 @@
 
 <script>
     var tes = "[[${nowPath}]]";
-    console.log(tes);
 
     //전체 선택 기능 함수
     $("#selectAll").click(function (){
@@ -117,7 +121,7 @@
             type: "GET",
             url: url,
         })
-            .done(function (result) {
+            .done(function (result) { // ajax 를 통해서, 전체 교환
                 $("#sidebar").replaceWith(result);
             })
             .fail(function(jqXHR) {
@@ -136,5 +140,27 @@
     function downloads() {
         document.getElementById('main-form').submit(); // submit 버튼역할을 해줄 것임
     }
+
+    $("[page-number]").click(function () { // Pagination 을 진행해야 하기 떄문에, 숫자를 받아야 한다.
+        var number = $(this).attr("page-number") - 1; // page number 를 attribute 를 통해서 가져오는 모습
+        console.log(number);
+        var path = tes
+
+        const url = window.location.protocol + '//' + window.location.host + "/directories?path=" + path + "&pageNumber=" + number; // 이런식으로 할 수 있을 듯
+
+        $.ajax({
+            type: "GET",
+            url: url,
+        })
+            .done(function (result) { // ajax 를 통해서, 전체 교환
+                $("#wrapper").replaceWith(result);
+            })
+            .fail(function(jqXHR) {
+                console.log(jqXHR);
+            })
+            .always(function() {
+                console.log("요청, 응답 결과에 상관없이, 이건 항상 실행됩니다.");
+            })
+    })
 
 </script>
