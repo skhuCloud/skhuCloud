@@ -129,7 +129,7 @@
     $(".dropdown-menu").click(function () {
         var kind = $(this).children()[0].value;
 
-        const url = window.location.protocol + '//' + window.location.host+"/version/test/1?kind=" + kind;
+        const url = window.location.protocol + '//' + window.location.host + "/version/test/1?kind=" + kind;
         console.log("드롭다운 눌림~~" + url) ;
 
 
@@ -150,15 +150,11 @@
         sWrapper.style.display = 'block';
         console.log("!!!    "+sWrapper.style.display);
         const parents = $(this).parentNode;
-        console.log("~~~ " + parents[0][0]  );
+        console.log("~~~ " + parents[0][0]);
     })
 
     function downloads() {
         document.getElementById('main-form').submit(); // submit 버튼역할을 해줄 것임
-    }
-
-    function cl() {
-        console.log("~~~~~~~~~~~~~~~~~~~~~!!!!!!!!!!!!!!!!!!");
     }
 
 </script>
