@@ -52,19 +52,19 @@
                                         </td>
                                         <th>
                                             이름
-                                            <img style = "width : 20px; height : 20px;" src = "/static/images/down.png"/>
-                                            <img style = "width : 20px; height : 20px;" src = "/static/images/up.png"/>
+                                            <img th:sort-by = "name" th:direction="desc" style = "width : 20px; height : 20px;" src = "/static/images/down.png"/>
+                                            <img th:sort-by = "name" th:direction="asc" style = "width : 20px; height : 20px;" src = "/static/images/up.png"/>
 
                                         </th>
                                         <th>
                                             수정일
-                                            <img style = "width : 20px; height : 20px;" src = "/static/images/down.png"/>
-                                            <img style = "width : 20px; height : 20px;" src = "/static/images/up.png"/>
+                                            <img  th:sort-by = "modifiedTime" th:direction="desc" style = "width : 20px; height : 20px;" src = "/static/images/down.png"/>
+                                            <img  th:sort-by = "modifiedTime" th:direction="asc" style = "width : 20px; height : 20px;" src = "/static/images/up.png"/>
                                         </th>
                                         <th>
                                             크기
-                                            <img style = "width : 20px; height : 20px;" src = "/static/images/down.png"/>
-                                            <img style = "width : 20px; height : 20px;" src = "/static/images/up.png"/>
+                                            <img th:sort-by = "size" th:direction="desc" style = "width : 20px; height : 20px;" src = "/static/images/down.png"/>
+                                            <img th:sort-by = "size" th:direction="asc" style = "width : 20px; height : 20px;" src = "/static/images/up.png"/>
                                         </th>
                                     </tr>
                                     </thead>
@@ -173,10 +173,11 @@
 
     $("[sort-by]").click(function () { // Pagination 을 진행해야 하기 떄문에, 숫자를 받아야 한다.
         var sortBy = $(this).attr("sort-by"); // page number 를 attribute 를 통해서 가져오는 모습
+        var direction = $(this).attr("direction");
         var nowPage = "[[${nowPage}]]";
         var path = tes
 
-        const url = window.location.protocol + '//' + window.location.host + "/directories?path=" + path + "&pageNumber=" + nowPage + "&sortBy=" + sortBy + "&direction=asc"; // 이런식으로 할 수 있을 듯
+        const url = window.location.protocol + '//' + window.location.host + "/directories?path=" + path + "&pageNumber=" + nowPage + "&sortBy=" + sortBy + "&direction=" + direction; // 이런식으로 할 수 있을 듯
         location.href = url;
     })
 
