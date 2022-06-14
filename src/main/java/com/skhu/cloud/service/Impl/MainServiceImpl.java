@@ -38,7 +38,7 @@ public class MainServiceImpl implements MainService {
     } // list 를 return
 
     @Override
-    public List<FileDto> createFileDtoList(String path, String sortBy, String direction) throws IOException { // 그냥 아얘 kind 를 가지고 정렬을 진행하자.
+    public List<FileDto> createFileDtoList(String path) throws IOException { // 그냥 아얘 kind 를 가지고 정렬을 진행하자.
         File file = new File(path);
         File[] files = file.listFiles();
         List<FileDto> result = new ArrayList<>();
@@ -49,21 +49,24 @@ public class MainServiceImpl implements MainService {
             }
         }
 
-        sortByFileDtoList(result, sortBy, direction);
         Collections.sort(result, (f1, f2) -> -f1.getKind().compareToIgnoreCase(f2.getKind())); // reverse 로 정렬하여 넘겨준다.
         return result;
     }
 
     @Override
-    public List<FileDto> pagingFileDtoList(List<FileDto> fileDtoList, Long pageNumber) throws IOException {
+    public List<FileDto> pagingFileDtoList(List<FileDto> fileDtoList, Long pageNumber, String sortBy, String direction) throws IOException {
         int size = fileDtoList.size(); // 사이즈를 파악하는 것이 우선시, subList 도 substring 과 굉장히 흡사
         int start = (int) (Const.PAGE_SIZE * pageNumber);
 
         if (start + Const.PAGE_SIZE < size) { // 현재 선택한 페이지가 PAGE SIZE 만큼의 요소가 있을 때
-            return fileDtoList.subList(start, (int) (start + Const.PAGE_SIZE));
+            fileDtoList =  fileDtoList.subList(start, (int) (start + Const.PAGE_SIZE));
         } else { // 부족할 때
-            return fileDtoList.subList(start, size);
+            fileDtoList = fileDtoList.subList(start, size);
         }
+
+        sortByFileDtoList(fileDtoList, sortBy, direction);
+        Collections.sort(fileDtoList, (f1, f2) -> -f1.getKind().compareToIgnoreCase(f2.getKind())); // reverse 로 정렬하여 넘겨준다.
+        return fileDtoList;
     }
 
     @Override
