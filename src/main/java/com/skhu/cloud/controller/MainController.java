@@ -50,10 +50,14 @@ public class MainController {
 
             tempPageNumber = ((tempPageNumber - 1 + jump) / Const.PAGE_SIZE) * Const.PAGE_SIZE + 1; // 현재 그렇게 만들어놓은 상태이다.
 
-            if (tempPageNumber < 0 || tempPageNumber <= totalSize) { // jump 한 page Number 가 음수가 된 경우는 무조건 1 페이지로 이동해야 한다.
+            if (tempPageNumber < 0) {
+                pageNumber = 1L;
+            } else if (tempPageNumber <= totalSize) { // jump 한 page Number 가 음수가 된 경우는 무조건 1 페이지로 이동해야 한다.
                 pageNumber = tempPageNumber;
             }
         }
+        System.out.println("pageNumber : " + pageNumber);
+
 
         Long start = (pageNumber - 1) / Const.PAGE_SIZE * Const.PAGE_SIZE + 1;
         Long end = (pageNumber - 1) / Const.PAGE_SIZE * Const.PAGE_SIZE + Const.PAGE_SIZE;
