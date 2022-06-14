@@ -38,7 +38,7 @@ public class MainServiceImpl implements MainService {
     } // list 를 return
 
     @Override
-    public List<FileDto> createFileDtoList(String path) throws IOException { // 그냥 아얘 kind 를 가지고 정렬을 진행하자.
+    public List<FileDto> createFileDtoList(String path, String sortBy, String direction) throws IOException { // 그냥 아얘 kind 를 가지고 정렬을 진행하자.
         File file = new File(path);
         File[] files = file.listFiles();
         List<FileDto> result = new ArrayList<>();
@@ -49,12 +49,13 @@ public class MainServiceImpl implements MainService {
             }
         }
 
+        sortByFileDtoList(result, sortBy, direction);
         Collections.sort(result, (f1, f2) -> -f1.getKind().compareToIgnoreCase(f2.getKind())); // reverse 로 정렬하여 넘겨준다.
         return result;
     }
 
     @Override
-    public List<FileDto> pagingFileDtoList(List<FileDto> fileDtoList, Long pageNumber) {
+    public List<FileDto> pagingFileDtoList(List<FileDto> fileDtoList, Long pageNumber) throws IOException {
         int size = fileDtoList.size(); // 사이즈를 파악하는 것이 우선시, subList 도 substring 과 굉장히 흡사
         int start = (int) (Const.PAGE_SIZE * pageNumber);
 
@@ -97,6 +98,32 @@ public class MainServiceImpl implements MainService {
 
         Collections.sort(result, (f1, f2) -> -f1.getKind().compareToIgnoreCase(f2.getKind()));
         return result;
+    }
+
+    public List<FileDto> sortByFileDtoList(List<FileDto> fileDtoList, String sortBy, String direction) throws IOException {
+        if (!(sortBy.isBlank() || direction.isBlank())) { // 하나라도 비어있으면 따로 정렬을 하지 않는다.
+            Collections.sort(fileDtoList, returnComparator(sortBy, direction));
+        }
+
+        return fileDtoList;
+    }
+
+    public Comparator<FileDto> returnComparator(String sortBy, String direction) throws IOException {
+        // map 으로 Comparator 를 관리해보자.
+        HashMap<String, Comparator<FileDto>> map = new HashMap<>();
+        String key = sortBy + " " + direction;
+        System.out.println(key);
+
+        map.put("name asc", (f1, f2) -> f1.getName().compareToIgnoreCase(f2.getName()));
+        map.put("name desc", (f1, f2) -> -f1.getName().compareToIgnoreCase(f2.getName()));
+
+        map.put("modifiedTime asc", (f1, f2) -> Long.compare(f1.getLongModifiedTime(), f2.getLongModifiedTime()));
+        map.put("modifiedTime desc", (f1, f2) -> -Long.compare(f1.getLongModifiedTime(), f2.getLongModifiedTime()));
+
+        map.put("size asc", (f1, f2) -> Long.compare(f1.getLongSize(), f2.getLongSize()));
+        map.put("size desc", (f1, f2) -> -Long.compare(f1.getLongSize(), f2.getLongSize()));
+
+        return map.get(key); // comparator 반환
     }
 
     @Override

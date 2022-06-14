@@ -7,6 +7,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.Instant;
 import java.time.LocalDateTime;
@@ -63,6 +64,19 @@ public class FileDto {
         }
 
         return String.format("%.1f" , size) + map.get(index); // 한자리 까지만
+    }
+
+    public Long getLongModifiedTime() {
+        return new File(this.path).lastModified();
+    }
+
+    public Long getLongSize() {
+        try {
+            return Files.size(new File(this.path).toPath());
+        } catch (Exception e) {
+            System.out.println(e.getStackTrace());
+            return 0L; // 잘못 될 경우 0 을 반환
+        }
     }
 
     public static String mappingImageUrl(File file) {
