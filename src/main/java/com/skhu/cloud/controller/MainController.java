@@ -69,12 +69,9 @@ public class MainController {
     @GetMapping("all")
     public ModelAndView searchAllFile(String path, String key) throws IOException {
         ModelAndView mvc = new ModelAndView("search");
-        List<FileDto> fileList = new ArrayList<>();
 
         mvc.addObject("nowPath", path);
-        mainService.findSubFile(fileList, path, key);
-        Collections.sort(fileList, (f1, f2) -> -f1.getKind().compareToIgnoreCase(f2.getKind()));
-        mvc.addObject("fileList", fileList);
+        mvc.addObject("fileList", mainService.findSubFile(path, key));
 
         return mvc;
     }

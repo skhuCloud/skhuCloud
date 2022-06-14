@@ -54,7 +54,7 @@ public class MainServiceImpl implements MainService {
     }
 
     @Override
-    public List<FileDto> pagingFileDtoList(List<FileDto> fileDtoList, Long pageNumber) { // 이미 sort 해서 넘겨줬음
+    public List<FileDto> pagingFileDtoList(List<FileDto> fileDtoList, Long pageNumber) {
         int size = fileDtoList.size(); // 사이즈를 파악하는 것이 우선시, subList 도 substring 과 굉장히 흡사
         int start = (int) (Const.PAGE_SIZE * pageNumber);
 
@@ -66,22 +66,37 @@ public class MainServiceImpl implements MainService {
     }
 
     @Override
-    public void findSubFile(List<FileDto> result, String path, String key) throws IOException {
-        File file = new File(path);
+    public List<FileDto> findSubFile(String path, String key) throws IOException {
+        Queue<Object[]> queue = new LinkedList<>(); // 하위 디렉토리 탐색을 도와줄 Queue
+        List<FileDto> result = new ArrayList<>(); // 결과를 담을 List
+        queue.add(new Object[] {new File(path), 1}); // Depth 를 8로 제한하기 위해서 Depth 도 Queue 에다가 같이 넣어준다.
 
-        if (file.getName().contains(key)) { // 조건에 부합하면 무조건 포함시킨다.
-            result.add(FileDto.createFileDto(file));
-        }
+        while (!queue.isEmpty()) {
+            Object[] object = queue.poll();
+            File file = (File) object[0]; // Object 에서 File 을 빼온다.
+            int depth = (int) object[1]; // depth 를 명시
 
-        if (file.isDirectory()) { // 파일이 아니고 directory 인 경우에만 진행한다 (하위에 파일이 더 존재하니까)
-            File[] files = file.listFiles();
+            if (file.getName().contains(key)) { // 조건에 부합하면 result 에 포함시킴
+                result.add(FileDto.createFileDto(file));
+            }
 
-            if (files != null) { // 있을 때만 진행
-                for (File f : files) { // 재귀적으로 진행할 것이다.
-                    findSubFile(result, f.getPath(), key);
+            if (depth == Const.DEPTH_LIMIT || file.getName().equals(Const.ACCESS_PROHIBIT_FILE)) { // depth LIMIT 에 도달하면 그냥 반환하고, Containers 에 접근하면 끝낸다 (Desktop과 연결되어 있어 불필요한 중복이 생기게됨)
+                continue;
+            }
+
+            if (file.isDirectory()) { // directory 인 경우에만 진행한다.
+                File[] files = file.listFiles();
+
+                if (files != null) {
+                    for (File innerFile : files) {
+                        queue.add(new Object[] {innerFile, depth + 1});
+                    }
                 }
             }
         }
+
+        Collections.sort(result, (f1, f2) -> -f1.getKind().compareToIgnoreCase(f2.getKind()));
+        return result;
     }
 
     @Override
@@ -98,7 +113,11 @@ public class MainServiceImpl implements MainService {
 
         while (true) {
             String string = reader.readLine();
-            if (string == null) break;
+
+            if (string == null) {
+                break;
+            }
+
             sb.append(string + "\r\n"); // 잘 출력된다 , content 로서 넘어갈 때 , 문제가 있는 듯
         }
 
