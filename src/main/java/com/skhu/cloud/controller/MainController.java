@@ -28,19 +28,47 @@ public class MainController {
 
         return mvc;
     }
-
+    
     @GetMapping("directories")
-    public ModelAndView clickDirectory(String path, Long pageNumber) throws IOException{ // 페이지네이션 적용된 이동
+    public ModelAndView clickDirectory(String path, Long pageNumber, String sortBy, String direction, Long jump) throws IOException{ // 페이지네이션 적용된 이동
+        ModelAndView mvc = new ModelAndView("main");
+
         if (pageNumber == null) {
             pageNumber = Const.INIT_PAGE_NUMBER;
         }
 
-        List<FileDto> fileDtoList = mainService.createFileDtoList(path);
-        ModelAndView mvc = new ModelAndView("main");
-        mvc.addObject("nowPath" , path);
-        mvc.addObject("number", Math.ceil((double) fileDtoList.size() / Const.PAGE_SIZE));
+        if (sortBy == null || direction == null) {
+            sortBy = "";
+            direction = ""; // Blank 로 채워준다.
+        }
 
-        mainService.mvcAddObject(mvc , mainService.getDirectoryList(path), mainService.pagingFileDtoList(fileDtoList, pageNumber)); // Paging 처리 부분
+        List<FileDto> fileDtoList = mainService.createFileDtoList(path, sortBy, direction);
+        Long totalSize = (long) Math.ceil((double) fileDtoList.size() / Const.PAGE_SIZE);
+
+        if (jump != null) { // 0 이 아닐때에만 진행하도록, 점프할때 점프한 페이지의 첫 페이지로 이동할 수 있도록
+            Long tempPageNumber = pageNumber;
+
+            tempPageNumber = ((tempPageNumber + jump) / 10) * 10 + 1; // 현재 그렇게 만들어놓은 상태이다.
+
+            if (tempPageNumber < 0 || tempPageNumber <= totalSize) { // jump 한 page Number 가 음수가 된 경우는 무조건 1 페이지로 이동해야 한다.
+                pageNumber = tempPageNumber;
+            }
+        }
+
+        Long start = (pageNumber - 1) / 10 * 10 + 1;
+        Long end = (pageNumber - 1) / 10 * 10 + 10;
+
+        if (end > totalSize) {
+            end = totalSize;
+        }
+
+        mvc.addObject("nowPath", path);
+        mvc.addObject("nowPage", pageNumber);
+        mvc.addObject("number", totalSize);
+        mvc.addObject("startNumber", start);
+        mvc.addObject("endNumber", end);
+
+        mainService.mvcAddObject(mvc , mainService.getDirectoryList(path), mainService.pagingFileDtoList(fileDtoList, pageNumber - 1)); // Paging 처리 부분
 
         return mvc;
     }
@@ -49,7 +77,10 @@ public class MainController {
     public ModelAndView clickFile(String path , Long index) throws IOException{
         // 원래 content 를 직접적으로 넘겼었지만 , versionList 에 담겨있는 content 를 넘기는 식으로 request header to large 문제를 해결 하였음
         ModelAndView mvc = new ModelAndView("filecontent");
-        if(index == null) index = 0L;
+
+        if (index == null) {
+            index = 0L;
+        }
 
         // index 값은 , 해당 버전이 몇번째인지이고 , 현재로서는 index = 1이 첫번째 버전이니까 index 가 null 이라면 index = 1 로 설정해주자.
         List<FileVersionDto> versionList = mainService.getVersionList(path);
@@ -60,6 +91,17 @@ public class MainController {
 
         return mvc;
     }
+
+    @GetMapping("all")
+    public ModelAndView searchAllFile(String path, String key) throws IOException {
+        ModelAndView mvc = new ModelAndView("search");
+
+        mvc.addObject("nowPath", path);
+        mvc.addObject("fileList", mainService.findSubFile(path, key));
+
+        return mvc;
+    }
+
 
     // version 간의 차이를 보여주는 action method
     @GetMapping("version")

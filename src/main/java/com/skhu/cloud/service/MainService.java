@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.io.IOException;
+import java.util.Comparator;
 import java.util.List;
 
 @Service
@@ -16,9 +17,20 @@ public interface MainService {
     List<DirectoryDto> getDirectoryList(String path);
 
     // Path 를 이용하여 FileDtoList 를 만들고 정렬을 진행한 후 반환
-    List<FileDto> createFileDtoList(String path) throws IOException;
+    List<FileDto> createFileDtoList(String path, String sortBy, String direction) throws IOException;
 
+    // list 를 pagination 해서 반환
     List<FileDto> pagingFileDtoList(List<FileDto> fileDtoList, Long pageNumber) throws IOException;
+
+    // path, key 가 주어지면 하위 디렉토리에서 이것과 유사한 것들을 전부 찾아온다.
+    List<FileDto> findSubFile(String path, String key) throws IOException;
+
+    // SortBy, direction 을 보고 받은 fileDtoList 를 정렬해서 넘겨준다.
+    List<FileDto> sortByFileDtoList(List<FileDto> fileDtoList, String sortBy, String direction) throws IOException;
+
+    // 정렬 기준에 맞는 Comparator 를 반환한다.
+    Comparator<FileDto> returnComparator(String sortBy, String direction) throws IOException;
+
     // 해당 폴더 혹은 파일이 무엇인지 알 수 있어야 함
     boolean isDirectory(String path);
 
