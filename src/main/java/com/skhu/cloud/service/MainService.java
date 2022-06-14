@@ -17,10 +17,10 @@ public interface MainService {
     List<DirectoryDto> getDirectoryList(String path);
 
     // Path 를 이용하여 FileDtoList 를 만들고 정렬을 진행한 후 반환
-    List<FileDto> createFileDtoList(String path, String sortBy, String direction) throws IOException;
+    List<FileDto> createFileDtoList(String path) throws IOException;
 
     // list 를 pagination 해서 반환
-    List<FileDto> pagingFileDtoList(List<FileDto> fileDtoList, Long pageNumber) throws IOException;
+    List<FileDto> pagingFileDtoList(List<FileDto> fileDtoList, Long pageNumber, String sortBy, String direction) throws IOException;
 
     // path, key 가 주어지면 하위 디렉토리에서 이것과 유사한 것들을 전부 찾아온다.
     List<FileDto> findSubFile(String path, String key) throws IOException;
@@ -58,5 +58,5 @@ public interface MainService {
 
     // "/version" controller 에서 mvc object 에다가 content 주입
     void versionMvcAddObject(ModelAndView mvc , String extension , List<FileVersionDto> versionList,
-                           List<String> time , List<Long> code , String path , Long index , String title) throws IOException;
+                             List<String> time , List<Long> code , String path , Long index , String title) throws IOException;
 }

@@ -64,7 +64,8 @@
                                         <th>
                                             크기
                                             <img style = "width : 20px; height : 20px;" src = "/static/images/down.png"/>
-                                            <img style = "width : 20px; height : 20px;" src = "/static/images/up.png"/>                                        </th>
+                                            <img style = "width : 20px; height : 20px;" src = "/static/images/up.png"/>
+                                        </th>
                                     </tr>
                                     </thead>
                                     <tbody>
@@ -93,11 +94,11 @@
                             </table>
                             <div style="justify-content: center; align-items: center; display: flex;">
                                 <div th:id = "page-number-block">
-                                    <img style = "width : 20px; height : 20px;" src = "/static/images/double-left.png"/>
+                                    <img onclick="skips(-3)" style = "width : 20px; height : 20px;" src = "/static/images/double-left.png"/>
                                     <span th:class = "page-number-iterator" th:each="num : ${#numbers.sequence(startNumber, endNumber)}">
                                         <span th:class = "page-number" th:page-number = "${num}" th:text="${num}"></span>
                                     </span >
-                                    <img style = "width : 20px; height : 20px;" src = "/static/images/double-right.png"/>
+                                    <img onclick="skips(3)" style = "width : 20px; height : 20px;" src = "/static/images/double-right.png"/>
 
                                 </div>
                             </div>
@@ -118,6 +119,7 @@
 
 <script>
     var tes = "[[${nowPath}]]";
+    console.log("[[${nowPage}]]");
 
     //전체 선택 기능 함수
     $("#selectAll").click(function (){
@@ -136,7 +138,6 @@
 
         const url = window.location.protocol + '//' + window.location.host + "/version/test/1?kind=" + kind;
         console.log("드롭다운 눌림~~" + url) ;
-
 
         $.ajax({
             type: "GET",
@@ -163,46 +164,30 @@
     }
 
     $("[page-number]").click(function () { // Pagination 을 진행해야 하기 떄문에, 숫자를 받아야 한다.
-        var number = $(this).attr("page-number") - 1; // page number 를 attribute 를 통해서 가져오는 모습
-        console.log(number);
+        var number = $(this).attr("page-number"); // page number 를 attribute 를 통해서 가져오는 모습
         var path = tes
 
         const url = window.location.protocol + '//' + window.location.host + "/directories?path=" + path + "&pageNumber=" + number; // 이런식으로 할 수 있을 듯
-
-        $.ajax({
-            type: "GET",
-            url: url,
-        })
-            .done(function (result) { // ajax 를 통해서, 전체 교환
-                $("#wrapper").replaceWith(result);
-            })
-            .fail(function(jqXHR) {
-                console.log(jqXHR);
-            })
-            .always(function() {
-                console.log("요청, 응답 결과에 상관없이, 이건 항상 실행됩니다.");
-            })
+        location.href = url;
     })
 
-    //정렬
-    function onClickSort(svalue) {
-        console.log("dddf")
-        console.log("~~~  " + svalue);
-        const url = window.location.href + "&sort=" + svalue; // 이런식으로 할 수 있을 듯
+    $("[sort-by]").click(function () { // Pagination 을 진행해야 하기 떄문에, 숫자를 받아야 한다.
+        var sortBy = $(this).attr("sort-by"); // page number 를 attribute 를 통해서 가져오는 모습
+        var nowPage = "[[${nowPage}]]";
+        var path = tes
 
-        $.ajax({
-            type: "GET",
-            url: url,
-        })
-            .done(function (result) { // ajax 를 통해서, 전체 교환
-                $("#wrapper").replaceWith(result);
-            })
-            .fail(function(jqXHR) {
-                console.log(jqXHR);
-            })
-            .always(function() {
-                console.log("요청, 응답 결과에 상관없이, 이건 항상 실행됩니다.");
-            })
+        const url = window.location.protocol + '//' + window.location.host + "/directories?path=" + path + "&pageNumber=" + nowPage + "&sortBy=" + sortBy + "&direction=asc"; // 이런식으로 할 수 있을 듯
+        location.href = url;
+    })
+
+    function skips(val){
+        console.log("jump : " + val);
+        var jump = val;
+        var number = "[[${nowPage}]]"; // page number 를 attribute 를 통해서 가져오는 모습
+        var path = tes
+
+        const url = window.location.protocol + '//' + window.location.host + "/directories?path=" + path + "&pageNumber=" + number + "&jump=" + jump; // 이런식으로 할 수 있을 듯
+        location.href = url;
     }
 
 
