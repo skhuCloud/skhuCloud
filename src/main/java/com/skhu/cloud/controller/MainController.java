@@ -47,13 +47,12 @@ public class MainController {
 
         mvc.addObject("nowPath", path);
         mvc.addObject("nowPage", pagingInfo[0]);
-        mvc.addObject("number", pagingInfo[1]);
         mvc.addObject("startNumber", pagingInfo[2]);
         mvc.addObject("endNumber", pagingInfo[3]);
         mvc.addObject("sortBy", sortBy);
         mvc.addObject("direction", direction);
 
-        mainService.mvcAddObject(mvc , mainService.getDirectoryList(path), mainService.pagingFileDtoList(fileDtoList, (pageNumber - 1))); // Paging 처리 부분
+        mainService.mvcAddObject(mvc , mainService.getDirectoryList(path), mainService.pagingFileDtoList(fileDtoList, (pagingInfo[0] - 1))); // Paging 처리 부분
 
         return mvc;
     }
