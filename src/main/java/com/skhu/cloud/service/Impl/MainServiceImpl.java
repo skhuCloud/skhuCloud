@@ -106,7 +106,7 @@ public class MainServiceImpl implements MainService {
             File file = (File) object[0]; // Object 에서 File 을 빼온다.
             int depth = (int) object[1]; // depth 를 명시
 
-            if (file.getName().contains(key)) { // 조건에 부합하면 result 에 포함시킴
+            if (file.getName().toLowerCase().contains(key.toLowerCase())) { // 조건에 부합하면 result 에 포함시킴
                 result.add(FileDto.createFileDto(file));
             }
 
