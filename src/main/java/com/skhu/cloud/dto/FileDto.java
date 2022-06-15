@@ -1,5 +1,6 @@
 package com.skhu.cloud.dto;
 
+import com.skhu.cloud.constant.Const;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -129,7 +130,7 @@ public class FileDto {
         return FileDto.builder()
                 .name(file.getName())
                 .modifiedTime(modifiedTime(file.lastModified()))
-                .kind(file.isDirectory() ? "폴더" : "파일")
+                .kind(file.isDirectory() ? Const.FOLDER : Const.FILE)
                 .size(sizeConvert(Files.size(Paths.get(file.getPath())))) // 사이즈를 byte로 받기 위한 연산
                 .path(file.getPath())
                 .imageUrl(mappingImageUrl(file))

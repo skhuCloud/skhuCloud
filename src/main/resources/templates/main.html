@@ -46,7 +46,7 @@
                                             <input type="checkbox" id="selectAll">
                                             <label for = "selectAll">&nbsp</label>
                                         </td>
-                                        <th>
+                                        <th class = "th-name">
                                             이름
                                             <img class = "sort-select" th:if = "${sortBy == 'name' && direction == 'desc'}" th:sort-by = "name" th:direction="desc" src = "/static/images/down.png"/>
                                             <img th:if = "${!(sortBy == 'name' && direction == 'desc')}" th:sort-by = "name" th:direction="desc" src = "/static/images/down.png"/>
@@ -54,14 +54,14 @@
                                             <img th:if = "${!(sortBy == 'name' && direction == 'asc')}" th:sort-by = "name" th:direction="asc"  src = "/static/images/up.png"/>
 
                                         </th>
-                                        <th>
+                                        <th class = "th-modifiedTime">
                                             수정일
                                             <img class = "sort-select" th:if = "${sortBy == 'modifiedTime' && direction == 'desc'}" th:sort-by = "modifiedTime" th:direction="desc" style = "width : 20px; height : 20px;" src = "/static/images/down.png"/>
                                             <img th:if = "${!(sortBy == 'modifiedTime' && direction == 'desc')}" th:sort-by = "modifiedTime" th:direction="desc" style = "width : 20px; height : 20px;" src = "/static/images/down.png"/>
                                             <img class = "sort-select" th:if = "${sortBy == 'modifiedTime' && direction == 'asc'}" th:sort-by = "modifiedTime" th:direction="asc" style = "width : 20px; height : 20px;" src = "/static/images/up.png"/>
                                             <img th:if = "${!(sortBy == 'modifiedTime' && direction == 'asc')}" th:sort-by = "modifiedTime" th:direction="asc" style = "width : 20px; height : 20px;" src = "/static/images/up.png"/>
                                         </th>
-                                        <th>
+                                        <th class = "th-size">
                                             크기
                                             <img class = "sort-select" th:if = "${sortBy == 'size' && direction == 'desc'}" th:sort-by = "size" th:direction="desc" style = "width : 20px; height : 20px;" src = "/static/images/down.png"/>
                                             <img th:if = "${!(sortBy == 'size' && direction == 'desc')}" th:sort-by = "size" th:direction="desc" style = "width : 20px; height : 20px;" src = "/static/images/down.png"/>
@@ -76,7 +76,7 @@
                                                 <input th:id = "${'cbox-file' + index.index}" th:name="checkedFiles" th:type="checkbox" th:value="${file.path}"/>
                                                 <label th:for = "${'cbox-file' + index.index}">&nbsp</label>
                                             </td>
-                                            <td>
+                                            <td class = "td-name">
                                                 <img th:src = "${file.imageUrl}" style = "display : inline-block;" width = "20px" height = "20px"/>
                                                 <span th:if = "${file.kind == '폴더'}" th:class="fileName" th:text="${file.name}" th:directory-url = "${'/directories?path=' + file.path + '&sortBy=' + sortBy + '&direction=' + direction}"></span>
                                                 <span th:if = "${file.kind == '파일'}" th:class="fileName" th:text="${file.name}" th:file-url = "${'/files?path=' + file.path}"></span>
@@ -88,8 +88,8 @@
                                                     <a class="dropdown-item" href="#">버전 정보</a>
                                                 </div>
                                             </td>
-                                            <td th:text="${file.modifiedTime}"></td>
-                                            <td th:text="${file.size}"></td>
+                                            <td class = "td-modifiedTime" th:text="${file.modifiedTime}"></td>
+                                            <td class = "td-size" th:text="${file.size}"></td>
                                         </tr>
                                     </tbody>
                                     <tfoot/>

@@ -1,5 +1,6 @@
 package com.skhu.cloud.service.Impl;
 
+import com.skhu.cloud.constant.Const;
 import com.skhu.cloud.dto.FileDto;
 import com.skhu.cloud.dto.diff.FileDiffDto;
 import com.skhu.cloud.dto.diff.FolderDiffDto;
@@ -88,18 +89,18 @@ public class CreateMokServiceImpl implements CreateMokService {
                 .kind(kind)
                 .path("Users/" + name)
                 .size("100B")
-                .imageUrl((kind.equals("폴더")) ? FOLDER_IMAGE_URL : FILE_IMAGE_URL)
+                .imageUrl((kind.equals(Const.FOLDER)) ? FOLDER_IMAGE_URL : FILE_IMAGE_URL)
                 .build();
     }
 
     @Override
     public FileDiffDto createMokFileDiffDto(String name, Long versionId, List<Content> contentList) {
-        return new FileDiffDto(createMokVersionDto(name, "파일", versionId), contentList);
+        return new FileDiffDto(createMokVersionDto(name, Const.FILE, versionId), contentList);
     }
 
     @Override
     public FolderDiffDto createMokFolderDiffDto(String name, Long versionId, Long flag) { // Mok Folder Dto 를 받은 flag 값으로 반환
-        return new FolderDiffDto(createMokVersionDto(name, "폴더", versionId), flag);
+        return new FolderDiffDto(createMokVersionDto(name, Const.FOLDER, versionId), flag);
     }
 
     @Override
