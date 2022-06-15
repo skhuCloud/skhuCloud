@@ -3,7 +3,6 @@
 <head th:replace="fragments/head.html :: header">
 </head>
 
-
 <body id="page-top">
 <div id="wrapper">
     <div id="content-wrapper" class="d-flex flex-column">
@@ -12,7 +11,7 @@
 
             <div class="container-fluid">
                 <div>
-                    <h1 class="h3 mb-2 text-gray-800" th:text= "${title + ' 변경 로그'}"></h1>
+                    <h1 class="h3 mb-2 text-gray-800" th:text= "${title}"></h1>
                 </div>
 <!--                not diff version-->
                 <div th:if = "${!diff}" class="card shadow mb-4" style="float: left !important; width: 85% !important;">

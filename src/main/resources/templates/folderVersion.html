@@ -10,9 +10,9 @@
             <nav th:replace="fragments/topbar.html :: topbar"></nav>
 
             <div class="container-fluid">
-                <h5 class="h3 mb-2 text-gray-800" th:text = "${main + ' 폴더 변경 로그'}"></h5>
-                <div class="card shadow mb-4">
+                <div class="card shadow mb-4" style="float: left; width: 85%">
                     <div class="card-header py-3">
+                        <span th:text = "${main + ' 폴더 변경 로그'}"></span>
                     </div>
                     <div class="card-body">
                         <div class="table-responsive">
@@ -22,8 +22,8 @@
                                     <tr>
                                         <div id = "search-bar">
                                             <a id = "download-button" style = "display : flex;" href = "#" onclick = "return downloads()">
-                                                <img id="download-button-image"style = "width : 20px; height : 20px;" src = "/static/images/d32.png"/>
-                                                <span style = "font-weight : bold;">다운로드</span>
+                                                <img class="skhu-img-format" src = "/static/images/d32.png"/>
+                                                <span>다운로드</span>
                                             </a>
                                          </div>
                                     </tr>
@@ -38,11 +38,15 @@
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    <tr th:class="table-values" th:each="file : ${fileList}">
-                                        <td>
-                                            <input th:class="cbox" th:name="checkedFiles" th:type="checkbox" th:value="${file.versionDto.fileDto.path}"/>
+                                    <tr th:class="table-values" th:each="file, index : ${fileList}">
+<!--                                        <td>-->
+<!--                                            <input th:class="cbox" th:name="checkedFiles" th:type="checkbox" th:value="${file.versionDto.fileDto.path}"/>-->
+<!--                                        </td>-->
+                                        <td th:class = "cbox-cover">
+                                            <input th:id = "${'cbox-file' + index.index}" th:name="checkedFiles" th:type="checkbox" th:value="${file.versionDto.fileDto.path}"/>
+                                            <label th:for = "${'cbox-file' + index.index}">&nbsp</label>
                                         </td>
-                                        <td>
+                                        <td class = "td-name">
                                             <img th:src = "${file.versionDto.fileDto.imageUrl}" style = "display : inline-block;" width = "20px" height = "20px"/>
                                             <span th:if = "${file.versionDto.fileDto.kind == '폴더'}" class = "file-name" th:value = "${file.flag}" th:text = "${file.versionDto.fileDto.name}" th:directory-url = "${'/directories?path=' + file.versionDto.fileDto.path}"></span>
                                             <span th:if = "${file.versionDto.fileDto.kind == '파일'}" class = "file-name" th:value = "${file.flag}" th:text = "${file.versionDto.fileDto.name}" th:file-url = "${'/files?path=' + file.versionDto.fileDto.path}"></span>
@@ -56,8 +60,8 @@
                                                 <a class="dropdown-item" href="#">버전 정보</a>
                                             </div>
                                         </td>
-                                        <td th:text="${file.versionDto.fileDto.modifiedTime}"></td>
-                                        <td th:text="${file.versionDto.fileDto.size}"></td>
+                                        <td class = "td-modifiedTime" th:text="${file.versionDto.fileDto.modifiedTime}"></td>
+                                        <td class = "td-size" th:text="${file.versionDto.fileDto.size}"></td>
                                     </tr>
                                     </tbody>
                                     <tfoot/>
