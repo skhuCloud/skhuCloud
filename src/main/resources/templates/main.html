@@ -125,7 +125,6 @@
 
 <script>
     var tes = "[[${nowPath}]]";
-    console.log("[[${nowPage}]]");
 
     //전체 선택 기능 함수
     $("#selectAll").click(function (){
@@ -184,6 +183,11 @@
         var direction = $(this).attr("direction");
         var nowPage = "[[${nowPage}]]";
         var path = tes
+
+        if (sortBy === "[[${sortBy}]]" && direction === "[[${direction}]]") { // 이전에 선택되어 있던 것이 현재 선택한것과 같으면? 그러면 해제를 해준다.
+            sortBy = "";
+            direction = "";
+        }
 
         const url = window.location.protocol + '//' + window.location.host + "/directories?path=" + path + "&pageNumber=" + nowPage + "&sortBy=" + sortBy + "&direction=" + direction; // 이런식으로 할 수 있을 듯
         location.href = url;
