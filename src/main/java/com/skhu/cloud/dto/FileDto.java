@@ -74,7 +74,6 @@ public class FileDto {
         try {
             return Files.size(new File(this.path).toPath());
         } catch (Exception e) {
-            System.out.println(e.getStackTrace());
             return 0L; // 잘못 될 경우 0 을 반환
         }
     }

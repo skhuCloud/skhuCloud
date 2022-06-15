@@ -38,7 +38,7 @@ public class MainServiceImpl implements MainService {
     } // list 를 return
 
     @Override
-    public List<FileDto> createFileDtoList(String path) throws IOException { // 그냥 아얘 kind 를 가지고 정렬을 진행하자.
+    public List<FileDto> createFileDtoList(String path, String sortBy, String direction) throws IOException { // 그냥 아얘 kind 를 가지고 정렬을 진행하자.
         File file = new File(path);
         File[] files = file.listFiles();
         List<FileDto> result = new ArrayList<>();
@@ -49,12 +49,13 @@ public class MainServiceImpl implements MainService {
             }
         }
 
+        sortByFileDtoList(result, sortBy, direction);
         Collections.sort(result, (f1, f2) -> -f1.getKind().compareToIgnoreCase(f2.getKind())); // reverse 로 정렬하여 넘겨준다.
         return result;
     }
 
     @Override
-    public List<FileDto> pagingFileDtoList(List<FileDto> fileDtoList, Long pageNumber, String sortBy, String direction) throws IOException {
+    public List<FileDto> pagingFileDtoList(List<FileDto> fileDtoList, Long pageNumber) throws IOException {
         int size = fileDtoList.size(); // 사이즈를 파악하는 것이 우선시, subList 도 substring 과 굉장히 흡사
         int start = (int) (Const.PAGE_SIZE * pageNumber);
 
@@ -64,9 +65,34 @@ public class MainServiceImpl implements MainService {
             fileDtoList = fileDtoList.subList(start, size);
         }
 
-        sortByFileDtoList(fileDtoList, sortBy, direction);
-        Collections.sort(fileDtoList, (f1, f2) -> -f1.getKind().compareToIgnoreCase(f2.getKind())); // reverse 로 정렬하여 넘겨준다.
         return fileDtoList;
+    }
+
+    @Override
+    public Long[] calculatePageNumber(List<FileDto> fileDtoList, Long jump, Long pageNumber) {
+        Long totalSize = (long) Math.ceil((double) fileDtoList.size() / Const.PAGE_SIZE);
+
+        if (jump != null) { // 0 이 아닐때에만 진행하도록, 점프할때 점프한 페이지의 첫 페이지로 이동할 수 있도록
+            Long tempPageNumber = pageNumber;
+            tempPageNumber = ((tempPageNumber - 1 + jump) / Const.PAGE_SIZE) * Const.PAGE_SIZE + 1; // 현재 그렇게 만들어놓은 상태이다.
+
+            if (tempPageNumber < 0) {
+                pageNumber = Const.INIT_PAGE_NUMBER;
+            } else if (tempPageNumber <= totalSize) { // jump 한 page Number 가 음수가 된 경우는 무조건 1 페이지로 이동해야 한다.
+                pageNumber = tempPageNumber;
+            } else { // 아얘 tempPageNumber 마저 넘어버리면 그냥 totalSize 를 pageNumber 로 해주자.
+                pageNumber = totalSize;
+            }
+        }
+
+        Long start = ((pageNumber - 1) / Const.PAGE_SIZE) * Const.PAGE_SIZE + 1;
+        Long end = ((pageNumber - 1) / Const.PAGE_SIZE) * Const.PAGE_SIZE + Const.PAGE_SIZE;
+
+        if (end > totalSize) {
+            end = totalSize;
+        }
+
+        return new Long[] {pageNumber, totalSize, start, end};
     }
 
     @Override
