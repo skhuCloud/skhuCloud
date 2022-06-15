@@ -45,7 +45,7 @@ public class MainServiceImpl implements MainService {
 
         if (files != null) {
             for (File f : files) {
-                 result.add(FileDto.createFileDto(f));
+                result.add(FileDto.createFileDto(f));
             }
         }
 
@@ -176,7 +176,7 @@ public class MainServiceImpl implements MainService {
 
     @Override
     public void versionMvcAddObject(ModelAndView mvc , String extension, List<FileVersionDto> versionList,
-                                  List<String> time, List<Long> code, String path, Long index , String title) throws IOException{
+                                    List<String> time, List<Long> code, String path, Long index , String title) throws IOException{
         // 원래 content 를 직접적으로 넘겼었지만 , versionList 에 담겨있는 content 를 넘기는 식으로 request header to large 문제를 해결 하였음
         mvc.addObject("extension" , extension);
         mvc.addObject("versionList" , versionList);

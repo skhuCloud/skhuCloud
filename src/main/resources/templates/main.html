@@ -27,14 +27,13 @@
                         <div class="table-responsive">
                             <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                                 <form id = "main-form" th:action="@{/download/checked(nowPath = ${nowPath})}" method="get">
-                                    <input id = "now-path" type = "hidden" th:name = "nowPath" th:value = "${nowPath}"/>
+                                    <input id = "now-path" type ="hidden" th:name = "nowPath" th:value = "${nowPath}"/>
                                     <tr>
                                         <div id = "search-bar">
                                             <a id = "download-button" style = "display : flex;" href = "#" onclick = "return downloads()">
                                                 <img style = "width : 20px; height : 20px;" src = "/static/images/d32.png"/>
                                                 <span>다운로드</span>
                                             </a>
-<!--                                            원래 version/histories 이 Api 호출하여서, file version 의 히스토리를 검색하는 바이지만, 잠시 하위 파일들 검색할 수 있도록 진행하자.-->
                                             <input id = "search-key" type = "text" placeholder = "입력하시오." th:name = "${key}" th:value = "${key}" style="border-radius: 5px;"/>
                                             <span id = "search-key-submit" style="border-radius: 5px;">
                                                 <img id = "search-key-submit-content" src = "/static/images/search_icon.png"/>
@@ -47,13 +46,26 @@
                                             <input type="checkbox" id="selectAll">
                                             <label for = "selectAll">&nbsp</label>
                                         </td>
-                                        <th th:sort-by = "name">이름</th>
-                                        <th th:sort-by = "modifiedTime">수정일</th>
-                                        <th th:sort-by = "size">크기</th>
+                                        <th>
+                                            이름
+                                            <img th:sort-by = "name" th:direction="desc" style = "width : 20px; height : 20px;" src = "/static/images/down.png"/>
+                                            <img th:sort-by = "name" th:direction="asc" style = "width : 20px; height : 20px;" src = "/static/images/up.png"/>
+
+                                        </th>
+                                        <th>
+                                            수정일
+                                            <img  th:sort-by = "modifiedTime" th:direction="desc" style = "width : 20px; height : 20px;" src = "/static/images/down.png"/>
+                                            <img  th:sort-by = "modifiedTime" th:direction="asc" style = "width : 20px; height : 20px;" src = "/static/images/up.png"/>
+                                        </th>
+                                        <th>
+                                            크기
+                                            <img th:sort-by = "size" th:direction="desc" style = "width : 20px; height : 20px;" src = "/static/images/down.png"/>
+                                            <img th:sort-by = "size" th:direction="asc" style = "width : 20px; height : 20px;" src = "/static/images/up.png"/>
+                                        </th>
                                     </tr>
                                     </thead>
                                     <tbody>
-                                        <tr th:class="table-values" th:each = "file, index : ${fileList}">
+                                        <tr th:class="table-values" th:each="file, index: ${fileList}">
                                             <td th:class = "cbox-cover">
                                                 <input th:id = "${'cbox-file' + index.index}" th:name="checkedFiles" th:type="checkbox" th:value="${file.path}"/>
                                                 <label th:for = "${'cbox-file' + index.index}">&nbsp</label>
@@ -61,7 +73,7 @@
                                             <td>
                                                 <img th:src = "${file.imageUrl}" style = "display : inline-block;" width = "20px" height = "20px"/>
                                                 <span th:if = "${file.kind == '폴더'}" th:class="fileName" th:text="${file.name}" th:directory-url = "${'/directories?path=' + file.path}"></span>
-                                                <span th:if = "${file.kind == '파일'}" th:class="fileName" th:text="${file.name}" th:file-url = "${'/files?path=' + file.path}"></span>
+                                                <span th:if = "${file.kind == '파일'}" th:class="fileName" th:text="${file.name}" th:file-url = "${'/file?path=' + file.path}"></span>
                                                 <button  th:class="button-wrapper" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                                     <img th:class="more" src="/static/images/mini.png">
                                                 </button>
@@ -77,10 +89,15 @@
                                     <tfoot/>
                                 </form>
                             </table>
-                            <div th:id = "page-number-block">
-                                <span th:class = "page-number-iterator" th:each="num : ${#numbers.sequence(1, number)}">
-                                    <span th:class = "page-number" th:page-number = "${num}" th:text="${num}"></span>
-                                </span >
+                            <div style="justify-content: center; align-items: center; display: flex;">
+                                <div th:id = "page-number-block">
+                                    <img onclick="skips(-10)" style = "width : 20px; height : 20px;" src = "/static/images/double-left.png"/>
+                                    <span th:class = "page-number-iterator" th:each="num : ${#numbers.sequence(startNumber, endNumber)}">
+                                        <span th:class = "page-number" th:page-number = "${num}" th:text="${num}"></span>
+                                    </span >
+                                    <img onclick="skips(10)" style = "width : 20px; height : 20px;" src = "/static/images/double-right.png"/>
+
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -97,7 +114,7 @@
 </body>
 </html>
 
-<script >
+<script>
     var tes = "[[${nowPath}]]";
     console.log("[[${nowPage}]]");
 
@@ -153,11 +170,21 @@
 
     $("[sort-by]").click(function () { // Pagination 을 진행해야 하기 떄문에, 숫자를 받아야 한다.
         var sortBy = $(this).attr("sort-by"); // page number 를 attribute 를 통해서 가져오는 모습
+        var direction = $(this).attr("direction");
         var nowPage = "[[${nowPage}]]";
         var path = tes
 
-        const url = window.location.protocol + '//' + window.location.host + "/directories?path=" + path + "&pageNumber=" + nowPage + "&sortBy=" + sortBy + "&direction=asc"; // 이런식으로 할 수 있을 듯
+        const url = window.location.protocol + '//' + window.location.host + "/directories?path=" + path + "&pageNumber=" + nowPage + "&sortBy=" + sortBy + "&direction=" + direction; // 이런식으로 할 수 있을 듯
         location.href = url;
     })
 
+    function skips(val){
+        console.log("jump : " + val);
+        var jump = val;
+        var number = "[[${nowPage}]]"; // page number 를 attribute 를 통해서 가져오는 모습
+        var path = tes
+
+        const url = window.location.protocol + '//' + window.location.host + "/directories?path=" + path + "&pageNumber=" + number + "&jump=" + jump; // 이런식으로 할 수 있을 듯
+        location.href = url;
+    }
 </script>

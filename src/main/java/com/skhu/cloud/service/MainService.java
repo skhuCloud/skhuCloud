@@ -58,5 +58,5 @@ public interface MainService {
 
     // "/version" controller 에서 mvc object 에다가 content 주입
     void versionMvcAddObject(ModelAndView mvc , String extension , List<FileVersionDto> versionList,
-                           List<String> time , List<Long> code , String path , Long index , String title) throws IOException;
+                             List<String> time , List<Long> code , String path , Long index , String title) throws IOException;
 }
