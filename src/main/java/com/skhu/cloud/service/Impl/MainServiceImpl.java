@@ -141,7 +141,6 @@ public class MainServiceImpl implements MainService {
         // map 으로 Comparator 를 관리해보자.
         HashMap<String, Comparator<FileDto>> map = new HashMap<>();
         String key = sortBy + " " + direction;
-        System.out.println(key);
 
         map.put("name asc", (f1, f2) -> f1.getName().compareToIgnoreCase(f2.getName()));
         map.put("name desc", (f1, f2) -> -f1.getName().compareToIgnoreCase(f2.getName()));
