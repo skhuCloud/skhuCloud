@@ -48,19 +48,25 @@
                                         </td>
                                         <th>
                                             이름
-                                            <img th:sort-by = "name" th:direction="desc" style = "width : 20px; height : 20px;" src = "/static/images/down.png"/>
-                                            <img th:sort-by = "name" th:direction="asc" style = "width : 20px; height : 20px;" src = "/static/images/up.png"/>
+                                            <img class = "sort-select" th:if = "${sortBy == 'name' && direction == 'desc'}" th:sort-by = "name" th:direction="desc" src = "/static/images/down.png"/>
+                                            <img th:if = "${!(sortBy == 'name' && direction == 'desc')}" th:sort-by = "name" th:direction="desc" src = "/static/images/down.png"/>
+                                            <img class = "sort-select" th:if = "${sortBy == 'name' && direction == 'asc'}" th:sort-by = "name" th:direction="asc"  src = "/static/images/up.png"/>
+                                            <img th:if = "${!(sortBy == 'name' && direction == 'asc')}" th:sort-by = "name" th:direction="asc"  src = "/static/images/up.png"/>
 
                                         </th>
                                         <th>
                                             수정일
-                                            <img  th:sort-by = "modifiedTime" th:direction="desc" style = "width : 20px; height : 20px;" src = "/static/images/down.png"/>
-                                            <img  th:sort-by = "modifiedTime" th:direction="asc" style = "width : 20px; height : 20px;" src = "/static/images/up.png"/>
+                                            <img class = "sort-select" th:if = "${sortBy == 'modifiedTime' && direction == 'desc'}" th:sort-by = "modifiedTime" th:direction="desc" style = "width : 20px; height : 20px;" src = "/static/images/down.png"/>
+                                            <img th:if = "${!(sortBy == 'modifiedTime' && direction == 'desc')}" th:sort-by = "modifiedTime" th:direction="desc" style = "width : 20px; height : 20px;" src = "/static/images/down.png"/>
+                                            <img class = "sort-select" th:if = "${sortBy == 'modifiedTime' && direction == 'asc'}" th:sort-by = "modifiedTime" th:direction="asc" style = "width : 20px; height : 20px;" src = "/static/images/up.png"/>
+                                            <img th:if = "${!(sortBy == 'modifiedTime' && direction == 'asc')}" th:sort-by = "modifiedTime" th:direction="asc" style = "width : 20px; height : 20px;" src = "/static/images/up.png"/>
                                         </th>
                                         <th>
                                             크기
-                                            <img th:sort-by = "size" th:direction="desc" style = "width : 20px; height : 20px;" src = "/static/images/down.png"/>
-                                            <img th:sort-by = "size" th:direction="asc" style = "width : 20px; height : 20px;" src = "/static/images/up.png"/>
+                                            <img class = "sort-select" th:if = "${sortBy == 'size' && direction == 'desc'}" th:sort-by = "size" th:direction="desc" style = "width : 20px; height : 20px;" src = "/static/images/down.png"/>
+                                            <img th:if = "${!(sortBy == 'size' && direction == 'desc')}" th:sort-by = "size" th:direction="desc" style = "width : 20px; height : 20px;" src = "/static/images/down.png"/>
+                                            <img class = "sort-select" th:if = "${sortBy == 'size' && direction == 'asc'}" th:sort-by = "size" th:direction="asc" style = "width : 20px; height : 20px;" src = "/static/images/up.png"/>
+                                            <img th:if = "${!(sortBy == 'size' && direction == 'asc')}" th:sort-by = "size" th:direction="asc" style = "width : 20px; height : 20px;" src = "/static/images/up.png"/>
                                         </th>
                                     </tr>
                                     </thead>
@@ -91,11 +97,14 @@
                             </table>
                             <div style="justify-content: center; align-items: center; display: flex;">
                                 <div th:id = "page-number-block">
-                                    <img onclick="skips(-10)" style = "width : 20px; height : 20px;" src = "/static/images/double-left.png"/>
+                                    <img class = "skip-button" onclick="skips(-10)" style = "width : 20px; height : 20px;" src = "/static/images/double-left.png"/>
                                     <span th:class = "page-number-iterator" th:each="num : ${#numbers.sequence(startNumber, endNumber)}">
-                                        <span th:class = "page-number" th:page-number = "${num}" th:text="${num}"></span>
+                                        <!-- 현재 페이지가 아닌 span tag -->
+                                        <span th:if = "${!(num == nowPage)}" th:class = "page-number" th:page-number = "${num}" th:text="${num}"></span>
+                                        <!-- 현재 페이지 span tag -->
+                                        <span id = "now-page" th:if = "${num == nowPage}"th:class = "page-number" th:page-number = "${num}" th:text="${num}"></span>
                                     </span >
-                                    <img onclick="skips(10)" style = "width : 20px; height : 20px;" src = "/static/images/double-right.png"/>
+                                    <img class = "skip-button" onclick="skips(10)" style = "width : 20px; height : 20px;" src = "/static/images/double-right.png"/>
 
                                 </div>
                             </div>
@@ -163,8 +172,10 @@
     $("[page-number]").click(function () { // Pagination 을 진행해야 하기 떄문에, 숫자를 받아야 한다.
         var number = $(this).attr("page-number"); // page number 를 attribute 를 통해서 가져오는 모습
         var path = tes
+        var sortBy = "[[${sortBy}]]"
+        var direction = "[[${direction}]]"
 
-        const url = window.location.protocol + '//' + window.location.host + "/directories?path=" + path + "&pageNumber=" + number; // 이런식으로 할 수 있을 듯
+        const url = window.location.protocol + '//' + window.location.host + "/directories?path=" + path + "&pageNumber=" + number + "&sortBy=" + sortBy + "&direction=" + direction;; // 이런식으로 할 수 있을 듯
         location.href = url;
     })
 
@@ -182,9 +193,11 @@
         console.log("jump : " + val);
         var jump = val;
         var number = "[[${nowPage}]]"; // page number 를 attribute 를 통해서 가져오는 모습
+        var sortBy = "[[${sortBy}]]"
+        var direction = "[[${direction}]]"
         var path = tes
 
-        const url = window.location.protocol + '//' + window.location.host + "/directories?path=" + path + "&pageNumber=" + number + "&jump=" + jump; // 이런식으로 할 수 있을 듯
+        const url = window.location.protocol + '//' + window.location.host + "/directories?path=" + path + "&pageNumber=" + number + "&sortBy=" + sortBy + "&direction=" + direction + "&jump=" + jump; // 이런식으로 할 수 있을 듯
         location.href = url;
     }
 </script>

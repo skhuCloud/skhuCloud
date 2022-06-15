@@ -163,7 +163,7 @@ tr input[type="checkbox"]:checked + label { /* 이전과 같음 */
 }
 
 .page-number {
-    font-size : 25px;
+    font-size : 18px;
 }
 
 .page-number-iterator {
@@ -173,7 +173,37 @@ tr input[type="checkbox"]:checked + label { /* 이전과 같음 */
 }
 
 .page-number:hover {
+    text-decoration : underline;
+    cursor : pointer;
+}
+
+#now-page { /* 현재 page css */
+    color : blue;
+}
+
+.skip-button {
+    border-radius : 5px;
+}
+
+.skip-button:hover {
     background-color: rgb(237, 235, 233);
     transition: background-color 0.5s;
     cursor : pointer;
 }
+
+[sort-by] {
+    border-radius : 50%; /* 완전 동그랗게 */
+    width : 20px;
+    height : 20px;
+}
+
+[sort-by]:hover {
+    cursor : pointer;
+    background-color: rgb(237, 235, 233);
+    transition: background-color 0.5s;
+}
+
+.sort-select { /* 이미 선택된 것은 이런식으로 css 먹여놓자. */
+    background-color: rgb(237, 235, 233);
+}
+

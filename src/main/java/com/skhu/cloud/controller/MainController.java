@@ -53,6 +53,8 @@ public class MainController {
                 pageNumber = Const.INIT_PAGE_NUMBER;
             } else if (tempPageNumber <= totalSize) { // jump 한 page Number 가 음수가 된 경우는 무조건 1 페이지로 이동해야 한다.
                 pageNumber = tempPageNumber;
+            } else { // 아얘 tempPageNumber 마저 넘어버리면 그냥 totalSize 를 pageNumber 로 해주자.
+                pageNumber = totalSize;
             }
         }
 
@@ -68,8 +70,10 @@ public class MainController {
         mvc.addObject("number", totalSize);
         mvc.addObject("startNumber", start);
         mvc.addObject("endNumber", end);
+        mvc.addObject("sortBy", sortBy);
+        mvc.addObject("direction", direction);
 
-        mainService.mvcAddObject(mvc , mainService.getDirectoryList(path), mainService.pagingFileDtoList(fileDtoList, pageNumber - 1, sortBy, direction)); // Paging 처리 부분
+        mainService.mvcAddObject(mvc , mainService.getDirectoryList(path), mainService.pagingFileDtoList(fileDtoList, (pageNumber - 1), sortBy, direction)); // Paging 처리 부분
 
         return mvc;
     }
