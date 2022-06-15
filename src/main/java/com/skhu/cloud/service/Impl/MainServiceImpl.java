@@ -38,7 +38,7 @@ public class MainServiceImpl implements MainService {
     } // list 를 return
 
     @Override
-    public List<FileDto> createFileDtoList(String path) throws IOException { // 그냥 아얘 kind 를 가지고 정렬을 진행하자.
+    public List<FileDto> createFileDtoList(String path, String sortBy, String direction) throws IOException { // 그냥 아얘 kind 를 가지고 정렬을 진행하자.
         File file = new File(path);
         File[] files = file.listFiles();
         List<FileDto> result = new ArrayList<>();
@@ -49,12 +49,13 @@ public class MainServiceImpl implements MainService {
             }
         }
 
+        sortByFileDtoList(result, sortBy, direction);
         Collections.sort(result, (f1, f2) -> -f1.getKind().compareToIgnoreCase(f2.getKind())); // reverse 로 정렬하여 넘겨준다.
         return result;
     }
 
     @Override
-    public List<FileDto> pagingFileDtoList(List<FileDto> fileDtoList, Long pageNumber, String sortBy, String direction) throws IOException {
+    public List<FileDto> pagingFileDtoList(List<FileDto> fileDtoList, Long pageNumber) throws IOException {
         int size = fileDtoList.size(); // 사이즈를 파악하는 것이 우선시, subList 도 substring 과 굉장히 흡사
         int start = (int) (Const.PAGE_SIZE * pageNumber);
 
@@ -64,9 +65,34 @@ public class MainServiceImpl implements MainService {
             fileDtoList = fileDtoList.subList(start, size);
         }
 
-        sortByFileDtoList(fileDtoList, sortBy, direction);
-        Collections.sort(fileDtoList, (f1, f2) -> -f1.getKind().compareToIgnoreCase(f2.getKind())); // reverse 로 정렬하여 넘겨준다.
         return fileDtoList;
+    }
+
+    @Override
+    public Long[] calculatePageNumber(List<FileDto> fileDtoList, Long jump, Long pageNumber) {
+        Long totalSize = (long) Math.ceil((double) fileDtoList.size() / Const.PAGE_SIZE);
+
+        if (jump != null) { // 0 이 아닐때에만 진행하도록, 점프할때 점프한 페이지의 첫 페이지로 이동할 수 있도록
+            Long tempPageNumber = pageNumber;
+            tempPageNumber = ((tempPageNumber - 1 + jump) / Const.PAGE_SIZE) * Const.PAGE_SIZE + 1; // 현재 그렇게 만들어놓은 상태이다.
+
+            if (tempPageNumber < 0) {
+                pageNumber = Const.INIT_PAGE_NUMBER;
+            } else if (tempPageNumber <= totalSize) { // jump 한 page Number 가 음수가 된 경우는 무조건 1 페이지로 이동해야 한다.
+                pageNumber = tempPageNumber;
+            } else { // 아얘 tempPageNumber 마저 넘어버리면 그냥 totalSize 를 pageNumber 로 해주자.
+                pageNumber = totalSize;
+            }
+        }
+
+        Long start = ((pageNumber - 1) / Const.PAGE_SIZE) * Const.PAGE_SIZE + 1;
+        Long end = ((pageNumber - 1) / Const.PAGE_SIZE) * Const.PAGE_SIZE + Const.PAGE_SIZE;
+
+        if (end > totalSize) {
+            end = totalSize;
+        }
+
+        return new Long[] {pageNumber, totalSize, start, end};
     }
 
     @Override
@@ -80,7 +106,7 @@ public class MainServiceImpl implements MainService {
             File file = (File) object[0]; // Object 에서 File 을 빼온다.
             int depth = (int) object[1]; // depth 를 명시
 
-            if (file.getName().contains(key)) { // 조건에 부합하면 result 에 포함시킴
+            if (file.getName().toLowerCase().contains(key.toLowerCase())) { // 조건에 부합하면 result 에 포함시킴
                 result.add(FileDto.createFileDto(file));
             }
 
@@ -115,7 +141,6 @@ public class MainServiceImpl implements MainService {
         // map 으로 Comparator 를 관리해보자.
         HashMap<String, Comparator<FileDto>> map = new HashMap<>();
         String key = sortBy + " " + direction;
-        System.out.println(key);
 
         map.put("name asc", (f1, f2) -> f1.getName().compareToIgnoreCase(f2.getName()));
         map.put("name desc", (f1, f2) -> -f1.getName().compareToIgnoreCase(f2.getName()));

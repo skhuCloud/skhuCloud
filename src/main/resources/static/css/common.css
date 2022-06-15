@@ -109,6 +109,7 @@ div.footer {
 
 .directory-list [directory-url] { /* .directory-list 의 자식만 지정함으로써, 상단바에만 css 를 먹임 */
     padding : 8px !important;
+    border-radius : 5px;
 }
 
 .directory-list [directory-url]:hover { /* Directory Url 에다가, 마우스를 올려놨을 때, 글자가 바뀌는 것이 아닌, background color 가 바뀌도록*/

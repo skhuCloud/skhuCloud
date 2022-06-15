@@ -49,4 +49,3 @@ $(function() {
         newWindow.location.href = url;
     })
 })
-

@@ -19,7 +19,7 @@
                     <div class="card-header py-3">
                         <i class = "fas fa-user"></i>
                         <div style = "display : inline-block;" class = "directory-list" th:each = "directory : ${directoryList}">
-                            <span class = "directory-list" th:directory-url = "${'/directories?path=' + directory.path}" th:text="${directory.nowDirectory}"></span>
+                            <span class = "directory-list" th:directory-url = "${'/directories?path=' + directory.path + '&sortBy=' + sortBy + '&direction=' + direction}" th:text="${directory.nowDirectory}"></span>
                             <i class = "fas fa-chevron-right" th:if = "${!directoryStat.last}"></i>
                         </div>
                     </div>
@@ -38,10 +38,6 @@
                                             <span id = "search-key-submit" style="border-radius: 5px;">
                                                 <img id = "search-key-submit-content" src = "/static/images/search_icon.png"/>
                                             </span>
-                                            <div style="display: flex;justify-content: center;align-items: center;margin-left:36%">
-                                            <button type="button" class="sort-button" value="name" onclick="onClickSort('name')">파일명순</button>
-                                            <button type="button" class="sort-button" value="date" onclick="onClickSort('date')">날짜순</button>
-                                            </div>
                                         </div>
                                     </tr>
                                     <thead>
@@ -50,21 +46,27 @@
                                             <input type="checkbox" id="selectAll">
                                             <label for = "selectAll">&nbsp</label>
                                         </td>
-                                        <th>
+                                        <th class = "th-name">
                                             이름
-                                            <img th:sort-by = "name" th:direction="desc" style = "width : 20px; height : 20px;" src = "/static/images/down.png"/>
-                                            <img th:sort-by = "name" th:direction="asc" style = "width : 20px; height : 20px;" src = "/static/images/up.png"/>
+                                            <img class = "sort-select" th:if = "${sortBy == 'name' && direction == 'desc'}" th:sort-by = "name" th:direction="desc" src = "/static/images/down.png"/>
+                                            <img th:if = "${!(sortBy == 'name' && direction == 'desc')}" th:sort-by = "name" th:direction="desc" src = "/static/images/down.png"/>
+                                            <img class = "sort-select" th:if = "${sortBy == 'name' && direction == 'asc'}" th:sort-by = "name" th:direction="asc"  src = "/static/images/up.png"/>
+                                            <img th:if = "${!(sortBy == 'name' && direction == 'asc')}" th:sort-by = "name" th:direction="asc"  src = "/static/images/up.png"/>
 
                                         </th>
-                                        <th>
+                                        <th class = "th-modifiedTime">
                                             수정일
-                                            <img  th:sort-by = "modifiedTime" th:direction="desc" style = "width : 20px; height : 20px;" src = "/static/images/down.png"/>
-                                            <img  th:sort-by = "modifiedTime" th:direction="asc" style = "width : 20px; height : 20px;" src = "/static/images/up.png"/>
+                                            <img class = "sort-select" th:if = "${sortBy == 'modifiedTime' && direction == 'desc'}" th:sort-by = "modifiedTime" th:direction="desc" style = "width : 20px; height : 20px;" src = "/static/images/down.png"/>
+                                            <img th:if = "${!(sortBy == 'modifiedTime' && direction == 'desc')}" th:sort-by = "modifiedTime" th:direction="desc" style = "width : 20px; height : 20px;" src = "/static/images/down.png"/>
+                                            <img class = "sort-select" th:if = "${sortBy == 'modifiedTime' && direction == 'asc'}" th:sort-by = "modifiedTime" th:direction="asc" style = "width : 20px; height : 20px;" src = "/static/images/up.png"/>
+                                            <img th:if = "${!(sortBy == 'modifiedTime' && direction == 'asc')}" th:sort-by = "modifiedTime" th:direction="asc" style = "width : 20px; height : 20px;" src = "/static/images/up.png"/>
                                         </th>
-                                        <th>
+                                        <th class = "th-size">
                                             크기
-                                            <img th:sort-by = "size" th:direction="desc" style = "width : 20px; height : 20px;" src = "/static/images/down.png"/>
-                                            <img th:sort-by = "size" th:direction="asc" style = "width : 20px; height : 20px;" src = "/static/images/up.png"/>
+                                            <img class = "sort-select" th:if = "${sortBy == 'size' && direction == 'desc'}" th:sort-by = "size" th:direction="desc" style = "width : 20px; height : 20px;" src = "/static/images/down.png"/>
+                                            <img th:if = "${!(sortBy == 'size' && direction == 'desc')}" th:sort-by = "size" th:direction="desc" style = "width : 20px; height : 20px;" src = "/static/images/down.png"/>
+                                            <img class = "sort-select" th:if = "${sortBy == 'size' && direction == 'asc'}" th:sort-by = "size" th:direction="asc" style = "width : 20px; height : 20px;" src = "/static/images/up.png"/>
+                                            <img th:if = "${!(sortBy == 'size' && direction == 'asc')}" th:sort-by = "size" th:direction="asc" style = "width : 20px; height : 20px;" src = "/static/images/up.png"/>
                                         </th>
                                     </tr>
                                     </thead>
@@ -74,9 +76,10 @@
                                                 <input th:id = "${'cbox-file' + index.index}" th:name="checkedFiles" th:type="checkbox" th:value="${file.path}"/>
                                                 <label th:for = "${'cbox-file' + index.index}">&nbsp</label>
                                             </td>
-                                            <td>
+                                            <td class = "td-name">
                                                 <img th:src = "${file.imageUrl}" style = "display : inline-block;" width = "20px" height = "20px"/>
-                                                <span th:class="fileName" th:text="${file.name}" th:directory-url = "${'/directories?path=' + file.path}"></span>
+                                                <span th:if = "${file.kind == '폴더'}" th:class="fileName" th:text="${file.name}" th:directory-url = "${'/directories?path=' + file.path + '&sortBy=' + sortBy + '&direction=' + direction}"></span>
+                                                <span th:if = "${file.kind == '파일'}" th:class="fileName" th:text="${file.name}" th:file-url = "${'/files?path=' + file.path}"></span>
                                                 <button  th:class="button-wrapper" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                                     <img th:class="more" src="/static/images/mini.png">
                                                 </button>
@@ -85,8 +88,8 @@
                                                     <a class="dropdown-item" href="#">버전 정보</a>
                                                 </div>
                                             </td>
-                                            <td th:text="${file.modifiedTime}"></td>
-                                            <td th:text="${file.size}"></td>
+                                            <td class = "td-modifiedTime" th:text="${file.modifiedTime}"></td>
+                                            <td class = "td-size" th:text="${file.size}"></td>
                                         </tr>
                                     </tbody>
                                     <tfoot/>
@@ -94,11 +97,14 @@
                             </table>
                             <div style="justify-content: center; align-items: center; display: flex;">
                                 <div th:id = "page-number-block">
-                                    <img onclick="skips(-3)" style = "width : 20px; height : 20px;" src = "/static/images/double-left.png"/>
+                                    <img class = "skip-button" onclick="skips(-10)" style = "width : 20px; height : 20px;" src = "/static/images/double-left.png"/>
                                     <span th:class = "page-number-iterator" th:each="num : ${#numbers.sequence(startNumber, endNumber)}">
-                                        <span th:class = "page-number" th:page-number = "${num}" th:text="${num}"></span>
+                                        <!-- 현재 페이지가 아닌 span tag -->
+                                        <span th:if = "${!(num == nowPage)}" th:class = "page-number" th:page-number = "${num}" th:text="${num}"></span>
+                                        <!-- 현재 페이지 span tag -->
+                                        <span id = "now-page" th:if = "${num == nowPage}"th:class = "page-number" th:page-number = "${num}" th:text="${num}"></span>
                                     </span >
-                                    <img onclick="skips(3)" style = "width : 20px; height : 20px;" src = "/static/images/double-right.png"/>
+                                    <img class = "skip-button" onclick="skips(10)" style = "width : 20px; height : 20px;" src = "/static/images/double-right.png"/>
 
                                 </div>
                             </div>
@@ -119,7 +125,6 @@
 
 <script>
     var tes = "[[${nowPath}]]";
-    console.log("[[${nowPage}]]");
 
     //전체 선택 기능 함수
     $("#selectAll").click(function (){
@@ -166,8 +171,10 @@
     $("[page-number]").click(function () { // Pagination 을 진행해야 하기 떄문에, 숫자를 받아야 한다.
         var number = $(this).attr("page-number"); // page number 를 attribute 를 통해서 가져오는 모습
         var path = tes
+        var sortBy = "[[${sortBy}]]"
+        var direction = "[[${direction}]]"
 
-        const url = window.location.protocol + '//' + window.location.host + "/directories?path=" + path + "&pageNumber=" + number; // 이런식으로 할 수 있을 듯
+        const url = window.location.protocol + '//' + window.location.host + "/directories?path=" + path + "&pageNumber=" + number + "&sortBy=" + sortBy + "&direction=" + direction;; // 이런식으로 할 수 있을 듯
         location.href = url;
     })
 
@@ -177,6 +184,11 @@
         var nowPage = "[[${nowPage}]]";
         var path = tes
 
+        if (sortBy === "[[${sortBy}]]" && direction === "[[${direction}]]") { // 이전에 선택되어 있던 것이 현재 선택한것과 같으면? 그러면 해제를 해준다.
+            sortBy = "";
+            direction = "";
+        }
+
         const url = window.location.protocol + '//' + window.location.host + "/directories?path=" + path + "&pageNumber=" + nowPage + "&sortBy=" + sortBy + "&direction=" + direction; // 이런식으로 할 수 있을 듯
         location.href = url;
     })
@@ -185,12 +197,11 @@
         console.log("jump : " + val);
         var jump = val;
         var number = "[[${nowPage}]]"; // page number 를 attribute 를 통해서 가져오는 모습
+        var sortBy = "[[${sortBy}]]"
+        var direction = "[[${direction}]]"
         var path = tes
 
-        const url = window.location.protocol + '//' + window.location.host + "/directories?path=" + path + "&pageNumber=" + number + "&jump=" + jump; // 이런식으로 할 수 있을 듯
+        const url = window.location.protocol + '//' + window.location.host + "/directories?path=" + path + "&pageNumber=" + number + "&sortBy=" + sortBy + "&direction=" + direction + "&jump=" + jump; // 이런식으로 할 수 있을 듯
         location.href = url;
     }
-
-
-
 </script>

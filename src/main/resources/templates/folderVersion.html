@@ -38,16 +38,17 @@
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    <tr th:class="table-values" th:each="file : ${folderList}">
+                                    <tr th:class="table-values" th:each="file : ${fileList}">
                                         <td>
                                             <input th:class="cbox" th:name="checkedFiles" th:type="checkbox" th:value="${file.versionDto.fileDto.path}"/>
                                         </td>
                                         <td>
                                             <img th:src = "${file.versionDto.fileDto.imageUrl}" style = "display : inline-block;" width = "20px" height = "20px"/>
-                                            <span class="file-name" th:value = "${file.flag}" th:text="${file.versionDto.fileDto.name}" th:directory-url = "${'/directories?path=' + file.versionDto.fileDto.path}"></span>
-                                            <span th:if="${file.flag == 2}" class="version-badge added">생성</span>
-                                            <span th:if="${file.flag == 3}" class="version-badge changed">수정</span>
-                                            <span th:if="${file.flag == 4}" class="version-badge removed">삭제</span>
+                                            <span th:if = "${file.versionDto.fileDto.kind == '폴더'}" class = "file-name" th:value = "${file.flag}" th:text = "${file.versionDto.fileDto.name}" th:directory-url = "${'/directories?path=' + file.versionDto.fileDto.path}"></span>
+                                            <span th:if = "${file.versionDto.fileDto.kind == '파일'}" class = "file-name" th:value = "${file.flag}" th:text = "${file.versionDto.fileDto.name}" th:file-url = "${'/files?path=' + file.versionDto.fileDto.path}"></span>
+                                            <span th:if = "${file.flag == 2}" class="version-badge added">생성</span>
+                                            <span th:if = "${file.flag == 3}" class="version-badge changed">수정</span>
+                                            <span th:if = "${file.flag == 4}" class="version-badge removed">삭제</span>
                                             <button  th:class="button-wrapper" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                                 <img th:class="more" src="/static/images/mini.png">
                                             </button>
@@ -58,25 +59,6 @@
                                         <td th:text="${file.versionDto.fileDto.modifiedTime}"></td>
                                         <td th:text="${file.versionDto.fileDto.size}"></td>
                                     </tr>
-
-                                    <tr th:class="table-values" th:each="file : ${fileList}">
-                                        <td>
-                                            <input th:class="cbox" th:name="checkedFiles" th:type="checkbox" th:value="${file.versionDto.fileDto.path}"/>
-                                        </td>
-                                        <td>
-                                            <img th:src = "${file.versionDto.fileDto.imageUrl}" style = "display : inline-block;" width = "20px" height = "20px"/>
-                                            <span th:text = "${file.versionDto.fileDto.name}" th:file-url = "${'/files?path=' + file.versionDto.fileDto.path}"></span>
-                                            <button  th:class="button-wrapper" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                <img th:class="more" src="/static/images/mini.png">
-                                            </button>
-                                            <div class="dropdown-menu">
-                                                <a class="dropdown-item" href="#">버전 정보</a>
-                                            </div>
-                                        </td>
-                                        <td th:text="${file.versionDto.fileDto.modifiedTime}"></td>
-                                        <td th:text="${file.versionDto.fileDto.size}"></td>
-                                    </tr>
-
                                     </tbody>
                                     <tfoot/>
                                 </form>

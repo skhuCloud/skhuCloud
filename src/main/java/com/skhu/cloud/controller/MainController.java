@@ -30,9 +30,9 @@ public class MainController {
     }
 
     @GetMapping("directories")
-    public ModelAndView clickDirectory(String path, Long pageNumber, String sortBy, String direction, Long jump) throws IOException{ // 페이지네이션 적용된 이동
+    public ModelAndView clickDirectory(String path, Long pageNumber, String sortBy, String direction, Long jump) throws IOException { // 페이지네이션 적용된 이동
         ModelAndView mvc = new ModelAndView("main");
-        System.out.println("jump : " + jump);
+
         if (pageNumber == null) {
             pageNumber = Const.INIT_PAGE_NUMBER;
         }
@@ -42,37 +42,17 @@ public class MainController {
             direction = ""; // Blank 로 채워준다.
         }
 
-        List<FileDto> fileDtoList = mainService.createFileDtoList(path);
-        Long totalSize = (long) Math.ceil((double) fileDtoList.size() / Const.PAGE_SIZE);
-
-        if (jump != null) { // 0 이 아닐때에만 진행하도록, 점프할때 점프한 페이지의 첫 페이지로 이동할 수 있도록
-            Long tempPageNumber = pageNumber;
-
-            tempPageNumber = ((tempPageNumber - 1 + jump) / Const.PAGE_SIZE) * Const.PAGE_SIZE + 1; // 현재 그렇게 만들어놓은 상태이다.
-
-            if (tempPageNumber < 0) {
-                pageNumber = 1L;
-            } else if (tempPageNumber <= totalSize) { // jump 한 page Number 가 음수가 된 경우는 무조건 1 페이지로 이동해야 한다.
-                pageNumber = tempPageNumber;
-            }
-        }
-        System.out.println("pageNumber : " + pageNumber);
-
-
-        Long start = (pageNumber - 1) / Const.PAGE_SIZE * Const.PAGE_SIZE + 1;
-        Long end = (pageNumber - 1) / Const.PAGE_SIZE * Const.PAGE_SIZE + Const.PAGE_SIZE;
-
-        if (end > totalSize) {
-            end = totalSize;
-        }
+        List<FileDto> fileDtoList = mainService.createFileDtoList(path, sortBy, direction);
+        Long[] pagingInfo = mainService.calculatePageNumber(fileDtoList, jump, pageNumber); // pagination 정보를 반환
 
         mvc.addObject("nowPath", path);
-        mvc.addObject("nowPage", pageNumber);
-        mvc.addObject("number", totalSize);
-        mvc.addObject("startNumber", start);
-        mvc.addObject("endNumber", end);
+        mvc.addObject("nowPage", pagingInfo[0]);
+        mvc.addObject("startNumber", pagingInfo[2]);
+        mvc.addObject("endNumber", pagingInfo[3]);
+        mvc.addObject("sortBy", sortBy);
+        mvc.addObject("direction", direction);
 
-        mainService.mvcAddObject(mvc , mainService.getDirectoryList(path), mainService.pagingFileDtoList(fileDtoList, pageNumber - 1, sortBy, direction)); // Paging 처리 부분
+        mainService.mvcAddObject(mvc , mainService.getDirectoryList(path), mainService.pagingFileDtoList(fileDtoList, (pagingInfo[0] - 1))); // Paging 처리 부분
 
         return mvc;
     }
@@ -111,7 +91,10 @@ public class MainController {
     @GetMapping("version")
     public ModelAndView compareVersion(String path , Long index) throws IOException{
         ModelAndView mvc = new ModelAndView("diffTest");
-        if(index == null) index = 0L;
+
+        if(index == null) {
+            index = 0L;
+        }
 
         // index 값은 , 해당 버전이 몇번째인지이고 , 현재로서는 index = 1이 첫번째 버전이니까 index 가 null 이라면 index = 1 로 설정해주자.
         List<FileVersionDto> versionList = mainService.getVersionList(path);

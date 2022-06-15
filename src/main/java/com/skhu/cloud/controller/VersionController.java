@@ -23,7 +23,7 @@ public class VersionController {
         ModelAndView mvc = new ModelAndView("folderVersion");
 
         mvc.addObject("main", key);
-        mvc.addObject("folderList", createMokService.returnMokFolderDtoList(key)); // 일단은 그냥 다 폴더로
+        mvc.addObject("fileList", createMokService.returnMokFolderDtoList(key)); // 일단은 그냥 다 폴더로
 
         return mvc;
     }
@@ -33,7 +33,7 @@ public class VersionController {
         ModelAndView mvc = new ModelAndView("folderVersion");
 
         mvc.addObject("main", name);
-        mvc.addObject("folderList", createMokService.returnMokFolderDtoList("folderVersion"));
+        mvc.addObject("fileList", createMokService.returnMokFolderDtoList("folderVersion"));
 
         return mvc;
     }
@@ -43,7 +43,7 @@ public class VersionController {
         ModelAndView mvc = new ModelAndView("folderVersion");
 
         mvc.addObject("main", name);
-        mvc.addObject("folderList", createMokService.returnMokFolderDiffDtoList());
+        mvc.addObject("fileList", createMokService.returnMokFolderDiffDtoList());
 
         return mvc;
     }
