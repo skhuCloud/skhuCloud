@@ -78,8 +78,8 @@
                                             </td>
                                             <td>
                                                 <img th:src = "${file.imageUrl}" style = "display : inline-block;" width = "20px" height = "20px"/>
-                                                <span th:if = "${file.kind == '폴더'}" th:class="fileName" th:text="${file.name}" th:directory-url = "${'/directories?path=' + file.path}"></span>
-                                                <span th:if = "${file.kind == '파일'}" th:class="fileName" th:text="${file.name}" th:file-url = "${'/file?path=' + file.path}"></span>
+                                                <span th:if = "${file.kind == '폴더'}" th:class="fileName" th:text="${file.name}" th:directory-url = "${'/directories?path=' + file.path + '&sortBy=' + sortBy + '&direction=' + direction}"></span>
+                                                <span th:if = "${file.kind == '파일'}" th:class="fileName" th:text="${file.name}" th:file-url = "${'/files?path=' + file.path}"></span>
                                                 <button  th:class="button-wrapper" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                                     <img th:class="more" src="/static/images/mini.png">
                                                 </button>
