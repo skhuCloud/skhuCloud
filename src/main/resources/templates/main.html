@@ -11,7 +11,7 @@
 
             <!-- Begin Page Content -->
             <div class="container-fluid">
-                <!-- DataTales -->
+                    <!-- DataTales -->
                 <div class="card shadow mb-4" style="float: left; width: 85%">
                     <div class="card-header py-3">
                         <i class = "fas fa-user"></i>
@@ -117,11 +117,8 @@
         <footer th:replace="fragments/footer.html :: footer"></footer>
     </div>
 </div>
-</body>
-</html>
-
-<script>
-    var tes = "[[${nowPath}]]";
+<script th:inline = "javascript">
+    var tes = [[${nowPath}]];
 
     //전체 선택 기능 함수
     $("#selectAll").click(function (){
@@ -168,8 +165,8 @@
     $("[page-number]").click(function () { // Pagination 을 진행해야 하기 떄문에, 숫자를 받아야 한다.
         var number = $(this).attr("page-number"); // page number 를 attribute 를 통해서 가져오는 모습
         var path = tes
-        var sortBy = "[[${sortBy}]]"
-        var direction = "[[${direction}]]"
+        var sortBy = [[${sortBy}]]
+        var direction = [[${direction}]]
 
         const url = window.location.protocol + '//' + window.location.host + "/directories?path=" + path + "&pageNumber=" + number + "&sortBy=" + sortBy + "&direction=" + direction;; // 이런식으로 할 수 있을 듯
         location.href = url;
@@ -178,10 +175,10 @@
     $("[sort-by]").click(function () { // Pagination 을 진행해야 하기 떄문에, 숫자를 받아야 한다.
         var sortBy = $(this).attr("sort-by"); // page number 를 attribute 를 통해서 가져오는 모습
         var direction = $(this).attr("direction");
-        var nowPage = "[[${nowPage}]]";
+        var nowPage = [[${nowPage}]];
         var path = tes
 
-        if (sortBy === "[[${sortBy}]]" && direction === "[[${direction}]]") { // 이전에 선택되어 있던 것이 현재 선택한것과 같으면? 그러면 해제를 해준다.
+        if (sortBy === [[${sortBy}]] && direction === [[${direction}]]) { // 이전에 선택되어 있던 것이 현재 선택한것과 같으면? 그러면 해제를 해준다.
             sortBy = "";
             direction = "";
         }
@@ -190,15 +187,18 @@
         location.href = url;
     })
 
-    function skips(val){
+    function skips(val) {
         console.log("jump : " + val);
         var jump = val;
-        var number = "[[${nowPage}]]"; // page number 를 attribute 를 통해서 가져오는 모습
-        var sortBy = "[[${sortBy}]]"
-        var direction = "[[${direction}]]"
+        var number = [[${nowPage}]]; // page number 를 attribute 를 통해서 가져오는 모습
+        var sortBy = [[${sortBy}]]
+        var direction = [[${direction}]]
         var path = tes
 
         const url = window.location.protocol + '//' + window.location.host + "/directories?path=" + path + "&pageNumber=" + number + "&sortBy=" + sortBy + "&direction=" + direction + "&jump=" + jump; // 이런식으로 할 수 있을 듯
         location.href = url;
     }
 </script>
+</body>
+</html>
+
