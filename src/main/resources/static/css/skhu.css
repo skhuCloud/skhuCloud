@@ -207,3 +207,17 @@ tr input[type="checkbox"]:checked + label { /* 이전과 같음 */
     background-color: rgb(237, 235, 233);
 }
 
+.skhu-img-format{
+    width : 20px;
+    height : 20px;
+}
+
+.page-number-wrapper{
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    position: absolute;
+    bottom: 0.3%;
+    right: 45%;
+}
+

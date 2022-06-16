@@ -3,6 +3,11 @@ body {
     /*margin-top: 2px;*/
 }
 
+tr {
+    line-height: 1.2rem !important;
+    word-break: break-all;
+}
+
 div.main-menu {
     border-bottom: 1px solid #ccc; padding: 10px 0px;
     background-color: #f8f8f8;
@@ -201,6 +206,24 @@ div.footer {
     display : none;
 }
 
+.radius-5{
+    border-radius: 5px;
+}
 
+.img-file-type{
+    display : inline-block;
+    width : 20px;
+    height : 20px;
+}
 
+.td-name{
+    width: 30%;
+}
+x
+.td-modifiedTime{
+    width : 40%;
+}
 
+.td-size{
+    width: 20%;
+}
