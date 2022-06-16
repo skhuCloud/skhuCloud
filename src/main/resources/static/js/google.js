@@ -21,40 +21,54 @@ for(var i = 0; i < time.length; i++){
 }
 
 var options = {
-//    width : 500,
-    height : 700,
+    width : '65vw',
+    height : '40vw',
     titleTextStyle: {
-        color : '#fbfbfe',
+        color : '#1E1E1E',
     },
     title: 'Version 별 코드량',
-    backgroundColor: '#1E1E1E',
+    backgroundColor: '#fff',
     is3D: true ,
     hAxis: {
         textStyle: {
-            color : '#fbfbfe',
+            fontSize : 10,
+            color : '#1E1E1E',
         },
         title: '시간',
         titleTextStyle: {
-            color : '#fbfbfe'
+            color : '#1E1E1E'
         },
     },
     vAxis: {
         textStyle: {
-            color : '#fbfbfe',
+            fontSize : 10,
+            color : '#1E1E1E',
         },
         title: '코드량\n(Byte)',
         titleTextStyle: {
-            color : '#fbfbfe'
+            color : '#1E1E1E'
         },
     },
     legend: {
         textStyle: {
-            color : '#fbfbfe'
+            color : '#1E1E1E'
         },
     }
 };
 
-var chart = new google.visualization.ColumnChart(
-                document.getElementById('chart_div'));
-chart.draw(data, options);
+    var chart = new google.visualization.ColumnChart(
+                document.getElementById('chart-div'));
+    chart.draw(data, options);
+
+    $(window).resize(function (){
+        console.log("resize...")
+        chart.draw(data, options);
+    })
+
+    $(".modalButton").click(function(){
+        console.log("modal 눌리면 resize~~1 ");
+        chart.draw(data, options);
+    })
+
+
 }

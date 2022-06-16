@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/head.html :: header">
+</head><button type="button" class="modalButton" style="background-color: greenyellow">
+    Launch demo modal
+</button>
+
+<!-- Modal -->
+<!--  //aria-hidden="true"-->
+<div class="mymodal" style="background-color: grey; position: absolute; display: none; top: 0; left: 0; width: 50%;height:50%;">
+</div >
+
+</html>
+
+<script>
+    const modal = document.getElementsByClassName("mymodal");
+
+    $(".modalButton").click(function(){
+        console.log("modal 눌림~~ ");
+        modal[0].style.display = 'block';
+    })
+</script>
+
+
+
+

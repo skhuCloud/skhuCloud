@@ -1,74 +1,74 @@
-<!DOCTYPE html>
-<html lang="ko" xmlns:th="http://www.thymeleaf.org">
-<head th:replace="fragments/head.html :: header">
-</head>
-<body>
-<nav th:replace="fragments/filetopbar.html :: filetopbar"></nav>
-<div style = "display : flex; height : 100vh;">
-    <div style = "width : 80vw; overflow-y : scroll; overflow-x : auto;">
-        <h2 th:text = "${' file : ' + title}" style = "color : #fbfbfe; margin-bottom : 20px;"></h2>
-        <div>추가된 글자 수 :   <span id="textAdded"></span></div>
-        <div>삭제된 글자 수 :   <span id="textRemoved"></span></div>
-        <pre><code id = "file_content" th:class = "${extension}"></code></pre>
-<!--        <pre id = "file_content"></pre>-->
-    </div>
-    <div style = "overflow-y : scroll; overflow-x : auto; width : 20vw; text-align : center; border-left : 1px solid white;
-                    box-shadow: rgba(255, 255, 255, 0.35) 5px 5px 5px; color : #fbfbfe">
-        <h3>버전 기록</h3>
-        <div th:each = "version : ${versionList}" style = "padding : 40px; border-bottom : 1px solid white; border-top : 1px solid white;">
-            <span th:if = "${index == versionStat.index}">-></span>
-            <span th:if = "${!(index == versionStat.index)}">&nbsp;&nbsp;</span>
-            <span th:content = "@{/version(path=${path}, index = ${versionStat.index})}" th:text = "${version.time}"/>
-        </div>
-        <div id = "chart_div"></div>
-    </div>
-</div>
-<div id = "time" th:text = "${time}"/>
-<div id = "code" th:text = "${code}"/>
-<div id = "diff_content1" th:text = "${content1}"/>
-<div id = "diff_content2" th:text = "${content2}"/>
-</body>
-<script>
-    const one = $('#diff_content1').text();
-    const other = $('#diff_content2').text();
+<!--<!DOCTYPE html>-->
+<!--<html lang="ko" xmlns:th="http://www.thymeleaf.org">-->
+<!--<head th:replace="fragments/head.html :: header">-->
+<!--</head>-->
+<!--<body>-->
+<!--<nav th:replace="fragments/filetopbar.html :: filetopbar"></nav>-->
+<!--<div style = "display : flex; height : 100vh;">-->
+<!--    <div style = "width : 80vw; overflow-y : scroll; overflow-x : auto;">-->
+<!--        <h2 th:text = "${' file : ' + title}" style = "color : #fbfbfe; margin-bottom : 20px;"></h2>-->
+<!--        <div>추가된 글자 수 :   <span id="textAdded"></span></div>-->
+<!--        <div>삭제된 글자 수 :   <span id="textRemoved"></span></div>-->
+<!--        <pre><code id = "file_content" th:class = "${extension}"></code></pre>-->
+<!--&lt;!&ndash;        <pre id = "file_content"></pre>&ndash;&gt;-->
+<!--    </div>-->
+<!--    <div style = "overflow-y : scroll; overflow-x : auto; width : 20vw; text-align : center; border-left : 1px solid white;-->
+<!--                    box-shadow: rgba(255, 255, 255, 0.35) 5px 5px 5px; color : #fbfbfe">-->
+<!--        <h3>버전 기록</h3>-->
+<!--        <div th:each = "version : ${versionList}" style = "padding : 40px; border-bottom : 1px solid white; border-top : 1px solid white;">-->
+<!--            <span th:if = "${index == versionStat.index}">-></span>-->
+<!--            <span th:if = "${!(index == versionStat.index)}">&nbsp;&nbsp;</span>-->
+<!--            <span th:content = "@{/version(path=${path}, index = ${versionStat.index})}" th:text = "${version.time}"/>-->
+<!--        </div>-->
+<!--        <div id = "chart-div"></div>-->
+<!--    </div>-->
+<!--</div>-->
+<!--<div id = "time" th:text = "${time}"/>-->
+<!--<div id = "code" th:text = "${code}"/>-->
+<!--<div id = "diff_content1" th:text = "${content1}"/>-->
+<!--<div id = "diff_content2" th:text = "${content2}"/>-->
+<!--</body>-->
+<!--<script>-->
+<!--    const one = $('#diff_content1').text();-->
+<!--    const other = $('#diff_content2').text();-->
 
 
-    color = ''
+<!--    color = ''-->
 
 
-    const diff = Diff.diffLines(one,other), //문장에 한 단어만 추가되도 아예 다른 문장으로 취급됨
-    content = document.getElementById('file_content'),
-    fragment = document.createDocumentFragment(); //다른 노드를 담는 임시 컨테이너 역할을 하는 특수 목적의 노드이다.
+<!--    const diff = Diff.diffLines(one,other), //문장에 한 단어만 추가되도 아예 다른 문장으로 취급됨-->
+<!--    content = document.getElementById('file_content'),-->
+<!--    fragment = document.createDocumentFragment(); //다른 노드를 담는 임시 컨테이너 역할을 하는 특수 목적의 노드이다.-->
 
-    textAdded = document.getElementById('textAdded'),
-    textRemoved = document.getElementById('textRemoved');
+<!--    textAdded = document.getElementById('textAdded'),-->
+<!--    textRemoved = document.getElementById('textRemoved');-->
 
-    let _added = 0;
-    let _removed = 0;
+<!--    let _added = 0;-->
+<!--    let _removed = 0;-->
 
-    diff.forEach((part) => {
+<!--    diff.forEach((part) => {-->
 
-        if(part.added) {
-            color = "#2EA04326";
-            _added += part.value.length;
-        }
-        else if(part.removed){
-            color = "#F8514926";
-            _removed += part.value.length;
-        }
-        else {
-            color = "";
-        }
+<!--        if(part.added) {-->
+<!--            color = "#2EA04326";-->
+<!--            _added += part.value.length;-->
+<!--        }-->
+<!--        else if(part.removed){-->
+<!--            color = "#F8514926";-->
+<!--            _removed += part.value.length;-->
+<!--        }-->
+<!--        else {-->
+<!--            color = "";-->
+<!--        }-->
 
-        code = document.createElement('code');
-        code.style.backgroundColor = color + " !important";
-        code.appendChild(document
-            .createTextNode(part.value + "\n"));
-        fragment.appendChild(code);
-    });
+<!--        code = document.createElement('code');-->
+<!--        code.style.backgroundColor = color + " !important";-->
+<!--        code.appendChild(document-->
+<!--            .createTextNode(part.value + "\n"));-->
+<!--        fragment.appendChild(code);-->
+<!--    });-->
 
-    content.appendChild(fragment);
-    textAdded.appendChild(document.createElement('div').appendChild(document.createTextNode(_added)));
-    textRemoved.appendChild(document.createElement('div').appendChild(document.createTextNode(_removed)));
+<!--    content.appendChild(fragment);-->
+<!--    textAdded.appendChild(document.createElement('div').appendChild(document.createTextNode(_added)));-->
+<!--    textRemoved.appendChild(document.createElement('div').appendChild(document.createTextNode(_removed)));-->
 
-</script>
+<!--</script>-->

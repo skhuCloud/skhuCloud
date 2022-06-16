@@ -18,6 +18,10 @@ import java.util.List;
 public class MainController {
 
     private final MainService mainService;
+    @GetMapping("/modal")
+    public String test() {
+        return "modal";
+    }
 
     // 맨 처음에만 불러져야 하는 action method
     @GetMapping("")
@@ -70,8 +74,7 @@ public class MainController {
         List<FileVersionDto> versionList = mainService.getVersionList(path);
 
         mvc.addObject("diff", false);
-        mainService.filesMvcAddObject(mvc , FileDto.getExtension(path) , versionList , mainService.getTimeList(versionList),
-                mainService.getCodeList(versionList) , path , index , mainService.getComponentName(path));
+        mainService.filesMvcAddObject(mvc , FileDto.getExtension(path) , versionList, path , index , mainService.getComponentName(path));
 
         return mvc;
     }
@@ -99,8 +102,8 @@ public class MainController {
         // index 값은 , 해당 버전이 몇번째인지이고 , 현재로서는 index = 1이 첫번째 버전이니까 index 가 null 이라면 index = 1 로 설정해주자.
         List<FileVersionDto> versionList = mainService.getVersionList(path);
 
-        mainService.versionMvcAddObject(mvc , FileDto.getExtension(path) , versionList , mainService.getTimeList(versionList),
-                mainService.getCodeList(versionList) , path , index , mainService.getComponentName(path));
+        mainService.versionMvcAddObject(mvc , FileDto.getExtension(path) , versionList
+                , path , index , mainService.getComponentName(path));
 
         return mvc;
     }

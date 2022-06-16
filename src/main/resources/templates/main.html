@@ -144,6 +144,7 @@
         })
             .done(function (result) { // ajax 를 통해서, 전체 교환
                 $("#sidebar").replaceWith(result);
+                console.log(result)
             })
             .fail(function(jqXHR) {
                 console.log(jqXHR);

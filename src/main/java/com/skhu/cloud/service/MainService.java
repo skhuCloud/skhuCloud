@@ -48,18 +48,18 @@ public interface MainService {
 
     // "/files" 에 mvc.addObject 가 너무 많아서 , Service 측으로 옮김
     void filesMvcAddObject(ModelAndView mvc , String extension , List<FileVersionDto> versionList,
-                           List<String> time , List<Long> code , String path , Long index , String title) throws IOException;
+                           String path , Long index , String title) throws IOException;
 
     // versionDto 를 반환해주는 getVersionList
     List<FileVersionDto> getVersionList(String path);
 
     // 각 versionDto 들의 Time 을 반환해주는 getTimeList
-    List<String> getTimeList(List<FileVersionDto> fileVersionDtoList);
+    List<String> getTimeList();
 
     // 각 versionDto 들의 Code양을 반환해주는 getCodeList
-    List<Long> getCodeList(List<FileVersionDto> fileVersionDtoList);
+    List<Long> getCodeList();
 
     // "/version" controller 에서 mvc object 에다가 content 주입
-    void versionMvcAddObject(ModelAndView mvc , String extension , List<FileVersionDto> versionList,
-                             List<String> time , List<Long> code , String path , Long index , String title) throws IOException;
+    void versionMvcAddObject(ModelAndView mvc , String extension , List<FileVersionDto> versionList
+            , String path , Long index , String title) throws IOException;
 }
