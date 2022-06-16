@@ -4,6 +4,7 @@ body {
 }
 
 tr {
+    width : 100%;
     line-height: 1.2rem !important;
     word-break: break-all;
 }
@@ -217,7 +218,7 @@ div.footer {
 }
 
 .td-name{
-    width: 30%;
+    width: 40%;
 }
 x
 .td-modifiedTime{
@@ -225,5 +226,5 @@ x
 }
 
 .td-size{
-    width: 20%;
+    width: 19%;
 }
