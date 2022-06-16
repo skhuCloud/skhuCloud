@@ -8,54 +8,46 @@
     <div id="content-wrapper" class="d-flex flex-column">
         <div id="content">
             <nav th:replace="fragments/topbar.html :: topbar" style="height: 100%"></nav>
-
             <div class="container-fluid">
-                <div>
-                    <h1 class="h3 mb-2 text-gray-800" th:text= "${title}"></h1>
-                </div>
+                <!-- DataTales -->
+                <div class="card shadow mb-4" style="float: left; width: 85%">
+                    <div class="card-header py-3">
+                        <div>
+                            <h3 class = "file-content-title" th:text= "${title + ' '}"></h3>
+                            <h3 class = "file-content-title" th:if = "${!diff && modified == null}">내용</h3>
+                            <h3 class = "file-content-title" th:if = "${!diff && modified != null}">버전 내용</h3>
+                            <h3 class = "file-content-title" th:if = "${diff}">버전 내용 비교</h3>
+                        </div>
+                    </div>
 <!--                not diff version-->
-                <div th:if = "${!diff}" class="card shadow mb-4" style="float: left !important; width: 85% !important;">
-                    <div class="card-body" style="overflow-y : scroll; overflow-x : auto;">
-                        <h3 th:text = "${modified}"></h3>
-                        <pre>
-                            <code id = "file_content" th:class = "${extension}" th:text = "${content}"></code>
-                        </pre>
+                    <div class="card-body">
+                        <div class = "file-content-wrapper" th:if = "${!diff}">
+                            <div id = "not-diff-content">
+                                <h6 th:text = "${modified}"></h6>
+                                <pre>
+                                    <code id = "file-content" th:class = "${extension}" th:text = "${content}"></code>
+                                </pre>
+                            </div>
+                        </div>
+
+    <!--                diff version-->
+                        <div class = "file-content-wrapper" th:if = "${diff}">
+                            <div id = "file-diff-content-parent">
+                                <div id = "content1-block">
+                                    <h6 id = "content1-modifiedTime" th:text = "${firstModified}"></h6>
+                                    <div id = "content1"></div>
+                                </div>
+                                <div id = "content2-block">
+                                    <h6 id = "content2-modifiedTime" th:text = "${secondModified}"></h6>
+                                    <div id = "content2"></div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
-
-<!--                diff version-->
-                <div th:if = "${diff}" class="card shadow mb-4" style="float: left !important; width: 85% !important;">
-                    <div id = "file-diff-content-parent" class="card-body">
-                        <div id = "content1-block">
-                            <h3 id = "content1-modified" th:text = "${firstModified}"></h3>
-                            <div id = "content1"></div>
-                        </div>
-                        <div id = "content2-block">
-                            <h3 id = "content2-modified" th:text = "${secondModified}"></h3>
-                            <div id = "content2"></div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- 버전 기록 -->
-<!--                <div style = "overflow-y : scroll; overflow-x : auto; width : 15%; text-align : center; border-left : 1px solid white;&ndash;&gt;-->
-<!--                    box-shadow: rgba(255, 255, 255, 0.35) 5px 5px 5px; color : lightblue">-->
-<!--                            <h3>버전 기록</h3>-->
-<!--                            <div th:each = "version : ${versionList}" style = "padding : 40px; border-bottom : 1px solid white; border-top : 1px solid white;">-->
-<!--                                <span th:if = "${index == versionStat.index}">-></span>-->
-<!--                                <span th:if = "${!(index == versionStat.index)}">&nbsp;&nbsp;</span>-->
-<!--                                <span th:content = "@{/files(path=${path}, index = ${versionStat.index})}" th:text = "${version.time}"/>-->
-<!--                            </div>-->
-<!--                            <div id = "chart_div"></div>-->
-<!--                </div>  -->
-
-<!--                <div id = "time" th:text = "${time}"/>-->
-<!--                <div id = "code" th:text = "${code}"/>-->
             </div>
         </div>
     </div>
-</div>
-<!--<footer th:replace="fragments/footer.html :: footer"></footer>-->
 </div>
 </body>
 <footer th:replace="fragments/footer.html :: footer"></footer>
