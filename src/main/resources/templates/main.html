@@ -6,15 +6,12 @@
 <body id="page-top">
 <div id="wrapper">
     <div id="content-wrapper" class="d-flex flex-column">
-        <div id="content" style="padding-bottom: 2rem">
+        <div id="content">
             <nav th:replace="fragments/topbar.html :: topbar"></nav>
 
             <!-- Begin Page Content -->
-            <div class="container-fluid" style="padding-top: 1.5rem">
-                <!-- Page Heading -->
-                <h1 class="h3 mb-2 text-gray-800"></h1>
-
-                <!-- DataTales Example -->
+            <div class="container-fluid">
+                <!-- DataTales -->
                 <div class="card shadow mb-4" style="float: left; width: 85%">
                     <div class="card-header py-3">
                         <i class = "fas fa-user"></i>
@@ -31,11 +28,11 @@
                                     <tr>
                                         <div id = "search-bar">
                                             <a id = "download-button" style = "display : flex;" href = "#" onclick = "return downloads()">
-                                                <img style = "width : 20px; height : 20px;" src = "/static/images/d32.png"/>
+                                                <img class="skhu-img-format" src = "/static/images/d32.png"/>
                                                 <span>다운로드</span>
                                             </a>
-                                            <input id = "search-key" type = "text" placeholder = "입력하시오." th:name = "${key}" th:value = "${key}" style="border-radius: 5px;"/>
-                                            <span id = "search-key-submit" style="border-radius: 5px;">
+                                            <input id = "search-key" class="radius-5" type = "text" placeholder = "입력하시오." th:name = "${key}" th:value = "${key}"/>
+                                            <span id = "search-key-submit" class="radius-5">
                                                 <img id = "search-key-submit-content" src = "/static/images/search_icon.png"/>
                                             </span>
                                         </div>
@@ -46,27 +43,27 @@
                                             <input type="checkbox" id="selectAll">
                                             <label for = "selectAll">&nbsp</label>
                                         </td>
-                                        <th class = "th-name">
+                                        <th>
                                             이름
-                                            <img class = "sort-select" th:if = "${sortBy == 'name' && direction == 'desc'}" th:sort-by = "name" th:direction="desc" src = "/static/images/down.png"/>
-                                            <img th:if = "${!(sortBy == 'name' && direction == 'desc')}" th:sort-by = "name" th:direction="desc" src = "/static/images/down.png"/>
-                                            <img class = "sort-select" th:if = "${sortBy == 'name' && direction == 'asc'}" th:sort-by = "name" th:direction="asc"  src = "/static/images/up.png"/>
-                                            <img th:if = "${!(sortBy == 'name' && direction == 'asc')}" th:sort-by = "name" th:direction="asc"  src = "/static/images/up.png"/>
+                                            <img class = "sort-select skhu-img-format" th:if = "${sortBy == 'name' && direction == 'desc'}" th:sort-by = "name" th:direction="desc" src = "/static/images/down.png"/>
+                                            <img class = "skhu-img-format"th:if = "${!(sortBy == 'name' && direction == 'desc')}" th:sort-by = "name" th:direction="desc" src = "/static/images/down.png"/>
+                                            <img class = "sort-select skhu-img-format" th:if = "${sortBy == 'name' && direction == 'asc'}" th:sort-by = "name" th:direction="asc"  src = "/static/images/up.png"/>
+                                            <img class = "skhu-img-format" th:if = "${!(sortBy == 'name' && direction == 'asc')}" th:sort-by = "name" th:direction="asc"  src = "/static/images/up.png"/>
 
                                         </th>
-                                        <th class = "th-modifiedTime">
+                                        <th>
                                             수정일
-                                            <img class = "sort-select" th:if = "${sortBy == 'modifiedTime' && direction == 'desc'}" th:sort-by = "modifiedTime" th:direction="desc" style = "width : 20px; height : 20px;" src = "/static/images/down.png"/>
-                                            <img th:if = "${!(sortBy == 'modifiedTime' && direction == 'desc')}" th:sort-by = "modifiedTime" th:direction="desc" style = "width : 20px; height : 20px;" src = "/static/images/down.png"/>
-                                            <img class = "sort-select" th:if = "${sortBy == 'modifiedTime' && direction == 'asc'}" th:sort-by = "modifiedTime" th:direction="asc" style = "width : 20px; height : 20px;" src = "/static/images/up.png"/>
-                                            <img th:if = "${!(sortBy == 'modifiedTime' && direction == 'asc')}" th:sort-by = "modifiedTime" th:direction="asc" style = "width : 20px; height : 20px;" src = "/static/images/up.png"/>
+                                            <img class = "sort-select skhu-img-format" th:if = "${sortBy == 'modifiedTime' && direction == 'desc'}" th:sort-by = "modifiedTime" th:direction="desc" src = "/static/images/down.png"/>
+                                            <img class = "skhu-img-format" th:if = "${!(sortBy == 'modifiedTime' && direction == 'desc')}" th:sort-by = "modifiedTime" th:direction="desc" src = "/static/images/down.png"/>
+                                            <img class = "sort-select skhu-img-format" th:if = "${sortBy == 'modifiedTime' && direction == 'asc'}" th:sort-by = "modifiedTime" th:direction="asc" src = "/static/images/up.png"/>
+                                            <img class = "skhu-img-format" th:if = "${!(sortBy == 'modifiedTime' && direction == 'asc')}" th:sort-by = "modifiedTime" th:direction="asc" src = "/static/images/up.png"/>
                                         </th>
-                                        <th class = "th-size">
+                                        <th>
                                             크기
-                                            <img class = "sort-select" th:if = "${sortBy == 'size' && direction == 'desc'}" th:sort-by = "size" th:direction="desc" style = "width : 20px; height : 20px;" src = "/static/images/down.png"/>
-                                            <img th:if = "${!(sortBy == 'size' && direction == 'desc')}" th:sort-by = "size" th:direction="desc" style = "width : 20px; height : 20px;" src = "/static/images/down.png"/>
-                                            <img class = "sort-select" th:if = "${sortBy == 'size' && direction == 'asc'}" th:sort-by = "size" th:direction="asc" style = "width : 20px; height : 20px;" src = "/static/images/up.png"/>
-                                            <img th:if = "${!(sortBy == 'size' && direction == 'asc')}" th:sort-by = "size" th:direction="asc" style = "width : 20px; height : 20px;" src = "/static/images/up.png"/>
+                                            <img class = "sort-select skhu-img-format" th:if = "${sortBy == 'size' && direction == 'desc'}" th:sort-by = "size" th:direction="desc" src = "/static/images/down.png"/>
+                                            <img class = "skhu-img-format" th:if = "${!(sortBy == 'size' && direction == 'desc')}" th:sort-by = "size" th:direction="desc" src = "/static/images/down.png"/>
+                                            <img class = "sort-select skhu-img-format" th:if = "${sortBy == 'size' && direction == 'asc'}" th:sort-by = "size" th:direction="asc" src = "/static/images/up.png"/>
+                                            <img class = "skhu-img-format" th:if = "${!(sortBy == 'size' && direction == 'asc')}" th:sort-by = "size" th:direction="asc" src = "/static/images/up.png"/>
                                         </th>
                                     </tr>
                                     </thead>
@@ -77,7 +74,7 @@
                                                 <label th:for = "${'cbox-file' + index.index}">&nbsp</label>
                                             </td>
                                             <td class = "td-name">
-                                                <img th:src = "${file.imageUrl}" style = "display : inline-block;" width = "20px" height = "20px"/>
+                                                <img th:class="img-file-type" th:src = "${file.imageUrl}"/>
                                                 <span th:if = "${file.kind == '폴더'}" th:class="fileName" th:text="${file.name}" th:directory-url = "${'/directories?path=' + file.path + '&sortBy=' + sortBy + '&direction=' + direction}"></span>
                                                 <span th:if = "${file.kind == '파일'}" th:class="fileName" th:text="${file.name}" th:file-url = "${'/files?path=' + file.path}"></span>
                                                 <button  th:class="button-wrapper" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -95,16 +92,16 @@
                                     <tfoot/>
                                 </form>
                             </table>
-                            <div style="justify-content: center; align-items: center; display: flex;">
+                            <div class="page-number-wrapper">
                                 <div th:id = "page-number-block">
-                                    <img class = "skip-button" onclick="skips(-10)" style = "width : 20px; height : 20px;" src = "/static/images/double-left.png"/>
+                                    <img class = "skip-button skhu-img-format" onclick="skips(-10)" src = "/static/images/double-left.png"/>
                                     <span th:class = "page-number-iterator" th:each="num : ${#numbers.sequence(startNumber, endNumber)}">
-                                        <!-- 현재 페이지가 아닌 span tag -->
+                                          <!-- 현재 페이지가 아닌 span tag -->
                                         <span th:if = "${!(num == nowPage)}" th:class = "page-number" th:page-number = "${num}" th:text="${num}"></span>
                                         <!-- 현재 페이지 span tag -->
                                         <span id = "now-page" th:if = "${num == nowPage}"th:class = "page-number" th:page-number = "${num}" th:text="${num}"></span>
                                     </span >
-                                    <img class = "skip-button" onclick="skips(10)" style = "width : 20px; height : 20px;" src = "/static/images/double-right.png"/>
+                                    <img class = "skip-button skhu-img-format" onclick="skips(10)" src = "/static/images/double-right.png"/>
 
                                 </div>
                             </div>
