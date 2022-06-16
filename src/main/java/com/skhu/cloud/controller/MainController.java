@@ -30,7 +30,7 @@ public class MainController {
     }
 
     @GetMapping("directories")
-    public ModelAndView clickDirectory(String path, Long pageNumber, String sortBy, String direction, Long jump) throws IOException { // 페이지네이션 적용된 이동
+    public ModelAndView clickDirectory(String path, Long pageNumber, String sortBy, String direction, Long jump, Boolean ajax) throws IOException { // 페이지네이션 적용된 이동
         ModelAndView mvc = new ModelAndView("main");
 
         if (pageNumber == null) {
@@ -54,7 +54,12 @@ public class MainController {
 
         mainService.mvcAddObject(mvc , mainService.getDirectoryList(path), mainService.pagingFileDtoList(fileDtoList, (pagingInfo[0] - 1))); // Paging 처리 부분
 
-        return mvc;
+        if (ajax != null) {
+            mvc.setViewName("main :: #wrapper"); // # 이 붙을 경우, 특정 부분만 넘기는
+            return mvc;
+        } else {
+            return mvc;
+        }
     }
 
     @GetMapping("files")
