@@ -37,10 +37,7 @@
     <!--    시간-->
     <div th:each="mock, index : ${mockList}" style="margin-bottom:17px">
         <span style="font-size: 10px;">13:45분에 변경되었습니다.</span>
-        <div class="card_" style="background-color: white;
-        height: 70px; display: flex;
-                align-items: center;
-                 padding: 0.5rem;">
+        <div class="card_">
             <div class="_checkbox" style=" width: 20%;  display: flex;align-items: center;
                 justify-content: center;">
                 <div th:class="cbox-cover">
@@ -48,13 +45,7 @@
                     <label th:for = "${'cbox-sidebar' + index.index}" >&nbsp</label>
                 </div>
             </div>
-            <div class="file-name_" style=" display: flex; height: 100%;
-                width: 70%;
-                text-align: center;
-                justify-content: center;
-                align-items: center;
-                padding: 0.15rem;"
-                 th:version-url = "${'/version/' + kind + '?name=' + kind}" th:text="${mock.getVersionDto().getFileDto().getName()}">
+            <div class="file-name_" th:version-url = "${'/version/' + kind + '?name=' + kind}" th:text="${mock.getVersionDto().getFileDto().getName()}">
                 <!--                <span>abc 폴더가 변경되었습니다.</span>-->
             </div>
         </div>
