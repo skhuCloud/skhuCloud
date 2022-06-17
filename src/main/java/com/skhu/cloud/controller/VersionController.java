@@ -33,6 +33,7 @@ public class VersionController {
         ModelAndView mvc = new ModelAndView("folderVersion");
 
         mvc.addObject("main", name);
+        mvc.addObject("diff", false);
         mvc.addObject("fileList", createMokService.returnMokFolderDtoList("folderVersion"));
 
         return mvc;
@@ -43,6 +44,7 @@ public class VersionController {
         ModelAndView mvc = new ModelAndView("folderVersion");
 
         mvc.addObject("main", name);
+        mvc.addObject("diff", true);
         mvc.addObject("fileList", createMokService.returnMokFolderDiffDtoList());
 
         return mvc;
