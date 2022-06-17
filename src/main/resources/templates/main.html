@@ -144,7 +144,6 @@
         })
             .done(function (result) { // ajax 를 통해서, 전체 교환
                 $("#sidebar").replaceWith(result);
-                console.log(result)
             })
             .fail(function(jqXHR) {
                 console.log(jqXHR);
@@ -189,7 +188,6 @@
     })
 
     function skips(val) {
-        console.log("jump : " + val);
         var jump = val;
         var number = [[${nowPage}]]; // page number 를 attribute 를 통해서 가져오는 모습
         var sortBy = [[${sortBy}]]

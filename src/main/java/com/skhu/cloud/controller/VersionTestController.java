@@ -28,14 +28,10 @@ public class VersionTestController {
 
         List<FolderDiffDto> mockList =  createMokService.returnMokFolderDtoList(kind);
 
-        for(FolderDiffDto f : mockList){
-            System.out.println("~!  " +f.getVersionDto().getFileDto().getName());
-        }
-
         mvc.addObject("time", mainService.getTimeList());
         mvc.addObject("code", mainService.getCodeList()); // mok data 로 받음
         mvc.addObject("mockList", mockList);
-        mvc.addObject("kind", (kind.equals(Const.FOLDER)) ? Const.FOLDER : Const.FILE);
+        mvc.addObject("kind", (kind.equals(Const.FOLDER)) ? "folder" : "file");
 
         return mvc;
     }

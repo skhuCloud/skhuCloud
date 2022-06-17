@@ -15,7 +15,7 @@
 
     <!-- Sidebar - Brand -->
     <h6 style="text-align: center; color: #bebebe;">버전 내역</h6>
-    <button type="button" class="modalButton" >
+    <button type="button" class="modal-button" >
         변화량 보기
     </button>
     <div class="my-modal radius-5">
@@ -101,9 +101,9 @@
                     var newWindow = window.open("about:blank");
                     var url = "";
                     if (kind === "folder") {
-                        url = "/version/folder/diff?name=폴더";
+                        url = "/version/folder/diff?name=folder";
                     } else {
-                        url = "/version/file/diff?name=파일";
+                        url = "/version/file/diff?name=file";
                     }
                     newWindow.location.href = url;
                     location.href = nowPath;
@@ -114,18 +114,15 @@
         }
     };
 
-    //Modal
     const modal = document.getElementsByClassName("my-modal");
     var chart = document.getElementById('chart-div');
 
-    $(".modalButton").click(function(){
-        console.log("modal 눌림~~ ");
+    $(".modal-button").click(function(){
         modal[0].style.display = 'block';
         // document.getElementById("time").sty
     })
 
     $('#exit-button').click(function (){
-        console.log("나가기 버튼");
         modal[0].style.display = 'none';
     })
 </script>

@@ -12,7 +12,9 @@
             <div class="container-fluid">
                 <div class="card shadow mb-4" style="float: left; width: 85%">
                     <div class="card-header py-3">
-                        <span th:text = "${main + ' 폴더 변경 로그'}"></span>
+                        <h3 class = "content-title" th:text = "${main + ' '}"></h3>
+                        <h3 class = "content-title" th:if = "${!diff}">버전 목록</h3>
+                        <h3 class = "content-title" th:if = "${diff}">버전 목록 비교</h3>
                     </div>
                     <div class="card-body">
                         <div class="table-responsive">

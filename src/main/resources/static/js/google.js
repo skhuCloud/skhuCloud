@@ -61,14 +61,10 @@ var options = {
     chart.draw(data, options);
 
     $(window).resize(function (){
-        console.log("resize...")
         chart.draw(data, options);
     })
 
-    $(".modalButton").click(function(){
-        console.log("modal 눌리면 resize~~1 ");
+    $(".modal-button").click(function(){
         chart.draw(data, options);
     })
-
-
 }
