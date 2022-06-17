@@ -68,6 +68,9 @@
                         </div>
                     </div>
                 </div>
+                <div id="sidebarWrapper" style="display:none;">
+                    <div id = "sidebar"></div>
+                </div>
             </div>
         </div>
         <footer th:replace="fragments/footer.html :: footer"></footer>
@@ -77,6 +80,29 @@
 </html>
 
 <script>
+    var sWrapper = document.getElementById("sidebarWrapper");
+    $(".dropdown-menu").click(function () {
+        var kind = $(this).children()[0].value;
+
+        const url = window.location.protocol + '//' + window.location.host + "/version/test/1?kind=" + kind;
+
+        $.ajax({
+            type: "GET",
+            url: url,
+        })
+            .done(function (result) { // ajax 를 통해서, 전체 교환
+                $("#sidebar").replaceWith(result);
+            })
+            .fail(function(jqXHR) {
+                console.log(jqXHR);
+            })
+            .always(function() {
+                console.log("요청, 응답 결과에 상관없이, 이건 항상 실행됩니다.");
+            })
+
+        sWrapper.style.display = 'block';
+    })
+
     function downloads() {
         document.getElementById('main-form').submit(); // submit 버튼역할을 해줄 것임
     }
