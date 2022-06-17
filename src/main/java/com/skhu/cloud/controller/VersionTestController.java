@@ -1,7 +1,9 @@
 package com.skhu.cloud.controller;
 
+import com.skhu.cloud.constant.Const;
 import com.skhu.cloud.dto.diff.FolderDiffDto;
 import com.skhu.cloud.service.Impl.CreateMokServiceImpl;
+import com.skhu.cloud.service.MainService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
@@ -17,11 +19,12 @@ import java.util.List;
 @Slf4j
 public class VersionTestController {
 
+    private final MainService mainService;
     private final CreateMokServiceImpl createMokService;
 
     @GetMapping("/1")
     public ModelAndView showVersions(String kind){
-        ModelAndView mv = new ModelAndView("/fragments/sidebar");
+        ModelAndView mvc = new ModelAndView("/fragments/sidebar");
 
         List<FolderDiffDto> mockList =  createMokService.returnMokFolderDtoList(kind);
 
@@ -29,9 +32,11 @@ public class VersionTestController {
             System.out.println("~!  " +f.getVersionDto().getFileDto().getName());
         }
 
-        mv.addObject("mockList", mockList);
-        mv.addObject("kind", (kind.equals("폴더")) ? "folder" : "file");
+        mvc.addObject("time", mainService.getTimeList());
+        mvc.addObject("code", mainService.getCodeList()); // mok data 로 받음
+        mvc.addObject("mockList", mockList);
+        mvc.addObject("kind", (kind.equals(Const.FOLDER)) ? Const.FOLDER : Const.FILE);
 
-        return mv;
+        return mvc;
     }
 }

@@ -4,7 +4,7 @@ body {
 }
 
 tr {
-    width : 100%;
+    width: 100%;
     line-height: 1.2rem !important;
     word-break: break-all;
 }
@@ -183,7 +183,7 @@ div.footer {
 }
 
 #content1-modifiedTime, #content2-modifiedTime {
-    width : 49.5%
+    width : 49.5%;
     background : #fff;
 }
 
@@ -234,7 +234,7 @@ div.footer {
     transition : color 0.5s;
 }
 
-.directory-url-content{
+.directory-url-content {
     display : none;
 }
 
@@ -242,17 +242,17 @@ div.footer {
     border-radius: 5px;
 }
 
-.img-file-type{
+.img-file-type {
     display : inline-block;
     width : 20px;
     height : 20px;
 }
 
-.td-name{
+.td-name {
     width: 40%;
 }
 
-.td-modifiedTime{
+.td-modifiedTime {
     width : 40%;
 }
 
@@ -268,10 +268,32 @@ div.footer {
     left : 15%;
     width : 65vw;
     height : 40vw;
-    box-shadow : 0.15rem 1.75rem 0 rgba(58,59,69,.15) !important;
+    box-shadow: 0 .15rem 1.75rem 0 rgba(58,59,69,.15)!important;
     align-content : center;
     justify-content : center;
-    margin-bottom : 10px;
+    padding : 20px;
+}
+
+.img-wrapper {
+    width: 100%;
+    text-align: right;
+}
+
+#exit-button {
+    cursor: pointer !important;
+    z-index: 100000000000;
+    width: 20px;
+    height: 20px;
+}
+
+.modalButton {
+    border-width: 0px;
+    box-shadow: 0 .15rem 1.75rem 0 rgba(58,59,69,.15)!important;
+    background-color: #a2b7f3;
+    border-radius: 10px;
+    margin-top: 1%;
+    margin-bottom: 10%;
+    width: 100%;
 }
 
 .chart-div {

@@ -1,14 +1,10 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/head.html :: header">
+</head>
 <!-- Sidebar -->
 <ul th:id="sidebar";
     th:fragment="sidebar" style="
-    /*background: -moz-linear-gradient(top, #E2E2E2 0%, #ECECEC 50%, #F6F6F6 100%);*/
-    /*background: -webkit-linear-gradient(top, #E2E2E2 0%, #ECECEC 50%, #F6F6F6 100%);*/
-    /*background: linear-gradient(to bottom, #E2E2E2 0%, #F6F6F6 100%);*/
-    /*background: -moz-linear-gradient(top, #E2E2E2 0%, #ECECEC 50%, #F6F6F6 100%);*/
-    /*background: -webkit-linear-gradient(top, #E2E2E2 0%, #ECECEC 50%, #F6F6F6 100%);*/
-    /*background: linear-gradient(to bottom, #E2E2E2 0%, #ECECEC 50%, #F6F6F6 100%);*/
     background-color: rgb(237, 235, 233);
     border-radius: 5px;
     float: left;width: 14%;
@@ -19,6 +15,21 @@
 
     <!-- Sidebar - Brand -->
     <h6 style="text-align: center; color: #bebebe;">버전 내역</h6>
+    <button type="button" class="modalButton" >
+        변화량 보기
+    </button>
+    <div class="my-modal radius-5">
+        <div class="img-wrapper">
+            <img id = "exit-button" src="/static/images/exitButton.png">
+        </div>
+        <div id = "time" th:text = "${time}"/>
+        <div id = "code" th:text = "${code}"/>
+        <div id = "chart-area">
+            <div id = "chart-div"></div>
+        </div>
+    </div>
+
+
 
     <!-- Divider -->
     <hr class="sidebar-divider my-0" style="margin-bottom: 1rem !important;">
@@ -102,4 +113,19 @@
             }, 200);  // 2개가 체크가 된 후 alert 창을 띄우기 위해서 200ms 뒤에 실행시킴.
         }
     };
+
+    //Modal
+    const modal = document.getElementsByClassName("my-modal");
+    var chart = document.getElementById('chart-div');
+
+    $(".modalButton").click(function(){
+        console.log("modal 눌림~~ ");
+        modal[0].style.display = 'block';
+        // document.getElementById("time").sty
+    })
+
+    $('#exit-button').click(function (){
+        console.log("나가기 버튼");
+        modal[0].style.display = 'none';
+    })
 </script>

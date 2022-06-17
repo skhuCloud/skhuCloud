@@ -12,6 +12,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import java.io.*;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.*;
 
 @Service
@@ -187,12 +188,10 @@ public class MainServiceImpl implements MainService {
 
     @Override
     public void filesMvcAddObject(ModelAndView mvc , String extension, List<FileVersionDto> versionList,
-                                  List<String> time, List<Long> code, String path, Long index , String title) throws IOException{
+                                  String path, Long index , String title) throws IOException{
         // 원래 content 를 직접적으로 넘겼었지만 , versionList 에 담겨있는 content 를 넘기는 식으로 request header to large 문제를 해결 하였음
         mvc.addObject("extension" , extension);
         mvc.addObject("versionList" , versionList);
-        mvc.addObject("time" , time);
-        mvc.addObject("code" , code);
         mvc.addObject("path" , path);
         mvc.addObject("content" , versionList.get(index.intValue()).getContent());
         mvc.addObject("index" , index);
@@ -201,12 +200,10 @@ public class MainServiceImpl implements MainService {
 
     @Override
     public void versionMvcAddObject(ModelAndView mvc , String extension, List<FileVersionDto> versionList,
-                                    List<String> time, List<Long> code, String path, Long index , String title) throws IOException{
+                                    String path, Long index , String title) throws IOException{
         // 원래 content 를 직접적으로 넘겼었지만 , versionList 에 담겨있는 content 를 넘기는 식으로 request header to large 문제를 해결 하였음
         mvc.addObject("extension" , extension);
         mvc.addObject("versionList" , versionList);
-        mvc.addObject("time" , time);
-        mvc.addObject("code" , code);
         mvc.addObject("path" , path);
         mvc.addObject("content1" , versionList.get(index.intValue()).getContent());
         if(versionList.size() - 1 != index) {// 제일 초기 버전일 때에는 content 2 를 넘기지 않는다.
@@ -245,25 +242,32 @@ public class MainServiceImpl implements MainService {
 
     // 해당 versionDto List 에서 Time 만 빼내서 표현
     @Override
-    public List<String> getTimeList(List<FileVersionDto> fileVersionDtoList) {
+    public List<String> getTimeList() {
         List<String> result = new ArrayList<>();
-        for(FileVersionDto fileVersionDto : fileVersionDtoList){
-            result.add(fileVersionDto.getTimeToString());
+
+        for (int i = 0; i < 10; i++) {
+            String[] time = FileDto.modifiedTime(
+                    LocalDateTime.now()
+                    .atZone(ZoneId.systemDefault())
+                    .toInstant().toEpochMilli()).split(" ");
+
+            result.add(time[3] + " " + time[4]);
         }
+
         return result;
     }
 
     // 해당 versionDto List 에서 Code양 만 빼내서 표현
     @Override
-    public List<Long> getCodeList(List<FileVersionDto> fileVersionDtoList) {
+    public List<Long> getCodeList() {
         List<Long> result = new ArrayList<>();
 
         // 지금은 코드가 그럴싸 해 보이도록 조금 바꾸었음
         Random random = new Random();
-
-        for(FileVersionDto fileVersionDto : fileVersionDtoList){
-            result.add(new Long(fileVersionDto.getContent().length()) + random.nextInt(500));
+        for (int i = 0; i < 10; i++) {
+            result.add(new Long(random.nextInt(500)));
         }
+
         return result;
     }
 }
