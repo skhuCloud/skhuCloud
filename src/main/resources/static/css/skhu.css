@@ -85,6 +85,7 @@ tr:hover .more {
     text-decoration : none;
     color : black;
     padding-top: 10px;
+    border-radius : 5px;
     /*line-height: 40px;*/
 }
 
