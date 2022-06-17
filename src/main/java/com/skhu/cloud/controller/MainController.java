@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.List;
 
 @Controller
@@ -84,7 +85,7 @@ public class MainController {
         ModelAndView mvc = new ModelAndView("search");
 
         mvc.addObject("nowPath", path);
-        mvc.addObject("fileList", mainService.findSubFile(path, key));
+        mvc.addObject("fileList", mainService.findSubFile(path, key.split("\\?"))); // 물음표를 구분자로 한번에 여러 조건으로 파일을 검색 가능
 
         return mvc;
     }

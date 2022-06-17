@@ -6,6 +6,7 @@ import com.skhu.cloud.dto.version.FileVersionDto;
 import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.Comparator;
 import java.util.List;
@@ -26,7 +27,10 @@ public interface MainService {
     Long[] calculatePageNumber(List<FileDto> fileDtoList, Long jump, Long pageNumber);
 
     // path, key 가 주어지면 하위 디렉토리에서 이것과 유사한 것들을 전부 찾아온다.
-    List<FileDto> findSubFile(String path, String key) throws IOException;
+    List<FileDto> findSubFile(String path, String[] key) throws IOException;
+
+    // key word 중 file 의 name 과 일치하는 것이 있는지 확인
+    boolean matchKeyWord(File file, String[] key);
 
     // SortBy, direction 을 보고 받은 fileDtoList 를 정렬해서 넘겨준다.
     List<FileDto> sortByFileDtoList(List<FileDto> fileDtoList, String sortBy, String direction) throws IOException;

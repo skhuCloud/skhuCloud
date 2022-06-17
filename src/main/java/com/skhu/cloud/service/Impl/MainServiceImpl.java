@@ -97,7 +97,7 @@ public class MainServiceImpl implements MainService {
     }
 
     @Override
-    public List<FileDto> findSubFile(String path, String key) throws IOException {
+    public List<FileDto> findSubFile(String path, String[] key) throws IOException {
         Queue<Object[]> queue = new LinkedList<>(); // 하위 디렉토리 탐색을 도와줄 Queue
         List<FileDto> result = new ArrayList<>(); // 결과를 담을 List
         queue.add(new Object[] {new File(path), 1}); // Depth 를 8로 제한하기 위해서 Depth 도 Queue 에다가 같이 넣어준다.
@@ -107,7 +107,7 @@ public class MainServiceImpl implements MainService {
             File file = (File) object[0]; // Object 에서 File 을 빼온다.
             int depth = (int) object[1]; // depth 를 명시
 
-            if (file.getName().toLowerCase().contains(key.toLowerCase())) { // 조건에 부합하면 result 에 포함시킴
+            if (matchKeyWord(file, key)) {
                 result.add(FileDto.createFileDto(file));
             }
 
@@ -128,6 +128,16 @@ public class MainServiceImpl implements MainService {
 
         Collections.sort(result, (f1, f2) -> -f1.getKind().compareToIgnoreCase(f2.getKind()));
         return result;
+    }
+
+    public boolean matchKeyWord(File file, String[] key) {
+        for (int i = 0; i < key.length; i++) {
+            if (file.getName().toLowerCase().contains(key[i].toLowerCase())) { // 일치하는 것이 있으면 true 를 반환
+                return true;
+            }
+        }
+
+        return false; // 일치하지 않으면 false 를 반환
     }
 
     public List<FileDto> sortByFileDtoList(List<FileDto> fileDtoList, String sortBy, String direction) throws IOException {
