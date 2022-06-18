@@ -29,18 +29,6 @@ public interface MainService {
     // path, key 가 주어지면 하위 디렉토리에서 이것과 유사한 것들을 전부 찾아온다.
     List<FileDto> findSubFile(String path, String[] key) throws IOException;
 
-    // key word 중 file 의 name 과 일치하는 것이 있는지 확인
-    boolean matchKeyWord(File file, String[] key);
-
-    // SortBy, direction 을 보고 받은 fileDtoList 를 정렬해서 넘겨준다.
-    List<FileDto> sortByFileDtoList(List<FileDto> fileDtoList, String sortBy, String direction) throws IOException;
-
-    // 정렬 기준에 맞는 Comparator 를 반환한다.
-    Comparator<FileDto> returnComparator(String sortBy, String direction) throws IOException;
-
-    // 해당 폴더 혹은 파일이 무엇인지 알 수 있어야 함
-    boolean isDirectory(String path);
-
     // file 명을 반환하는 메소드
     String getComponentName(String path);
 

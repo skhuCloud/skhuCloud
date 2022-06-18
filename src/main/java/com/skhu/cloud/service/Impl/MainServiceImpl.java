@@ -130,46 +130,6 @@ public class MainServiceImpl implements MainService {
         return result;
     }
 
-    public boolean matchKeyWord(File file, String[] key) {
-        for (int i = 0; i < key.length; i++) {
-            if (file.getName().toLowerCase().contains(key[i].toLowerCase())) { // 일치하는 것이 있으면 true 를 반환
-                return true;
-            }
-        }
-
-        return false; // 일치하지 않으면 false 를 반환
-    }
-
-    public List<FileDto> sortByFileDtoList(List<FileDto> fileDtoList, String sortBy, String direction) throws IOException {
-        if (!(sortBy.isBlank() || direction.isBlank())) { // 하나라도 비어있으면 따로 정렬을 하지 않는다.
-            Collections.sort(fileDtoList, returnComparator(sortBy, direction));
-        }
-
-        return fileDtoList;
-    }
-
-    public Comparator<FileDto> returnComparator(String sortBy, String direction) throws IOException {
-        // map 으로 Comparator 를 관리해보자.
-        HashMap<String, Comparator<FileDto>> map = new HashMap<>();
-        String key = sortBy + " " + direction;
-
-        map.put("name asc", (f1, f2) -> f1.getName().compareToIgnoreCase(f2.getName()));
-        map.put("name desc", (f1, f2) -> -f1.getName().compareToIgnoreCase(f2.getName()));
-
-        map.put("modifiedTime asc", (f1, f2) -> Long.compare(f1.getLongModifiedTime(), f2.getLongModifiedTime()));
-        map.put("modifiedTime desc", (f1, f2) -> -Long.compare(f1.getLongModifiedTime(), f2.getLongModifiedTime()));
-
-        map.put("size asc", (f1, f2) -> Long.compare(f1.getLongSize(), f2.getLongSize()));
-        map.put("size desc", (f1, f2) -> -Long.compare(f1.getLongSize(), f2.getLongSize()));
-
-        return map.get(key); // comparator 반환
-    }
-
-    @Override
-    public boolean isDirectory(String path) {
-        return new File(path).isDirectory(); // directory 면 true , 아니면 false 를 반환한다.
-    }
-
     @Override
     public String readFile(String path) throws IOException {
         // 계층적인 방법을 이용하여서 속도 향상 및 인코딩 변경이 가능함
@@ -279,5 +239,40 @@ public class MainServiceImpl implements MainService {
         }
 
         return result;
+    }
+
+    public boolean matchKeyWord(File file, String[] key) {
+        for (int i = 0; i < key.length; i++) {
+            if (file.getName().toLowerCase().contains(key[i].toLowerCase())) { // 일치하는 것이 있으면 true 를 반환
+                return true;
+            }
+        }
+
+        return false; // 일치하지 않으면 false 를 반환
+    }
+
+    public List<FileDto> sortByFileDtoList(List<FileDto> fileDtoList, String sortBy, String direction) throws IOException {
+        if (!(sortBy.isBlank() || direction.isBlank())) { // 하나라도 비어있으면 따로 정렬을 하지 않는다.
+            Collections.sort(fileDtoList, returnComparator(sortBy, direction));
+        }
+
+        return fileDtoList;
+    }
+
+    public Comparator<FileDto> returnComparator(String sortBy, String direction) throws IOException {
+        // map 으로 Comparator 를 관리해보자.
+        HashMap<String, Comparator<FileDto>> map = new HashMap<>();
+        String key = sortBy + " " + direction;
+
+        map.put("name asc", (f1, f2) -> f1.getName().compareToIgnoreCase(f2.getName()));
+        map.put("name desc", (f1, f2) -> -f1.getName().compareToIgnoreCase(f2.getName()));
+
+        map.put("modifiedTime asc", (f1, f2) -> Long.compare(f1.getLongModifiedTime(), f2.getLongModifiedTime()));
+        map.put("modifiedTime desc", (f1, f2) -> -Long.compare(f1.getLongModifiedTime(), f2.getLongModifiedTime()));
+
+        map.put("size asc", (f1, f2) -> Long.compare(f1.getLongSize(), f2.getLongSize()));
+        map.put("size desc", (f1, f2) -> -Long.compare(f1.getLongSize(), f2.getLongSize()));
+
+        return map.get(key); // comparator 반환
     }
 }
