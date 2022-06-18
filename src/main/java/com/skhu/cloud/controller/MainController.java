@@ -18,16 +18,13 @@ import java.util.List;
 public class MainController {
 
     private final MainService mainService;
-    @GetMapping("/modal")
-    public String test() {
-        return "modal";
-    }
 
     // 맨 처음에만 불러져야 하는 action method
     @GetMapping("")
     public ModelAndView getMainPage() throws IOException { // directories 로 redirect
         ModelAndView mvc = new ModelAndView("redirect:directories");
-        String path = "/Users";
+        String path = mainService.getRootPath();
+
         mvc.addObject("path", path);
 
         return mvc;

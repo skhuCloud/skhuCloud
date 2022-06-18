@@ -32,6 +32,9 @@ public interface MainService {
     // file 명을 반환하는 메소드
     String getComponentName(String path);
 
+    // Os 에 맞춰 Root Path 를 반환한다.
+    String getRootPath();
+
     // 파일을 읽는 method
     String readFile(String path) throws IOException;
 

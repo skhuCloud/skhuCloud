@@ -131,6 +131,26 @@ public class MainServiceImpl implements MainService {
     }
 
     @Override
+    public String getRootPath() { // os 에 따라서 Root Path 를 반환
+        String osName = System.getProperty("os.name").toLowerCase(); // OS name 을 얻어낸다.
+        String result = "";
+
+        if (osName.contains("win")) { // 윈도우인 경우
+            result = "c:\\";
+        }
+
+        if (osName.contains("mac")) { // mac 인 경우
+            result = "/Users";
+        }
+
+        if (osName.contains("nix") || osName.contains("nux") || osName.contains("aix")) { // linux 인 경우
+            result = "/home";
+        }
+
+        return result;
+    }
+
+    @Override
     public String readFile(String path) throws IOException {
         // 계층적인 방법을 이용하여서 속도 향상 및 인코딩 변경이 가능함
         BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(path) , "UTF-8"));
