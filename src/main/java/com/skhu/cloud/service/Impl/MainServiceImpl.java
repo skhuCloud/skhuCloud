@@ -3,7 +3,6 @@ package com.skhu.cloud.service.Impl;
 import com.skhu.cloud.constant.Const;
 import com.skhu.cloud.dto.DirectoryDto;
 import com.skhu.cloud.dto.FileDto;
-import com.skhu.cloud.dto.version.FileVersionDto;
 import com.skhu.cloud.service.MainService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -21,7 +20,7 @@ import java.util.*;
 public class MainServiceImpl implements MainService {
 
     @Override
-    public List<DirectoryDto> getDirectoryList(String path) {
+    public List<DirectoryDto> getDirectoryList(String path) { // 현재 Path 를 가지고 Parent 의 경로들을 List로 반환 (상단바를 클릭하였을 때, 원하는 경로로 이동할 수 있도록)
         List<DirectoryDto> result = new ArrayList<>();
         int index = 0;
 
@@ -39,7 +38,7 @@ public class MainServiceImpl implements MainService {
     } // list 를 return
 
     @Override
-    public List<FileDto> createFileDtoList(String path, String sortBy, String direction) throws IOException { // 그냥 아얘 kind 를 가지고 정렬을 진행하자.
+    public List<FileDto> createFileDtoList(String path, String sortBy, String direction) throws IOException { // 주어진 정렬 조건을 가지고 정렬을 한 상태로 하위 파일들을 반환
         File file = new File(path);
         File[] files = file.listFiles();
         List<FileDto> result = new ArrayList<>();
@@ -56,7 +55,7 @@ public class MainServiceImpl implements MainService {
     }
 
     @Override
-    public List<FileDto> pagingFileDtoList(List<FileDto> fileDtoList, Long pageNumber) throws IOException {
+    public List<FileDto> pagingFileDtoList(List<FileDto> fileDtoList, Long pageNumber) throws IOException { // List 를 조건에 맞게 Paging 해서 넘겨줌
         int size = fileDtoList.size(); // 사이즈를 파악하는 것이 우선시, subList 도 substring 과 굉장히 흡사
         int start = (int) (Const.PAGE_SIZE * pageNumber);
 
@@ -70,7 +69,7 @@ public class MainServiceImpl implements MainService {
     }
 
     @Override
-    public Long[] calculatePageNumber(List<FileDto> fileDtoList, Long jump, Long pageNumber) {
+    public Long[] calculatePageNumber(List<FileDto> fileDtoList, Long jump, Long pageNumber) { // Pagination 에서 필요한 정보를 반환
         Long totalSize = (long) Math.ceil((double) fileDtoList.size() / Const.PAGE_SIZE);
 
         if (jump != null) { // 0 이 아닐때에만 진행하도록, 점프할때 점프한 페이지의 첫 페이지로 이동할 수 있도록
@@ -93,11 +92,11 @@ public class MainServiceImpl implements MainService {
             end = totalSize;
         }
 
-        return new Long[] {pageNumber, totalSize, start, end};
+        return new Long[] {pageNumber, start, end};
     }
 
     @Override
-    public List<FileDto> findSubFile(String path, String key) throws IOException {
+    public List<FileDto> findSubFile(String path, String[] key) throws IOException { // 현재 디렉토리로 부터 검색어로 들어온 파일을 검색 (? 로 연결하면 다중 검색도 가능)
         Queue<Object[]> queue = new LinkedList<>(); // 하위 디렉토리 탐색을 도와줄 Queue
         List<FileDto> result = new ArrayList<>(); // 결과를 담을 List
         queue.add(new Object[] {new File(path), 1}); // Depth 를 8로 제한하기 위해서 Depth 도 Queue 에다가 같이 넣어준다.
@@ -107,7 +106,7 @@ public class MainServiceImpl implements MainService {
             File file = (File) object[0]; // Object 에서 File 을 빼온다.
             int depth = (int) object[1]; // depth 를 명시
 
-            if (file.getName().toLowerCase().contains(key.toLowerCase())) { // 조건에 부합하면 result 에 포함시킴
+            if (matchKeyWord(file, key)) {
                 result.add(FileDto.createFileDto(file));
             }
 
@@ -130,38 +129,28 @@ public class MainServiceImpl implements MainService {
         return result;
     }
 
-    public List<FileDto> sortByFileDtoList(List<FileDto> fileDtoList, String sortBy, String direction) throws IOException {
-        if (!(sortBy.isBlank() || direction.isBlank())) { // 하나라도 비어있으면 따로 정렬을 하지 않는다.
-            Collections.sort(fileDtoList, returnComparator(sortBy, direction));
+    @Override
+    public String getRootPath() { // 운영체제 에 따라서 Root Path 를 반환
+        String osName = System.getProperty("os.name").toLowerCase(); // OS name 을 얻어낸다.
+        String result = "";
+
+        if (osName.contains("win")) { // 윈도우인 경우
+            result = "c:\\";
         }
 
-        return fileDtoList;
-    }
+        if (osName.contains("mac")) { // mac 인 경우
+            result = "/Users";
+        }
 
-    public Comparator<FileDto> returnComparator(String sortBy, String direction) throws IOException {
-        // map 으로 Comparator 를 관리해보자.
-        HashMap<String, Comparator<FileDto>> map = new HashMap<>();
-        String key = sortBy + " " + direction;
+        if (osName.contains("nix") || osName.contains("nux") || osName.contains("aix")) { // linux 인 경우
+            result = "/home";
+        }
 
-        map.put("name asc", (f1, f2) -> f1.getName().compareToIgnoreCase(f2.getName()));
-        map.put("name desc", (f1, f2) -> -f1.getName().compareToIgnoreCase(f2.getName()));
-
-        map.put("modifiedTime asc", (f1, f2) -> Long.compare(f1.getLongModifiedTime(), f2.getLongModifiedTime()));
-        map.put("modifiedTime desc", (f1, f2) -> -Long.compare(f1.getLongModifiedTime(), f2.getLongModifiedTime()));
-
-        map.put("size asc", (f1, f2) -> Long.compare(f1.getLongSize(), f2.getLongSize()));
-        map.put("size desc", (f1, f2) -> -Long.compare(f1.getLongSize(), f2.getLongSize()));
-
-        return map.get(key); // comparator 반환
+        return result;
     }
 
     @Override
-    public boolean isDirectory(String path) {
-        return new File(path).isDirectory(); // directory 면 true , 아니면 false 를 반환한다.
-    }
-
-    @Override
-    public String readFile(String path) throws IOException {
+    public String readFile(String path) throws IOException { // 해당 경로의 파일의 내용을 읽어옴
         // 계층적인 방법을 이용하여서 속도 향상 및 인코딩 변경이 가능함
         BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(path) , "UTF-8"));
 
@@ -181,68 +170,49 @@ public class MainServiceImpl implements MainService {
     }
 
     @Override
-    public void mvcAddObject(ModelAndView mvc, List<DirectoryDto> directoryList, List<FileDto> fileDtoList) {
+    public void directoriesAddObject(ModelAndView mvc, List<DirectoryDto> directoryList, List<FileDto> fileDtoList, String path,
+            Long nowPage, Long startNumber, Long endNumber, String sortBy, String direction) {
         mvc.addObject("directoryList" , directoryList);
         mvc.addObject("fileList" , fileDtoList);
+        mvc.addObject("nowPath", path);
+        mvc.addObject("nowPage", nowPage);
+        mvc.addObject("startNumber", startNumber);
+        mvc.addObject("endNumber", endNumber);
+        mvc.addObject("sortBy", sortBy);
+        mvc.addObject("direction", direction);
     }
 
     @Override
-    public void filesMvcAddObject(ModelAndView mvc , String extension, List<FileVersionDto> versionList,
-                                  String path, Long index , String title) throws IOException{
+    public void filesMvcAddObject(ModelAndView mvc, boolean diff, String extension,
+                                  String path, String title) throws IOException{
         // 원래 content 를 직접적으로 넘겼었지만 , versionList 에 담겨있는 content 를 넘기는 식으로 request header to large 문제를 해결 하였음
         mvc.addObject("extension" , extension);
-        mvc.addObject("versionList" , versionList);
         mvc.addObject("path" , path);
-        mvc.addObject("content" , versionList.get(index.intValue()).getContent());
-        mvc.addObject("index" , index);
+        mvc.addObject("content", readFile(path));
         mvc.addObject("title" , title);
+        mvc.addObject("diff", diff);
     }
 
     @Override
-    public void versionMvcAddObject(ModelAndView mvc , String extension, List<FileVersionDto> versionList,
-                                    String path, Long index , String title) throws IOException{
-        // 원래 content 를 직접적으로 넘겼었지만 , versionList 에 담겨있는 content 를 넘기는 식으로 request header to large 문제를 해결 하였음
-        mvc.addObject("extension" , extension);
-        mvc.addObject("versionList" , versionList);
-        mvc.addObject("path" , path);
-        mvc.addObject("content1" , versionList.get(index.intValue()).getContent());
-        if(versionList.size() - 1 != index) {// 제일 초기 버전일 때에는 content 2 를 넘기지 않는다.
-            mvc.addObject("content2", versionList.get(index.intValue() + 1).getContent());
-        }
-        mvc.addObject("index" , index);
-        mvc.addObject("title" , title);
+    public void searchMvcAddObject(ModelAndView mvc, String nowPath, List<FileDto> fileList) {
+        mvc.addObject("nowPath", nowPath);
+        mvc.addObject("fileList", fileList);
     }
 
     @Override
-    public String getComponentName(String path){
+    public String getComponentName(String path){ // File name 을 얻어옴
         // 만약 / 가 없다면 -1 을 반환한다.
         int lastIndex = path.lastIndexOf("/");
 
         if(lastIndex == -1) {
             return path;
+        } else {
+            return path.substring(lastIndex + 1);
         }
-
-        else return path.substring(lastIndex + 1);
     }
 
     @Override
-    public List<FileVersionDto> getVersionList(String path){
-        List<FileVersionDto> result = new ArrayList<>();
-        // path 추가(생성자)
-        try {
-            for (int i = 0; i < 10; i++) {
-                if(i == 0) result.add(new FileVersionDto(LocalDateTime.now() , readFile(path)));
-                else result.add(new FileVersionDto(LocalDateTime.now(), "안녕하세요" + i));
-            }
-        } catch(IOException e){ // throws IOException 처리
-            log.error("error code : " + e.getMessage());
-        }
-        return result;
-    }
-
-    // 해당 versionDto List 에서 Time 만 빼내서 표현
-    @Override
-    public List<String> getTimeList() {
+    public List<String> getTimeList() { // 차트에서 사용되는 Mock Time
         List<String> result = new ArrayList<>();
 
         for (int i = 0; i < 10; i++) {
@@ -257,9 +227,8 @@ public class MainServiceImpl implements MainService {
         return result;
     }
 
-    // 해당 versionDto List 에서 Code양 만 빼내서 표현
     @Override
-    public List<Long> getCodeList() {
+    public List<Long> getCodeList() { // 차트에서 사용되는 Mock Code 양
         List<Long> result = new ArrayList<>();
 
         // 지금은 코드가 그럴싸 해 보이도록 조금 바꾸었음
@@ -269,5 +238,40 @@ public class MainServiceImpl implements MainService {
         }
 
         return result;
+    }
+
+    public boolean matchKeyWord(File file, String[] key) { // findSubFile 메소드 에서 File name 과 KeyWord 가 일치하는지 확인해주는 메소드
+        for (int i = 0; i < key.length; i++) {
+            if (file.getName().toLowerCase().contains(key[i].toLowerCase())) { // 일치하는 것이 있으면 true 를 반환
+                return true;
+            }
+        }
+
+        return false; // 일치하지 않으면 false 를 반환
+    }
+
+    public List<FileDto> sortByFileDtoList(List<FileDto> fileDtoList, String sortBy, String direction) { // 실제로 정렬을 해주는 파트
+        if (!(sortBy.isBlank() || direction.isBlank())) { // 하나라도 비어있으면 따로 정렬을 하지 않는다.
+            Collections.sort(fileDtoList, returnComparator(sortBy, direction));
+        }
+
+        return fileDtoList;
+    }
+
+    public Comparator<FileDto> returnComparator(String sortBy, String direction) { // 정렬 필드, 정렬 조건이 넘어오면 그에 맞는 람다를 반환 (Comparator)
+        // map 으로 Comparator 를 관리해보자.
+        HashMap<String, Comparator<FileDto>> map = new HashMap<>();
+        String key = sortBy + " " + direction;
+
+        map.put("name asc", (f1, f2) -> f1.getName().compareToIgnoreCase(f2.getName()));
+        map.put("name desc", (f1, f2) -> -f1.getName().compareToIgnoreCase(f2.getName()));
+
+        map.put("modifiedTime asc", (f1, f2) -> Long.compare(f1.getLongModifiedTime(), f2.getLongModifiedTime()));
+        map.put("modifiedTime desc", (f1, f2) -> -Long.compare(f1.getLongModifiedTime(), f2.getLongModifiedTime()));
+
+        map.put("size asc", (f1, f2) -> Long.compare(f1.getLongSize(), f2.getLongSize()));
+        map.put("size desc", (f1, f2) -> -Long.compare(f1.getLongSize(), f2.getLongSize()));
+
+        return map.get(key); // comparator 반환
     }
 }

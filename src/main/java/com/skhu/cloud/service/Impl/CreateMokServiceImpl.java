@@ -80,8 +80,6 @@ public class CreateMokServiceImpl implements CreateMokService {
         return mokVersionDtoList;
     }
 
-
-    @Override
     public FileDto createMokFileDto(String name, String kind) {
         return FileDto.builder()
                 .name(name)
@@ -93,24 +91,20 @@ public class CreateMokServiceImpl implements CreateMokService {
                 .build();
     }
 
-    @Override
     public FileDiffDto createMokFileDiffDto(String name, Long versionId, List<Content> contentList) {
         return new FileDiffDto(createMokVersionDto(name, Const.FILE, versionId), contentList);
     }
 
-    @Override
     public FolderDiffDto createMokFolderDiffDto(String name, Long versionId, Long flag) { // Mok Folder Dto 를 받은 flag 값으로 반환
         return new FolderDiffDto(createMokVersionDto(name, Const.FOLDER, versionId), flag);
     }
 
-    @Override
     public void addContentComponent(Long flag, List<Content> contentList) { // flag 와 contentList 를 넘기면, 추가해줌
         String appendString = "안녕하세요 " + (contentList.size() + random.nextInt(10)) + " 번째 요소입니다.\n";
 
         contentList.add(new Content(flag, appendString)); // 요소를 추가
     }
 
-    @Override
     public VersionDto createMokVersionDto(String name, String kind, Long versionId) { // Mok Version Dto 를 받은 VersionId 값을 매겨서 반환
         return new VersionDto(createMokFileDto(name, kind), versionId); // folder or file version dto 를 반환함
     }

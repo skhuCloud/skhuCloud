@@ -62,6 +62,7 @@ public class VersionController {
         StringBuilder sb = new StringBuilder();
         fileDiffDto.getContent().forEach(s -> sb.append(s.getContent()));
         mvc.addObject("content", sb.toString());
+        mvc.addObject("extension", "java");
 
         return mvc;
     }
