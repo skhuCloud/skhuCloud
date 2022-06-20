@@ -36,6 +36,10 @@
                                             <span id = "search-key-submit" class="radius-5">
                                                 <img id = "search-key-submit-content" src = "/static/images/search_icon.png"/>
                                             </span>
+                                            <span id = "history-check-box">
+                                                <input id = "history-check" type="checkbox"/>
+                                                <label for = "history-check">버전 검색</label>
+                                            </span>
                                         </div>
                                     </tr>
                                     <thead>
@@ -125,7 +129,7 @@
         $("input[name=checkedFiles]").each(function (){
             if($("#selectAll").prop('checked')){
                 if(!$(this).prop('disabled')) $(this).prop('checked',true);
-            }else {
+            } else {
                 $(this).prop('checked',false);
             }
         })
