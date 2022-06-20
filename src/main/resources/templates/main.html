@@ -20,6 +20,7 @@
                             <i class = "fas fa-chevron-right" th:if = "${!directoryStat.last}"></i>
                         </div>
                     </div>
+
                     <div class="card-body">
                         <div class="table-responsive">
                             <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
@@ -102,7 +103,6 @@
                                         <span id = "now-page" th:if = "${num == nowPage}"th:class = "page-number" th:page-number = "${num}" th:text="${num}"></span>
                                     </span >
                                     <img class = "skip-button skhu-img-format" onclick="skips(10)" src = "/static/images/double-right.png"/>
-
                                 </div>
                             </div>
                         </div>

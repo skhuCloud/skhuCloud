@@ -162,6 +162,7 @@ tr input[type="checkbox"]:checked + label { /* 이전과 같음 */
 
 #page-number-block {
     text-align : center;
+    margin-bottom : 10px;
 }
 
 .page-number {
