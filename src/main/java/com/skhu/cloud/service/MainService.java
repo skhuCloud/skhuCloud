@@ -2,59 +2,52 @@ package com.skhu.cloud.service;
 
 import com.skhu.cloud.dto.DirectoryDto;
 import com.skhu.cloud.dto.FileDto;
-import com.skhu.cloud.dto.version.FileVersionDto;
 import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.io.File;
 import java.io.IOException;
-import java.util.Comparator;
 import java.util.List;
 
 @Service
 public interface MainService {
 
-    // 현재 디렉토리까지의 목록을 가져와 줄 method 가 필요함
+    // 현재 경로를 파싱하여서, Parent 들의 경로들도 다 얻어냄
     List<DirectoryDto> getDirectoryList(String path);
 
-    // Path 를 이용하여 FileDtoList 를 만들고 정렬을 진행한 후 반환
+    // 경로를 이용하여 하위 파일들을 얻어오고 FileDtoList 로 가공한 뒤 주어진 정렬 조건으로 정렬을 한 뒤 반환
     List<FileDto> createFileDtoList(String path, String sortBy, String direction) throws IOException;
 
-    // list 를 pagination 해서 반환
+    // 주어진 List를 주어진 Page 에 맞게 Paging 해서 반환
     List<FileDto> pagingFileDtoList(List<FileDto> fileDtoList, Long pageNumber) throws IOException;
 
-    // 페이지 영역과 현재 페이지 넘버를 계산해줌
+    // 페이지 네이션에 필요한 정보들을 계산하여 반환
     Long[] calculatePageNumber(List<FileDto> fileDtoList, Long jump, Long pageNumber);
 
-    // path, key 가 주어지면 하위 디렉토리에서 이것과 유사한 것들을 전부 찾아온다.
+    // path, key(검색어) 가 주어지면 하위 디렉토리에서 이것과 유사한 것들을 전부 찾아온다.
     List<FileDto> findSubFile(String path, String[] key) throws IOException;
 
     // file 명을 반환하는 메소드
     String getComponentName(String path);
 
-    // Os 에 맞춰 Root Path 를 반환한다.
+    // 운영체제에 맞춰 Root Path 를 반환한다.
     String getRootPath();
 
     // 파일을 읽는 method
     String readFile(String path) throws IOException;
 
     // mvc 에 directoryList , fileDtoList를 등록해주는 method
-    void mvcAddObject(ModelAndView mvc, List<DirectoryDto> directoryList, List<FileDto> fileDtoList);
+    void directoriesAddObject(ModelAndView mvc, List<DirectoryDto> directoryList, List<FileDto> fileDtoList, String path,
+                              Long Page, Long startNumber, Long endNumber, String sortBy, String direction);
 
-    // "/files" 에 mvc.addObject 가 너무 많아서 , Service 측으로 옮김
-    void filesMvcAddObject(ModelAndView mvc , String extension , List<FileVersionDto> versionList,
-                           String path , Long index , String title) throws IOException;
+    // file 을 불러올 때 필요한 정보들을 등록해주는 method
+    void filesMvcAddObject(ModelAndView mvc , boolean diff, String extension,
+                           String path , String title) throws IOException;
 
-    // versionDto 를 반환해주는 getVersionList
-    List<FileVersionDto> getVersionList(String path);
+    void searchMvcAddObject(ModelAndView mvc, String nowPath, List<FileDto> fileList);
 
     // 각 versionDto 들의 Time 을 반환해주는 getTimeList
     List<String> getTimeList();
 
     // 각 versionDto 들의 Code양을 반환해주는 getCodeList
     List<Long> getCodeList();
-
-    // "/version" controller 에서 mvc object 에다가 content 주입
-    void versionMvcAddObject(ModelAndView mvc , String extension , List<FileVersionDto> versionList
-            , String path , Long index , String title) throws IOException;
 }
