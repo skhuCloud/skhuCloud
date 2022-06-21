@@ -23,6 +23,7 @@ public class VersionController {
         ModelAndView mvc = new ModelAndView("folderVersion");
 
         mvc.addObject("main", key);
+        mvc.addObject("diff", false);
         mvc.addObject("fileList", createMokService.returnMokFolderDtoList(key)); // 일단은 그냥 다 폴더로
 
         return mvc;

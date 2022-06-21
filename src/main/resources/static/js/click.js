@@ -44,7 +44,14 @@ $(function() {
             location.href = "/directories?path=" + path;
         }
 
-        var url = "/all?path=" + path + "&key=" + key;
+        var url = "" // 일단 빈 문자열을 가진 url 을 만들어주고
+
+        if ($('#history-check').prop('checked')) { // 만일 체크가 되어 있다면
+            url = "/version/histories?key=" + key;
+        } else { // 체크가 안되어 있따면 그냥 keyWord 로 검색하고
+            url = "/all?path=" + path + "&key=" + key;
+        }
+
         var newWindow = window.open("about:blank");
         newWindow.location.href = url;
     })
