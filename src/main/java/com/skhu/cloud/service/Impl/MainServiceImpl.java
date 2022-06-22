@@ -50,7 +50,6 @@ public class MainServiceImpl implements MainService {
         }
 
         sortByFileDtoList(result, sortBy, direction);
-        Collections.sort(result, (f1, f2) -> -f1.getKind().compareToIgnoreCase(f2.getKind())); // reverse 로 정렬하여 넘겨준다.
         return result;
     }
 
@@ -147,6 +146,16 @@ public class MainServiceImpl implements MainService {
         }
 
         return result;
+    }
+
+    @Override
+    public List<FileDto> sortByFileDtoList(List<FileDto> fileDtoList, String sortBy, String direction) { // 실제로 정렬을 해주는 파트
+        if (!(sortBy.isBlank() || direction.isBlank())) { // 하나라도 비어있으면 따로 정렬을 하지 않는다.
+            Collections.sort(fileDtoList, returnComparator(sortBy, direction));
+        }
+
+        Collections.sort(fileDtoList, (f1, f2) -> -f1.getKind().compareToIgnoreCase(f2.getKind())); // reverse 로 정렬하여 넘겨준다.
+        return fileDtoList;
     }
 
     @Override
@@ -250,14 +259,6 @@ public class MainServiceImpl implements MainService {
         return false; // 일치하지 않으면 false 를 반환
     }
 
-    public List<FileDto> sortByFileDtoList(List<FileDto> fileDtoList, String sortBy, String direction) { // 실제로 정렬을 해주는 파트
-        if (!(sortBy.isBlank() || direction.isBlank())) { // 하나라도 비어있으면 따로 정렬을 하지 않는다.
-            Collections.sort(fileDtoList, returnComparator(sortBy, direction));
-        }
-
-        return fileDtoList;
-    }
-
     public Comparator<FileDto> returnComparator(String sortBy, String direction) { // 정렬 필드, 정렬 조건이 넘어오면 그에 맞는 람다를 반환 (Comparator)
         // map 으로 Comparator 를 관리해보자.
         HashMap<String, Comparator<FileDto>> map = new HashMap<>();
@@ -265,6 +266,9 @@ public class MainServiceImpl implements MainService {
 
         map.put("name asc", (f1, f2) -> f1.getName().compareToIgnoreCase(f2.getName()));
         map.put("name desc", (f1, f2) -> -f1.getName().compareToIgnoreCase(f2.getName()));
+
+        map.put("path asc", (f1, f2) -> f1.getPath().compareToIgnoreCase(f2.getPath()));
+        map.put("path desc", (f1, f2) -> -f1.getPath().compareToIgnoreCase(f2.getPath()));
 
         map.put("modifiedTime asc", (f1, f2) -> Long.compare(f1.getLongModifiedTime(), f2.getLongModifiedTime()));
         map.put("modifiedTime desc", (f1, f2) -> -Long.compare(f1.getLongModifiedTime(), f2.getLongModifiedTime()));

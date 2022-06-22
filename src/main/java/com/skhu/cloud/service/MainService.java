@@ -26,6 +26,9 @@ public interface MainService {
     // path, key(검색어) 가 주어지면 하위 디렉토리에서 이것과 유사한 것들을 전부 찾아온다.
     List<FileDto> findSubFile(String path, String[] key) throws IOException;
 
+    // List 를 정렬해주는 메소드
+    List<FileDto> sortByFileDtoList(List<FileDto> fileDtoList, String sortBy, String direction);
+
     // file 명을 반환하는 메소드
     String getComponentName(String path);
 

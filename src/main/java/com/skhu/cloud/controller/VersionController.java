@@ -1,7 +1,11 @@
 package com.skhu.cloud.controller;
 
+import com.skhu.cloud.constant.Const;
 import com.skhu.cloud.dto.diff.FileDiffDto;
+import com.skhu.cloud.dto.diff.FolderDiffDto;
 import com.skhu.cloud.service.CreateMokService;
+import com.skhu.cloud.service.Impl.CreateMokServiceImpl;
+import com.skhu.cloud.service.MainService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,7 +19,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @RequestMapping("version")
 public class VersionController {
-
+    private final MainService mainService;
     private final CreateMokService createMokService;
 
     @GetMapping("histories")
@@ -101,6 +105,20 @@ public class VersionController {
 
         mvc.addObject("content1", content1);
         mvc.addObject("content2", content2);
+
+        return mvc;
+    }
+
+    @GetMapping("/side")
+    public ModelAndView showVersions(String kind){ // side bar 를 받아오는 api
+        ModelAndView mvc = new ModelAndView("/fragments/sidebar");
+
+        List<FolderDiffDto> mockList =  createMokService.returnMokFolderDtoList(kind);
+
+        mvc.addObject("time", mainService.getTimeList());
+        mvc.addObject("code", mainService.getCodeList()); // mok data 로 받음
+        mvc.addObject("mockList", mockList);
+        mvc.addObject("kind", (kind.equals(Const.FOLDER)) ? "folder" : "file");
 
         return mvc;
     }

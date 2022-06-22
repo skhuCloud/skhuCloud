@@ -3,7 +3,6 @@ package com.skhu.cloud.service.Impl;
 //import com.skhu.cloud.dto.version.FolderVersionDto;
 //import com.skhu.cloud.entity.FolderVersion;
 //import com.skhu.cloud.repository.FolderVersionRepository;
-import com.skhu.cloud.service.FolderService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 //
@@ -16,7 +15,7 @@ import org.springframework.stereotype.Service;
 //
 @Service
 @RequiredArgsConstructor
-public class FolderServiceImpl implements FolderService {
+public class FolderServiceImpl {
 //
 //    private final FolderVersionRepository folderVersionRepository;
 //    // FolderVersionDto 로 만들어서 반환
