@@ -139,7 +139,7 @@
     $(".dropdown-menu").click(function () {
         var kind = $(this).children()[0].value;
 
-        const url = window.location.protocol + '//' + window.location.host + "/version/test/1?kind=" + kind;
+        const url = window.location.protocol + '//' + window.location.host + "/version/side?kind=" + kind;
 
         $.ajax({
             type: "GET",
@@ -190,8 +190,8 @@
     function skips(val) {
         var jump = val;
         var number = [[${nowPage}]]; // page number 를 attribute 를 통해서 가져오는 모습
-        var sortBy = [[${sortBy}]]
-        var direction = [[${direction}]]
+        var sortBy = [[${sortBy}]];
+        var direction = [[${direction}]];
         var path = tes
 
         const url = window.location.protocol + '//' + window.location.host + "/directories?path=" + path + "&pageNumber=" + number + "&sortBy=" + sortBy + "&direction=" + direction + "&jump=" + jump; // 이런식으로 할 수 있을 듯

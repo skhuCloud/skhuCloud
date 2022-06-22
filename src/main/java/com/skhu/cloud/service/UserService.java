@@ -8,7 +8,9 @@ import org.springframework.stereotype.Service;
 
 @Service
 public interface UserService {
+    // 회원가입 메소드
     Long signup(User user , String password2);
 
+    // 로그인 메소드
     User login(User user);
 }

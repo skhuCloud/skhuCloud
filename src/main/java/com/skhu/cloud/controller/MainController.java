@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -18,7 +19,6 @@ public class MainController {
 
     private final MainService mainService;
 
-    // 맨 처음에만 불러져야 하는 action method
     @GetMapping("")
     public ModelAndView getMainPage() throws IOException { // 사이트 첫 방문 api
         ModelAndView mvc = new ModelAndView("redirect:directories");
@@ -53,7 +53,6 @@ public class MainController {
 
     @GetMapping("files")
     public ModelAndView clickFile(String path) throws IOException{ // file 내용 조회 api
-        // 원래 content 를 직접적으로 넘겼었지만 , versionList 에 담겨있는 content 를 넘기는 식으로 request header to large 문제를 해결 하였음
         ModelAndView mvc = new ModelAndView("filecontent");
         mainService.filesMvcAddObject(mvc , false, FileDto.getExtension(path) , path , mainService.getComponentName(path));
 
@@ -61,9 +60,44 @@ public class MainController {
     }
 
     @GetMapping("all")
-    public ModelAndView searchAllFile(String path, String key) throws IOException { // Search api
+    public ModelAndView searchAllFile(String path, String key, @RequestParam(required = false) List<FileDto> fileDtoList,
+                                      @RequestParam(required = false) String sortBy, @RequestParam(required = false) String direction) throws IOException { // Search api
         ModelAndView mvc = new ModelAndView("search");
-        mainService.searchMvcAddObject(mvc, path, mainService.findSubFile(path, key.split("\\?")));
+        List<FileDto> addList = null;
+
+        if (fileDtoList != null) { // 정렬 o
+            mvc.addObject("sortBy", sortBy);
+            mvc.addObject("direction", direction);
+            addList = mainService.sortByFileDtoList(fileDtoList, sortBy, direction);
+        }
+
+        if (fileDtoList == null) { // 정렬 x
+            addList = mainService.findSubFile(path, key.split("\\?"));
+        }
+
+        mainService.searchMvcAddObject(mvc, path, addList);
+
+        return mvc;
+    }
+
+    @PostMapping("all")
+    public ModelAndView postAllFile(String path, String key, @RequestBody(required = false) List<FileDto> fileDtoList,
+                                      @RequestBody(required = false) String sortBy, @RequestBody(required = false) String direction) throws IOException { // Search api
+        ModelAndView mvc = new ModelAndView("search");
+        List<FileDto> addList = null;
+        System.out.println("Post ~~~~~~~~~~~~~~~~~~~~ !!!!!!!!!!!!!!!!!");
+
+        if (fileDtoList != null) { // 정렬 o
+            mvc.addObject("sortBy", sortBy);
+            mvc.addObject("direction", direction);
+            addList = mainService.sortByFileDtoList(fileDtoList, sortBy, direction);
+        }
+
+        if (fileDtoList == null) { // 정렬 x
+            addList = mainService.findSubFile(path, key.split("\\?"));
+        }
+
+        mainService.searchMvcAddObject(mvc, path, addList);
 
         return mvc;
     }

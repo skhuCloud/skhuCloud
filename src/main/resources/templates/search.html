@@ -33,10 +33,34 @@
                                             <input type="checkbox" id="selectAll">
                                             <label for = "selectAll">&nbsp</label>
                                         </td>
-                                        <th>이름</th>
-                                        <th>경로</th>
-                                        <th>수정일</th>
-                                        <th>크기</th>
+                                        <th>
+                                            이름
+                                            <img class = "sort-select skhu-img-format" th:if = "${sortBy == 'name' && direction == 'desc'}" th:sort-by = "name" th:direction="desc" src = "/static/images/down.png"/>
+                                            <img class = "skhu-img-format"th:if = "${!(sortBy == 'name' && direction == 'desc')}" th:sort-by = "name" th:direction="desc" src = "/static/images/down.png"/>
+                                            <img class = "sort-select skhu-img-format" th:if = "${sortBy == 'name' && direction == 'asc'}" th:sort-by = "name" th:direction="asc"  src = "/static/images/up.png"/>
+                                            <img class = "skhu-img-format" th:if = "${!(sortBy == 'name' && direction == 'asc')}" th:sort-by = "name" th:direction="asc"  src = "/static/images/up.png"/>
+                                        </th>
+                                        <th>
+                                            경로
+                                            <img class = "sort-select skhu-img-format" th:if = "${sortBy == 'path' && direction == 'desc'}" th:sort-by = "name" th:direction="desc" src = "/static/images/down.png"/>
+                                            <img class = "skhu-img-format"th:if = "${!(sortBy == 'path' && direction == 'desc')}" th:sort-by = "name" th:direction="desc" src = "/static/images/down.png"/>
+                                            <img class = "sort-select skhu-img-format" th:if = "${sortBy == 'path' && direction == 'asc'}" th:sort-by = "name" th:direction="asc"  src = "/static/images/up.png"/>
+                                            <img class = "skhu-img-format" th:if = "${!(sortBy == 'path' && direction == 'asc')}" th:sort-by = "name" th:direction="asc"  src = "/static/images/up.png"/>
+                                        </th>
+                                        <th>
+                                            수정일
+                                            <img class = "sort-select skhu-img-format" th:if = "${sortBy == 'modifiedTime' && direction == 'desc'}" th:sort-by = "modifiedTime" th:direction="desc" src = "/static/images/down.png"/>
+                                            <img class = "skhu-img-format" th:if = "${!(sortBy == 'modifiedTime' && direction == 'desc')}" th:sort-by = "modifiedTime" th:direction="desc" src = "/static/images/down.png"/>
+                                            <img class = "sort-select skhu-img-format" th:if = "${sortBy == 'modifiedTime' && direction == 'asc'}" th:sort-by = "modifiedTime" th:direction="asc" src = "/static/images/up.png"/>
+                                            <img class = "skhu-img-format" th:if = "${!(sortBy == 'modifiedTime' && direction == 'asc')}" th:sort-by = "modifiedTime" th:direction="asc" src = "/static/images/up.png"/>
+                                        </th>
+                                        <th>
+                                            크기
+                                            <img class = "sort-select skhu-img-format" th:if = "${sortBy == 'size' && direction == 'desc'}" th:sort-by = "size" th:direction="desc" src = "/static/images/down.png"/>
+                                            <img class = "skhu-img-format" th:if = "${!(sortBy == 'size' && direction == 'desc')}" th:sort-by = "size" th:direction="desc" src = "/static/images/down.png"/>
+                                            <img class = "sort-select skhu-img-format" th:if = "${sortBy == 'size' && direction == 'asc'}" th:sort-by = "size" th:direction="asc" src = "/static/images/up.png"/>
+                                            <img class = "skhu-img-format" th:if = "${!(sortBy == 'size' && direction == 'asc')}" th:sort-by = "size" th:direction="asc" src = "/static/images/up.png"/>
+                                        </th>
                                     </tr>
                                     </thead>
                                     <tbody>
@@ -76,10 +100,7 @@
         <footer th:replace="fragments/footer.html :: footer"></footer>
     </div>
 </div>
-</body>
-</html>
-
-<script>
+<script  th:inline = "javascript">
     var sWrapper = document.getElementById("sidebarWrapper");
     $(".dropdown-menu").click(function () {
         var kind = $(this).children()[0].value;
@@ -106,4 +127,54 @@
     function downloads() {
         document.getElementById('main-form').submit(); // submit 버튼역할을 해줄 것임
     }
+
+    $("[sort-by]").click(function () { // Pagination 을 진행해야 하기 떄문에, 숫자를 받아야 한다.
+        var sortBy = $(this).attr("sort-by"); // page number 를 attribute 를 통해서 가져오는 모습
+        var direction = $(this).attr("direction");
+        var fileDtoList = [[${fileList}]];
+        var key = [[${key}]];
+        var path = [[${path}]];
+
+        var nowSortBy = [[${sortBy}]];
+        var nowDirection = [[${direction}]];
+
+        if (nowSortBy != null && sortBy === nowSortBy && direction === nowDirection) { // 이전에 선택되어 있던 것이 현재 선택한것과 같으면? 그러면 해제를 해준다.
+            sortBy = "";
+            direction = "";
+        }
+
+        var param = {};
+        param.sortBy = sortBy;
+        param.direction = direction;
+        param.fileDtoList = fileDtoList;
+        param.key = key;
+        param.path = path;
+
+        const url = window.location.protocol + '//' + window.location.host + "/all";
+
+        //ajax 호출
+        $.ajax({
+            //요청 서비스 url 지정
+            url : url,
+            //메소드 타입 지정
+            type : "POST",
+            contentType: "application/json;charset=UTF-8",
+            dataType : "json",
+            //요청 시 서버로 전달할 데이터 지정
+            data : param,
+            //요청 성공 시 동작할 콜백 함수 지정
+            success : function(data) {
+                console.log(data);
+                //p요소에 서버로부터 응답받은 데이터 표출
+                // $("#resp").html(data);
+            }
+        });
+
+        // const url = window.location.protocol + '//' + window.location.host + "/all?path=" + path + "&key=" + key + "&fileDtoList=" + fileDtoList + "&sortBy=" + sortBy + "&direction=" + direction; // 이런식으로 할 수 있을 듯
+        // location.href = url;
+    })
+
 </script>
+</body>
+</html>
+
